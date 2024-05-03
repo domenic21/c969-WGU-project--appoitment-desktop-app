@@ -1,11 +1,8 @@
 ﻿using c969.models;
 using MySql.Data.MySqlClient;
-using Mysqlx.Crud;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace c969
 {
@@ -43,8 +40,8 @@ namespace c969
 
                     // Execute the query
                     int rowsAffected = command.ExecuteNonQuery();
-                   
-                   
+
+
                     string insertQueryCustomer = @"INSERT INTO `c968_db`.`customer` (customerId, customerName) VALUES (@CustomerId,@customerName)";
                     using (MySqlCommand insertCommand = new MySqlCommand(insertQueryCustomer, _connection))
                     {
@@ -62,21 +59,14 @@ namespace c969
             {
                 MessageBox.Show(ex.Message, "no connection");
             }
-          
+
         }
         public void InsertProfileInfo(UserInfo Info)
         {
             try
             {
                 Connect();
-                 int GenerateID()
-                {
-                    Random random = new Random();
-                    int newID = random.Next(1000, 9999); // Generates a random number between 1000 and 9999
-                    return newID;
 
-                }
-                int addressId = GenerateID();
                 string insertQueryCustomer = @"UPDATE `c968_db`.`customer`
                         SET `customerName` = @UserName,
                        `addressId` = @addressId
@@ -84,17 +74,17 @@ namespace c969
 
 
                 string addressInsert = $"INSERT INTO `c968_db`.`address`(addressId, address,  postalCode, phone) " +
-                    $"VALUES ('{addressId}', @address, @postalCode, @phone)";
+                    $"VALUES (@addressId, @address, @postalCode, @phone)";
 
                 using (MySqlCommand command = new MySqlCommand(addressInsert, _connection))
                 {
 
-                    command.Parameters.AddWithValue("@addressId", addressId);
+                    command.Parameters.AddWithValue("@addressId", Info.addressId);
                     command.Parameters.AddWithValue("@address", Info.address);
                     command.Parameters.AddWithValue("@postalCode", Info.postalCode);
                     command.Parameters.AddWithValue("@phone", Info.phone);
                     //command.Parameters.AddWithValue("@country", Info.country);
-                   // command.Parameters.AddWithValue("@city", Info.city);
+                  
 
                     command.ExecuteNonQuery();
                     // Check the rows affected and handle errors if necessary
@@ -102,13 +92,15 @@ namespace c969
                 using (MySqlCommand command = new MySqlCommand(insertQueryCustomer, _connection))
                 {
                     command.Parameters.AddWithValue("@customerId", Info.UserId); // Assuming customerId is the same as UserId
-                    command.Parameters.AddWithValue("@addressId", addressId); // Add addressId parameter
+                    command.Parameters.AddWithValue("@addressId", Info.addressId); // Add addressId parameter
                     command.Parameters.AddWithValue("@UserName", Info.UserName);
                     command.ExecuteNonQuery();
 
 
                     Disconnect();
                 }
+
+
             }
             catch (MySqlException ex)
             {
@@ -116,14 +108,61 @@ namespace c969
                 MessageBox.Show("error query INSERT : " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-
-
-
-
-
-
         }
-     
+
+
+
+        public void InsertCityIntoDatabase(int cityId, string cityName, int addressId)
+        {
+            // Perform the database insertion using the cityId and userId
+            // For example:
+            try
+            {
+                Connect();
+                string Query = @"UPDATE `c968_db`.`address` SET `cityId` = @cityId WHERE (`addressId` = @addressId);";
+
+                using (MySqlCommand command = new MySqlCommand(Query, _connection))
+                {
+                    command.Parameters.AddWithValue("@cityId", cityId);
+                    command.Parameters.AddWithValue("@cityName", cityName);
+                    command.Parameters.AddWithValue("@addressId", addressId); // Assuming the addressId is 1
+
+                    command.ExecuteNonQuery();
+
+
+                }
+                Disconnect();
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that may occur during database insertion
+                MessageBox.Show("Error inserting city into the database: " + ex.Message);
+            }
+        }
+
+        public void InsertCountryIntoDatabase(int countryId, int cityId)
+        {
+            // Perform the database insertion using the countryId and cityId
+            // For example:
+            try
+            {
+                Connect();
+                string Query = @"UPDATE `c968_db`.`city` SET `countryId` = @countryId WHERE (`cityId` = @cityId);";
+
+                using (MySqlCommand command = new MySqlCommand(Query, _connection))
+                {
+                    command.Parameters.AddWithValue("@countryId", countryId);
+                    command.Parameters.AddWithValue("@cityId", cityId); // Assuming the cityId is 1
+
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that may occur during database insertion
+                MessageBox.Show("Error inserting country into the database: " + ex.Message);
+            }
+        }
 
         public bool ValidateUser(string userName, string password)
         {
@@ -204,9 +243,11 @@ namespace c969
                             int cityId = reader.GetInt32("cityId");
                             string city = reader.GetString("city");
                             string country = reader.GetString("country");
-                            
+
+
+
                             // Create a new UserInfo object
-                            userInfo = new UserInfo(retrievedUserId, customerName, customerId, address, postalCode, phone,city, cityId,country);
+                            userInfo = new UserInfo(retrievedUserId, customerName, customerId, address, postalCode, phone, cityId, city, country);
                         }
                     }
                 }
@@ -217,7 +258,7 @@ namespace c969
             }
             catch (MySqlException ex)
             {
-                MessageBox.Show(ex.Message, "no connection");
+                MessageBox.Show(ex.Message, "no connection retrieving data");
                 return null;
             }
         }
@@ -287,7 +328,7 @@ namespace c969
                                                    a.address = @NewAddress,
                                                    a.address2 = @Address2,
                                                    a.postalCode = @PostalCode,
-                                                   ci.cityId = @cityName,
+                                                
                                                    a.phone = @phone
                                                WHERE u.userId = @UserId;";
 
@@ -301,7 +342,6 @@ namespace c969
                     command.Parameters.AddWithValue("@Address2", Info.address2);
                     command.Parameters.AddWithValue("@PostalCode", Info.postalCode);
                     command.Parameters.AddWithValue("@phone", Info.phone);
-                    command.Parameters.AddWithValue("@cityName", Info.city);
 
 
                     int rowsAffected = command.ExecuteNonQuery();
@@ -313,6 +353,7 @@ namespace c969
                                                                 address2 = @Address2, 
                                                                 postalCode = @PostalCode, 
                                                                 phone = @phone
+                                                                
                                                               
                                             WHERE addressId = @AddressId;";
 
@@ -340,38 +381,12 @@ namespace c969
         }
 
 
-        public int GetCustomerId(int userId)
-        {
-            int customerId = 0;
-            try
-            {
-                Connect();
-                string query = @"SELECT user.userId, c.customerId
-                 from user inner join customer c on user.userId = c.customerId; WHERE userId = @userId";
 
-                using (MySqlCommand command = new MySqlCommand(query, _connection))
-                {
-                    // Add the parameter to avoid SQL injection
-                    command.Parameters.AddWithValue("@CustomerId", customerId);
-                    command.Parameters.AddWithValue("@UserId", userId);
 
-                    // Execute the query and retrieve the current ID
-                    object result = command.ExecuteScalar(); // ExecuteScaslar is used to retrieve a single value
-                    if (result != null)
-                    {
-                        customerId = Convert.ToInt32(result);
-                    }
-                }
 
-                Disconnect();
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show(ex.Message, "no connection");
-            }
 
-            return customerId;
-        }
+
+
         public int GetCurrentID(string userName)
         {
             int currentID = 0;
@@ -416,12 +431,14 @@ namespace c969
             }
         }
 
-        public void DeleteAddress(int addressId)
+        public void DeleteProfileInfo(int costumerId)
         {
             try
             {
+                int addressId = GetAddressId(costumerId);
                 Connect();
                 string query = @"DELETE FROM address WHERE addressId = @AddressId";
+                
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -440,8 +457,107 @@ namespace c969
                 MessageBox.Show(ex.Message, "no connection");
             }
         }
+        public int GetAddressId(int customerId)
+        {
+            int addressId = 0;
+            try
+            {
+                Connect();
+                string query = "SELECT addressId FROM `c968_db`.`customer` WHERE customerId = @CustomerId";
+
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    // Add the parameter to avoid SQL injection
+                    command.Parameters.AddWithValue("@CustomerId", customerId);
+
+                    // Execute the query and retrieve the addressId
+                    object result = command.ExecuteScalar(); // ExecuteScalar is used to retrieve a single value
+                    if (result != null)
+                    {
+                        addressId = Convert.ToInt32(result);
+                    }
+                    else if (result == null)
+                    {
+                        addressId = 1;
+                    }
+                }
+
+                Disconnect();
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Error retrieving addressId");
+            }
+
+            return addressId;
+        }
+
+        public int SelectCityId(string city)
+        {
+            int cityId = 0;
+
+            try
+            {
+                Connect();
+                string query = "SELECT cityId FROM `c968_db`.`city` WHERE city = @City";
+
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    // Add the parameter to avoid SQL injection
+                    command.Parameters.AddWithValue("@City", city);
+
+                    // Execute the query and retrieve the cityId
+                    object result = command.ExecuteScalar(); // ExecuteScalar is used to retrieve a single value
+                    if (result != null)
+                    {
+                        cityId = Convert.ToInt32(result);
+                    }
+                }
 
 
+                Disconnect();
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Error retrieving cityId dbselectedcity");
+            }
+
+            return cityId;
+        }
+        public int SelectCountryId(string city)
+        {
+            int countryId = 0;
+            try
+            {
+                Connect();
+
+                string getCountryId = "SELECT countryId FROM `c968_db`.`city` WHERE city = @City";
+
+
+
+                using (MySqlCommand command = new MySqlCommand(getCountryId, _connection))
+                {
+                    // Add the parameter to avoid SQL injection
+                    command.Parameters.AddWithValue("@City", city);
+
+                    // Execute the query and retrieve the cityId
+                    object result = command.ExecuteScalar(); // ExecuteScalar is used to retrieve a single value
+                    if (result != null)
+                    {
+                        countryId = Convert.ToInt32(result);
+                    }
+                }
+
+                Disconnect();
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Error retrieving cityId dbselectedcity");
+            }
+
+            return countryId;
+        }
     }
-
 }
+
+

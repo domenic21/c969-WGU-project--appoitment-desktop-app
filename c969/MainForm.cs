@@ -56,6 +56,10 @@ namespace c969
                     ZipcodetextBox4.Text = userInfo.postalCode.ToString();
                     PhonetextBox5.Text = userInfo.phone.ToString();
                     CitytextBox.Text = userInfo.city;
+                    CountrytextBox.Text = userInfo.country;
+                    cityBox.Text = userInfo.city;
+                    countryBox.Text = userInfo.country;
+
                     modifyBtn.Enabled = true; // Enable the modify button
                     profileRegistrationBtn.Hide(); // Hide the registration button
                     saveProfileBtn.Enabled = true; // Enable the save button
@@ -152,8 +156,11 @@ namespace c969
                     int phone = int.Parse(PhonetextBox5.Text);
                     string country = CountrytextBox.SelectedText; // Get the selected country
                     string city = CitytextBox.SelectedText; // Get the selected city from the TextBox
-                    int cityId = int.Parse(CitytextBox.SelectedText);
-                    int countryId = int.Parse(CountrytextBox.SelectedText);
+                    int cityId = userDb.SelectCityId(cityBox.Text);
+                    int countryId = userDb.SelectCountryId(cityBox.Text);
+                    string cityName = cityBox.SelectedItem.ToString();
+
+
 
                     // Get the selected city
                     int userId = int.Parse(labeluserId.Text);
@@ -163,12 +170,13 @@ namespace c969
                         MessageBox.Show("Failed to retrieve customer ID. Please try again or contact support.");
                     }
 
-                    UserInfo userInformation = new UserInfo(currentUserId, userName, customerId, address, postalCode, phone, city, cityId, country
-                        , countryId);
+                    UserInfo userInformation = new UserInfo(currentUserId, userName, customerId, address, postalCode, phone, cityId);
                     // Update the user information
 
                     userDb.UpdateUser(userInformation);
-
+                    int addressId = userDb.GetAddressId(userId);
+                    userDb.InsertCityIntoDatabase(cityId, cityName, addressId);
+                    userDb.InsertCountryIntoDatabase(countryId, cityId);
 
 
 
@@ -211,23 +219,19 @@ namespace c969
         {
             try
             {
-
                 UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
 
                 UserInfo userInfo = userDb.UserInformation(currentUserId);
                 //get userId to customer for updates functionality
-
 
                 //data input textbox validation 
                 if (string.IsNullOrEmpty(NametextBox.Text) ||
                     string.IsNullOrEmpty(AddresstextBox2.Text) ||
                     string.IsNullOrEmpty(ZipcodetextBox4.Text) ||
                     string.IsNullOrEmpty(PhonetextBox5.Text))
-
                 {
                     MessageBox.Show("Please fill in all the fields");
                 }
-
                 else
                 {
                     // Update the user information
@@ -235,21 +239,42 @@ namespace c969
                     string address = AddresstextBox2.Text;
                     int postalCode = int.Parse(ZipcodetextBox4.Text);
                     int phone = int.Parse(PhonetextBox5.Text);
+                    string country = CountrytextBox.SelectedText; // Get the selected country
+                    string city = CitytextBox.SelectedText; // Get the selected city from the TextBox
+                    int cityId = userDb.SelectCityId(cityBox.Text);
+                    int countryId = userDb.SelectCountryId(cityBox.Text);
+                    string cityName = cityBox.SelectedItem.ToString();
                     int userId = int.Parse(labeluserId.Text);
+
+
+                    // Retrieve the selected city model from the combobox
+
+
                     int customerId = userId;
                     if (customerId == 0) // Assuming 0 represents an invalid customerId
                     {
                         MessageBox.Show("Failed to retrieve customer ID. Please try again or contact support.");
                     }
+                    int addressId = GenerateID();
 
-                    UserInfo userInformation = new UserInfo(customerId, userName, customerId, address, postalCode, phone);
+                    UserInfo userInformation = new UserInfo(customerId, userName, customerId, address, postalCode, phone, cityId, addressId);
 
-
-                    // Update the user information
+                    // Insert user profile information
                     userDb.InsertProfileInfo(userInformation);
 
-                    // Save the updated user information
-                    // userDb.UpdateProfileUser(userInfo);
+                    // Get the address ID
+                    int GenerateID()
+                    {
+                        Random random = new Random();
+                        int newID = random.Next(1000, 9999); // Generates a random number between 1000 and 9999
+                        return newID;
+
+                    }
+
+
+                    // Optionally, do something with the addressId
+                    userDb.InsertCityIntoDatabase(cityId, cityName, addressId);
+                    userDb.InsertCountryIntoDatabase(countryId, cityId);
 
                     // Deactivate the text boxes
                     DeactivateTextBoxes();
@@ -263,19 +288,40 @@ namespace c969
                 saveBtn.Hide();
                 saveProfileBtn.Show();
                 profileRegistrationBtn.Hide();
-
             }
-            catch (Exception ex)
+            catch (MySqlException ex)
             {
-
-                MessageBox.Show("error : " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("error in save : " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
+
 
         private void deleteAddressBtn_Click(object sender, EventArgs e)
         {
+            try
+            {
+                UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
 
+
+
+                
+               userDb.DeleteProfileInfo(currentUserId);
+                MessageBox.Show("Profile information deleted successfully" + MessageBoxButtons.OK);
+                AddresstextBox2.ResetText();
+                countryBox.ResetText();
+                cityBox.ResetText();
+                ZipcodetextBox4.ResetText();
+                PhonetextBox5.ResetText();
+                return;
+                  
+
+          
+
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("error in delete : " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ZipcodetextBox4_TextChanged(object sender, EventArgs e)
@@ -310,48 +356,8 @@ namespace c969
 
         }
 
-        private void cityBox_SelectedIndexChanged_1(object sender, EventArgs e)
-        { 
-             // Retrieve the selected city model from the combobox
-             CityModel selectedCity = cityBox.SelectedItem as CityModel;
-             if (selectedCity != null)
-             {
-                 // Get the city ID
-                 int cityId = selectedCity.cityId;
-                 string cityName = selectedCity.city.ToString();
-                 int userId = int.Parse(labeluserId.Text);
-                 // Display the city ID
-                 CitytextBox.Text = cityId.ToString() + cityName;
-                 UserInfo city = new UserInfo(userId, cityName ,cityId);
-                 UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
-                 if (userId == 0) // Assuming 0 represents an invalid userId
-                 {
-                     MessageBox.Show("Failed to retrieve user ID. Please try again or contact support.");
-                 }
-                 else 
-                 {
-
-                     userDb.UpdateUser(city);
-                 }
-           
-        }
 
     }
-
-    private void countryBox_SelectedIndexChanged(object sender, EventArgs e)
-    {
-         CityModel selectedCountry = countryBox.SelectedItem as CityModel;
-        if (selectedCountry != null)
-        {
-           int countryId = selectedCountry.countryId;
-
-           string countryName = selectedCountry.country;
-            CountrytextBox.Text = countryName.ToString() + countryId;
-
-
-        }
-    }
-}
 
 
 }

@@ -43,7 +43,6 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.deleteAddressBtn = new System.Windows.Forms.Button();
             this.profileRegistrationBtn = new System.Windows.Forms.Button();
-            this.cityBox = new System.Windows.Forms.ComboBox();
             this.countryBox = new System.Windows.Forms.ComboBox();
             this.CitytextBox = new System.Windows.Forms.TextBox();
             this.PhonetextBox5 = new System.Windows.Forms.TextBox();
@@ -51,12 +50,14 @@
             this.CountrytextBox = new System.Windows.Forms.TextBox();
             this.AddresstextBox2 = new System.Windows.Forms.TextBox();
             this.NametextBox = new System.Windows.Forms.TextBox();
+            this.cityBox = new System.Windows.Forms.ComboBox();
             this.modifyBtn = new System.Windows.Forms.Button();
             this.saveProfileBtn = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.UserIdlabel = new System.Windows.Forms.Label();
             this.labeluserId = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -162,7 +163,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.deleteAddressBtn);
             this.groupBox1.Controls.Add(this.profileRegistrationBtn);
             this.groupBox1.Controls.Add(this.countryBox);
             this.groupBox1.Controls.Add(this.CitytextBox);
@@ -187,7 +187,7 @@
             // 
             // deleteAddressBtn
             // 
-            this.deleteAddressBtn.Location = new System.Drawing.Point(6, 258);
+            this.deleteAddressBtn.Location = new System.Drawing.Point(180, 365);
             this.deleteAddressBtn.Name = "deleteAddressBtn";
             this.deleteAddressBtn.Size = new System.Drawing.Size(75, 23);
             this.deleteAddressBtn.TabIndex = 18;
@@ -206,16 +206,6 @@
             this.profileRegistrationBtn.UseVisualStyleBackColor = true;
             this.profileRegistrationBtn.Click += new System.EventHandler(this.profileRegistrationBtn_Click);
             // 
-            // cityBox
-            // 
-            this.cityBox.FormattingEnabled = true;
-            this.cityBox.Location = new System.Drawing.Point(112, 122);
-            this.cityBox.Name = "cityBox";
-            this.cityBox.Size = new System.Drawing.Size(178, 24);
-            this.cityBox.TabIndex = 17;
-            this.cityBox.Visible = false;
-            this.cityBox.SelectedIndexChanged += new System.EventHandler(this.cityBox_SelectedIndexChanged_1);
-            // 
             // countryBox
             // 
             this.countryBox.FormattingEnabled = true;
@@ -224,7 +214,6 @@
             this.countryBox.Size = new System.Drawing.Size(178, 24);
             this.countryBox.TabIndex = 16;
             this.countryBox.Visible = false;
-            this.countryBox.SelectedIndexChanged += new System.EventHandler(this.countryBox_SelectedIndexChanged);
             // 
             // CitytextBox
             // 
@@ -269,6 +258,15 @@
             this.NametextBox.Name = "NametextBox";
             this.NametextBox.Size = new System.Drawing.Size(178, 22);
             this.NametextBox.TabIndex = 10;
+            // 
+            // cityBox
+            // 
+            this.cityBox.FormattingEnabled = true;
+            this.cityBox.Location = new System.Drawing.Point(112, 122);
+            this.cityBox.Name = "cityBox";
+            this.cityBox.Size = new System.Drawing.Size(178, 24);
+            this.cityBox.TabIndex = 17;
+            this.cityBox.Visible = false;
             // 
             // modifyBtn
             // 
@@ -325,11 +323,22 @@
             this.labeluserId.Size = new System.Drawing.Size(0, 16);
             this.labeluserId.TabIndex = 17;
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(12, 368);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(162, 16);
+            this.label10.TabIndex = 19;
+            this.label10.Text = "Delete profile information?";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.deleteAddressBtn);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.labeluserId);
             this.Controls.Add(this.UserIdlabel);
             this.Controls.Add(this.groupBox2);
@@ -379,5 +388,6 @@
         private System.Windows.Forms.Label labeluserId;
         private System.Windows.Forms.Button profileRegistrationBtn;
         private System.Windows.Forms.Button deleteAddressBtn;
+        private System.Windows.Forms.Label label10;
     }
 }

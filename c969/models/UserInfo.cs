@@ -16,24 +16,38 @@
         public int phone { get; set; }
 
         public int customerId { get; set; }
+
+        public int addressId { get; set; }
    
   
        
      
-        public UserInfo(int userId, string UserName,int customerId, string address,  int postalCode, int phone, string city, int cityId,
-            string coyntry, int countryId)
+        public UserInfo(int userId, string UserName,int customerId, string address,  int postalCode, int phone, int cityId)
+             
         {
             this.UserId = userId;
             this.UserName = UserName;
             this.address = address;
-            this.city = city;
             this.cityId = cityId;
-            this.country = country;
-            this.countryId = countryId;
             this.postalCode = postalCode;
             this.phone = phone;
-            this.city = city;
-            this.country = country;
+         
+            this.customerId = customerId;
+
+
+        }
+
+        public UserInfo(int userId, string UserName, int customerId, string address, int postalCode, int phone, int cityId, int addressId)
+
+        {
+            this.UserId = userId;
+            this.UserName = UserName;
+            this.address = address;
+            this.cityId = cityId;
+            this.postalCode = postalCode;
+            this.phone = phone;
+            this.addressId = addressId;
+
             this.customerId = customerId;
 
 
@@ -48,7 +62,7 @@
 
         }
 
-        public UserInfo (int userId, string userName, int customerId, string address, int postalCode, int phone)
+        public UserInfo (int userId, string userName, int customerId, string address, int postalCode, int phone,int cityId, string city, string country)
         {
           this.UserId = userId;
             this.UserName = userName;
@@ -56,6 +70,9 @@
             this.postalCode = postalCode;
             this.phone = phone;
             this.customerId = customerId;
+            this.cityId = cityId;
+            this.city = city;
+            this.country = country;
 
         }
     }

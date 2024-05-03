@@ -15,6 +15,8 @@ namespace c969.models
 
         public string country { get; set; }
 
+   
+
         public CityModel(int cityId, string city, int countryId, string country)
         {
             this.cityId = cityId;
