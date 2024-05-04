@@ -16,7 +16,8 @@ namespace c969
 
 
         public static BindingList<CityModel> multipleChoiceCountry = new BindingList<CityModel>();
-
+        public static BindingList<AppoitmentModel> appoitmentModels = new BindingList<AppoitmentModel>();
+        public static BindingList<AppoitmentModel> availableDay = new BindingList<AppoitmentModel>();
 
         public void RegisterUser(UserModel user)
         {
@@ -84,7 +85,7 @@ namespace c969
                     command.Parameters.AddWithValue("@postalCode", Info.postalCode);
                     command.Parameters.AddWithValue("@phone", Info.phone);
                     //command.Parameters.AddWithValue("@country", Info.country);
-                  
+
 
                     command.ExecuteNonQuery();
                     // Check the rows affected and handle errors if necessary
@@ -239,12 +240,10 @@ namespace c969
                             string customerName = reader.GetString("customerName");
                             string address = reader.GetString("address");
                             int postalCode = reader.GetInt32("postalCode");
-                            int phone = reader.GetInt32("phone");
+                            string phone = reader.GetString("phone");
                             int cityId = reader.GetInt32("cityId");
                             string city = reader.GetString("city");
                             string country = reader.GetString("country");
-
-
 
                             // Create a new UserInfo object
                             userInfo = new UserInfo(retrievedUserId, customerName, customerId, address, postalCode, phone, cityId, city, country);
@@ -423,7 +422,17 @@ namespace c969
             try
             {
                 Connect();
-                string query = @"DELETE FROM";
+                string query = @"DELETE FROM `c968_db`.`user` WHERE (`userId` = @userId);";
+
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    // Add the parameter to avoid SQL injection
+                    command.Parameters.AddWithValue("@userId", userId);
+
+                    // Execute the query
+                    int rowsAffected = command.ExecuteNonQuery();
+                    // Check the rows affected and handle errors if necessary
+                }
             }
             catch (MySqlException ex)
             {
@@ -438,7 +447,7 @@ namespace c969
                 int addressId = GetAddressId(costumerId);
                 Connect();
                 string query = @"DELETE FROM address WHERE addressId = @AddressId";
-                
+
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -557,7 +566,129 @@ namespace c969
 
             return countryId;
         }
+
+        //Appointment section 
+        public void InsertAppointment(AppoitmentModel appointment)
+        {
+            try
+            {
+                Connect();
+                // int appointmentId = ;
+                string query = "INSERT INTO `c968_db`.`appointment`(appointmentId, customerId, title, description, start, end, createDate, createdBy, lastUpdate, lastUpdateBy)" +
+                "VALUES (@AppointmentId, @CustomerId, @Title, @Description,  @Start, @End, @CreateDate, @CreatedBy, @LastUpdate, @LastUpdateBy)";
+
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    // Add the parameters to avoid SQL injection
+                    command.Parameters.AddWithValue("@AppointmentId", appointment.appointmentId);
+                    command.Parameters.AddWithValue("@CustomerId", appointment.customerId);
+                    command.Parameters.AddWithValue("@Title", appointment.title);
+                    command.Parameters.AddWithValue("@Description", appointment.description);
+                    command.Parameters.AddWithValue("@Start", appointment.start);
+                    command.Parameters.AddWithValue("@End", appointment.end);
+                    command.Parameters.AddWithValue("@CreateDate", appointment.createDate);
+                    command.Parameters.AddWithValue("@CreatedBy", appointment.createdBy);
+                    command.Parameters.AddWithValue("@LastUpdate", appointment.lastUpdate);
+                    command.Parameters.AddWithValue("@LastUpdateBy", appointment.lastUpdateBy);
+
+                    // Execute the query
+                    int rowsAffected = command.ExecuteNonQuery();
+                }
+
+                Disconnect();
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message, "no connection appoitment failed to insert");
+            }
+
+
+
+        }
+        //select all appoitments from the db for each user
+        public void GetAppoitments(int userId)
+        {
+            try
+            {
+                Connect();
+                string query = @"SELECT * FROM `c968_db`.`appointment` WHERE customerId = @CustomerId";
+
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    command.Parameters.AddWithValue("@CustomerId", userId);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int appointmentId = reader.GetInt32("appointmentId");
+                            int customerId = reader.GetInt32("customerId");
+                            string title = reader.GetString("title");
+                            string description = reader.GetString("description");
+                            DateTime start = reader.GetDateTime("start");
+                            DateTime end = reader.GetDateTime("end");
+                            DateTime createDate = reader.GetDateTime("createDate");
+                            DateTime lastUpdate = reader.GetDateTime("lastUpdate");
+
+
+                            AppoitmentModel appoitmentModel = new AppoitmentModel(appointmentId, customerId, userId, title, description, start, end, createDate, lastUpdate);
+                            appoitmentModels.Add(appoitmentModel);
+                        }
+                    }
+                }
+                Disconnect();
+
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message, "no connection");
+            }
+
+        }
+
+
+
+        public void SearchAppt(string selectedDate)
+        {
+            availableDay.Clear();
+            try
+            {
+                Connect();
+                string query = @"SELECT * FROM appointment
+                        WHERE DATE(start) = @date 
+                        AND customerId IS NULL";
+
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    // Add parameter for the selected date
+                    command.Parameters.AddWithValue("@date", selectedDate);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            DateTime start = reader.GetDateTime("start");
+                            int appointmentId = reader.GetInt32("appointmentId");
+                            
+
+                            AppoitmentModel appoitmentModel = new AppoitmentModel(Convert.ToDateTime(selectedDate), appointmentId) ;
+                            availableDay.Add(appoitmentModel);
+                        }
+                    }
+                }
+
+                Disconnect();
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message, "No connection");
+            }
+        }
+
     }
+
+
 }
+
 
 

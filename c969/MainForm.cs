@@ -35,6 +35,13 @@ namespace c969
             countryBox.DropDownStyle = ComboBoxStyle.DropDownList;
             cityBox.DropDownStyle = ComboBoxStyle.DropDownList;
             InitializeFormData(currentUserId);
+            userDb.GetAppoitments(currentUserId);
+            apptDataGrid.DataSource = UserDb.appoitmentModels;       
+            apptDataGrid.AutoGenerateColumns = false;
+            apptDataGrid.Rows[0].Visible = false;
+            this.apptDataGrid.Columns["userId"].Visible = false;
+            this.apptDataGrid.Columns["customerId"].Visible = false;
+            apptDataGrid.AutoResizeColumns();
         }
 
         //separation of concerns
@@ -153,7 +160,7 @@ namespace c969
                     string userName = NametextBox.Text;
                     string address = AddresstextBox2.Text;
                     int postalCode = int.Parse(ZipcodetextBox4.Text);
-                    int phone = int.Parse(PhonetextBox5.Text);
+                    string phone = (PhonetextBox5.Text).ToString();
                     string country = CountrytextBox.SelectedText; // Get the selected country
                     string city = CitytextBox.SelectedText; // Get the selected city from the TextBox
                     int cityId = userDb.SelectCityId(cityBox.Text);
@@ -238,7 +245,7 @@ namespace c969
                     string userName = NametextBox.Text;
                     string address = AddresstextBox2.Text;
                     int postalCode = int.Parse(ZipcodetextBox4.Text);
-                    int phone = int.Parse(PhonetextBox5.Text);
+                    string phone = (PhonetextBox5.Text).ToString();
                     string country = CountrytextBox.SelectedText; // Get the selected country
                     string city = CitytextBox.SelectedText; // Get the selected city from the TextBox
                     int cityId = userDb.SelectCityId(cityBox.Text);
@@ -302,9 +309,6 @@ namespace c969
             {
                 UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
 
-
-
-                
                userDb.DeleteProfileInfo(currentUserId);
                 MessageBox.Show("Profile information deleted successfully" + MessageBoxButtons.OK);
                 AddresstextBox2.ResetText();
@@ -313,9 +317,6 @@ namespace c969
                 ZipcodetextBox4.ResetText();
                 PhonetextBox5.ResetText();
                 return;
-                  
-
-          
 
             }
             catch (MySqlException ex)
@@ -341,22 +342,52 @@ namespace c969
 
         private void PhonetextBox5_TextChanged(object sender, EventArgs e)
         {
-            PhonetextBox5.MaxLength = 9;
-            if (System.Text.RegularExpressions.Regex.IsMatch(PhonetextBox5.Text, "[^0-9]")) // Check if the input is not a number 
+            PhonetextBox5.MaxLength = 12;
+            if (System.Text.RegularExpressions.Regex.IsMatch(PhonetextBox5.Text, "[^0-9-]")) // Check if the input is not a number or dash
             {
-                MessageBox.Show("Please enter only numbers.");
-                PhonetextBox5.Text = PhonetextBox5.Text.Remove(PhonetextBox5.Text.Length - 1);// Remove the last character
+                MessageBox.Show("Please enter only numbers and dashes.");
+                PhonetextBox5.Text = PhonetextBox5.Text.Remove(PhonetextBox5.Text.Length - 1); // Remove the last character
             }
-            //trimmed the phone number to 10 digits
-            if (PhonetextBox5.Text.Length > 9)
+            // Trim the phone number to 12 characters
+            if (PhonetextBox5.Text.Length > 12)
             {
-                MessageBox.Show("Please enter only 10 digits.");
-                PhonetextBox5.Text = PhonetextBox5.Text.Remove(PhonetextBox5.Text.Length - 1);// Remove the last character
+                MessageBox.Show("Please enter only 12 characters.");
+                PhonetextBox5.Text = PhonetextBox5.Text.Remove(PhonetextBox5.Text.Length - 1); // Remove the last character
             }
 
         }
 
+        private void label11_Click(object sender, EventArgs e)
+        {
 
+        }
+
+        private void deleteUserBtn_Click(object sender, EventArgs e)
+        {
+               
+            try
+            {
+                UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+               userDb.DeleteUser(currentUserId);
+                MessageBox.Show("Profile information deleted successfully" + MessageBoxButtons.OK);
+                loginForm loginForm = new loginForm();
+                return;
+
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("error in delete : " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            AppoitmentScheduler appoitmentScheduler = new AppoitmentScheduler(currentUserId);
+            appoitmentScheduler.Show();
+            this.Hide();
+        }
+
+        
     }
 
 

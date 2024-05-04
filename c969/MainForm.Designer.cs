@@ -41,10 +41,11 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.deleteAddressBtn = new System.Windows.Forms.Button();
             this.profileRegistrationBtn = new System.Windows.Forms.Button();
             this.countryBox = new System.Windows.Forms.ComboBox();
+            this.deleteAddressBtn = new System.Windows.Forms.Button();
             this.CitytextBox = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.PhonetextBox5 = new System.Windows.Forms.TextBox();
             this.ZipcodetextBox4 = new System.Windows.Forms.TextBox();
             this.CountrytextBox = new System.Windows.Forms.TextBox();
@@ -55,10 +56,17 @@
             this.saveProfileBtn = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.apptDataGrid = new System.Windows.Forms.DataGridView();
+            this.button1 = new System.Windows.Forms.Button();
+            this.labelAppt = new System.Windows.Forms.Label();
             this.UserIdlabel = new System.Windows.Forms.Label();
             this.labeluserId = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.deleteUserBtn = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.apptDataGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -165,7 +173,9 @@
             // 
             this.groupBox1.Controls.Add(this.profileRegistrationBtn);
             this.groupBox1.Controls.Add(this.countryBox);
+            this.groupBox1.Controls.Add(this.deleteAddressBtn);
             this.groupBox1.Controls.Add(this.CitytextBox);
+            this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.PhonetextBox5);
             this.groupBox1.Controls.Add(this.ZipcodetextBox4);
             this.groupBox1.Controls.Add(this.CountrytextBox);
@@ -184,16 +194,6 @@
             this.groupBox1.Size = new System.Drawing.Size(296, 287);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
-            // 
-            // deleteAddressBtn
-            // 
-            this.deleteAddressBtn.Location = new System.Drawing.Point(180, 365);
-            this.deleteAddressBtn.Name = "deleteAddressBtn";
-            this.deleteAddressBtn.Size = new System.Drawing.Size(75, 23);
-            this.deleteAddressBtn.TabIndex = 18;
-            this.deleteAddressBtn.Text = "Delete";
-            this.deleteAddressBtn.UseVisualStyleBackColor = true;
-            this.deleteAddressBtn.Click += new System.EventHandler(this.deleteAddressBtn_Click);
             // 
             // profileRegistrationBtn
             // 
@@ -215,12 +215,31 @@
             this.countryBox.TabIndex = 16;
             this.countryBox.Visible = false;
             // 
+            // deleteAddressBtn
+            // 
+            this.deleteAddressBtn.Location = new System.Drawing.Point(215, 258);
+            this.deleteAddressBtn.Name = "deleteAddressBtn";
+            this.deleteAddressBtn.Size = new System.Drawing.Size(75, 23);
+            this.deleteAddressBtn.TabIndex = 18;
+            this.deleteAddressBtn.Text = "Delete";
+            this.deleteAddressBtn.UseVisualStyleBackColor = true;
+            this.deleteAddressBtn.Click += new System.EventHandler(this.deleteAddressBtn_Click);
+            // 
             // CitytextBox
             // 
             this.CitytextBox.Location = new System.Drawing.Point(112, 124);
             this.CitytextBox.Name = "CitytextBox";
             this.CitytextBox.Size = new System.Drawing.Size(178, 22);
             this.CitytextBox.TabIndex = 15;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(7, 266);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(162, 16);
+            this.label10.TabIndex = 19;
+            this.label10.Text = "Delete profile information?";
             // 
             // PhonetextBox5
             // 
@@ -292,7 +311,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(442, 9);
+            this.label9.Location = new System.Drawing.Point(393, 9);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(102, 24);
             this.label9.TabIndex = 14;
@@ -300,16 +319,61 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Location = new System.Drawing.Point(446, 36);
+            this.groupBox2.Controls.Add(this.button2);
+            this.groupBox2.Controls.Add(this.apptDataGrid);
+            this.groupBox2.Controls.Add(this.button1);
+            this.groupBox2.Controls.Add(this.labelAppt);
+            this.groupBox2.Location = new System.Drawing.Point(387, 36);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(296, 287);
+            this.groupBox2.Size = new System.Drawing.Size(401, 348);
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
+            // 
+            // apptDataGrid
+            // 
+            this.apptDataGrid.AllowUserToAddRows = false;
+            this.apptDataGrid.AllowUserToDeleteRows = false;
+            this.apptDataGrid.AllowUserToResizeColumns = false;
+            this.apptDataGrid.AllowUserToResizeRows = false;
+            this.apptDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.apptDataGrid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.apptDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.apptDataGrid.Location = new System.Drawing.Point(10, 52);
+            this.apptDataGrid.Name = "apptDataGrid";
+            this.apptDataGrid.ReadOnly = true;
+            this.apptDataGrid.RowHeadersWidth = 51;
+            this.apptDataGrid.RowTemplate.Height = 24;
+            this.apptDataGrid.Size = new System.Drawing.Size(385, 181);
+            this.apptDataGrid.TabIndex = 23;
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.button1.Location = new System.Drawing.Point(98, 280);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(217, 48);
+            this.button1.TabIndex = 21;
+            this.button1.TabStop = false;
+            this.button1.Text = "Schedule appoitment";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // labelAppt
+            // 
+            this.labelAppt.AutoSize = true;
+            this.labelAppt.Location = new System.Drawing.Point(7, 18);
+            this.labelAppt.Name = "labelAppt";
+            this.labelAppt.Size = new System.Drawing.Size(149, 16);
+            this.labelAppt.TabIndex = 20;
+            this.labelAppt.Text = "Upcoming appoitments:";
+            this.labelAppt.Click += new System.EventHandler(this.label11_Click);
             // 
             // UserIdlabel
             // 
             this.UserIdlabel.AutoSize = true;
-            this.UserIdlabel.Location = new System.Drawing.Point(119, 423);
+            this.UserIdlabel.Location = new System.Drawing.Point(647, 9);
             this.UserIdlabel.Name = "UserIdlabel";
             this.UserIdlabel.Size = new System.Drawing.Size(55, 16);
             this.UserIdlabel.TabIndex = 16;
@@ -318,27 +382,46 @@
             // labeluserId
             // 
             this.labeluserId.AutoSize = true;
-            this.labeluserId.Location = new System.Drawing.Point(177, 423);
+            this.labeluserId.Location = new System.Drawing.Point(742, 9);
             this.labeluserId.Name = "labeluserId";
             this.labeluserId.Size = new System.Drawing.Size(0, 16);
             this.labeluserId.TabIndex = 17;
             // 
-            // label10
+            // label11
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(12, 368);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(162, 16);
-            this.label10.TabIndex = 19;
-            this.label10.Text = "Delete profile information?";
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(11, 385);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(83, 16);
+            this.label11.TabIndex = 20;
+            this.label11.Text = "Delete user?";
+            // 
+            // deleteUserBtn
+            // 
+            this.deleteUserBtn.Location = new System.Drawing.Point(100, 382);
+            this.deleteUserBtn.Name = "deleteUserBtn";
+            this.deleteUserBtn.Size = new System.Drawing.Size(75, 23);
+            this.deleteUserBtn.TabIndex = 21;
+            this.deleteUserBtn.Text = "Delete";
+            this.deleteUserBtn.UseVisualStyleBackColor = true;
+            this.deleteUserBtn.Click += new System.EventHandler(this.deleteUserBtn_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(320, 239);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 24;
+            this.button2.Text = "Modify";
+            this.button2.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.deleteAddressBtn);
-            this.Controls.Add(this.label10);
+            this.Controls.Add(this.deleteUserBtn);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.labeluserId);
             this.Controls.Add(this.UserIdlabel);
             this.Controls.Add(this.groupBox2);
@@ -353,6 +436,9 @@
             this.Text = "MainForm";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.apptDataGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -389,5 +475,11 @@
         private System.Windows.Forms.Button profileRegistrationBtn;
         private System.Windows.Forms.Button deleteAddressBtn;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label labelAppt;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button deleteUserBtn;
+        private System.Windows.Forms.DataGridView apptDataGrid;
+        private System.Windows.Forms.Button button2;
     }
 }

@@ -13,7 +13,7 @@
         public int countryId { get; set; }
 
         public int postalCode { get; set; }
-        public int phone { get; set; }
+        public string phone { get; set; }
 
         public int customerId { get; set; }
 
@@ -22,7 +22,7 @@
   
        
      
-        public UserInfo(int userId, string UserName,int customerId, string address,  int postalCode, int phone, int cityId)
+        public UserInfo(int userId, string UserName,int customerId, string address,  int postalCode, string phone, int cityId)
              
         {
             this.UserId = userId;
@@ -37,7 +37,7 @@
 
         }
 
-        public UserInfo(int userId, string UserName, int customerId, string address, int postalCode, int phone, int cityId, int addressId)
+        public UserInfo(int userId, string UserName, int customerId, string address, int postalCode, string phone, int cityId, int addressId)
 
         {
             this.UserId = userId;
@@ -62,7 +62,7 @@
 
         }
 
-        public UserInfo (int userId, string userName, int customerId, string address, int postalCode, int phone,int cityId, string city, string country)
+        public UserInfo (int userId, string userName, int customerId, string address, int postalCode, string phone,int cityId, string city, string country)
         {
           this.UserId = userId;
             this.UserName = userName;
@@ -73,7 +73,7 @@
             this.cityId = cityId;
             this.city = city;
             this.country = country;
-
+            
         }
     }
 }
