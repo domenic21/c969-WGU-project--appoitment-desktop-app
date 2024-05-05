@@ -10,7 +10,7 @@ namespace c969
         public loginForm()
         {
             InitializeComponent();
-            
+            this.StartPosition = FormStartPosition.CenterScreen;
             // Set the current culture to Spanish
             CultureInfo culture = CultureInfo.CurrentCulture;
 

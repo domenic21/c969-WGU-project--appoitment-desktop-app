@@ -1,6 +1,8 @@
 ﻿using c969.models;
+using Google.Protobuf.WellKnownTypes;
 using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 
@@ -36,13 +38,29 @@ namespace c969
             cityBox.DropDownStyle = ComboBoxStyle.DropDownList;
             InitializeFormData(currentUserId);
             userDb.GetAppoitments(currentUserId);
-            apptDataGrid.DataSource = UserDb.appoitmentModels;       
-            apptDataGrid.AutoGenerateColumns = false;
-            apptDataGrid.Rows[0].Visible = false;
-            this.apptDataGrid.Columns["userId"].Visible = false;
-            this.apptDataGrid.Columns["customerId"].Visible = false;
-            apptDataGrid.AutoResizeColumns();
+           
+            this.StartPosition = FormStartPosition.CenterScreen;
+            listBox.ClearSelected();
+
+
+            // appt list users appotiments
+            List<string> formattedAppointments = new List<string>();
+            foreach (var appointment in UserDb.appoitmentModels)
+            {
+                string formattedAppointment = $"Your appointment is at : {appointment.start}";
+
+                formattedAppointments.Add(formattedAppointment);
+
+             
+            }
+
+            // Set ListBox source retreieved from the lists
+            listBox.DataSource = formattedAppointments;
         }
+
+
+       
+
 
         //separation of concerns
         private void InitializeFormData(int currentUserId)
@@ -387,7 +405,7 @@ namespace c969
             this.Hide();
         }
 
-        
+       
     }
 
 

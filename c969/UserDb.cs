@@ -1,6 +1,7 @@
 ﻿using c969.models;
 using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -16,8 +17,8 @@ namespace c969
 
 
         public static BindingList<CityModel> multipleChoiceCountry = new BindingList<CityModel>();
-        public static BindingList<AppoitmentModel> appoitmentModels = new BindingList<AppoitmentModel>();
-        public static BindingList<AppoitmentModel> availableDay = new BindingList<AppoitmentModel>();
+        public static BindingList<AppointmentModel> appoitmentModels = new BindingList<AppointmentModel>();
+    
 
         public void RegisterUser(UserModel user)
         {
@@ -568,7 +569,7 @@ namespace c969
         }
 
         //Appointment section 
-        public void InsertAppointment(AppoitmentModel appointment)
+        public void InsertAppointment(AppointmentModel appointment)
         {
             try
             {
@@ -611,7 +612,7 @@ namespace c969
             try
             {
                 Connect();
-                string query = @"SELECT * FROM `c968_db`.`appointment` WHERE customerId = @CustomerId";
+                string query = @"SELECT appointmentId, title, description, start, end FROM `c968_db`.`appointment` WHERE customerId = @CustomerId";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -622,17 +623,16 @@ namespace c969
                         while (reader.Read())
                         {
                             int appointmentId = reader.GetInt32("appointmentId");
-                            int customerId = reader.GetInt32("customerId");
+                         
                             string title = reader.GetString("title");
                             string description = reader.GetString("description");
                             DateTime start = reader.GetDateTime("start");
                             DateTime end = reader.GetDateTime("end");
-                            DateTime createDate = reader.GetDateTime("createDate");
-                            DateTime lastUpdate = reader.GetDateTime("lastUpdate");
+                            
 
 
-                            AppoitmentModel appoitmentModel = new AppoitmentModel(appointmentId, customerId, userId, title, description, start, end, createDate, lastUpdate);
-                            appoitmentModels.Add(appoitmentModel);
+                            AppointmentModel appointmentModel = new AppointmentModel(appointmentId,title, description, start, end) ;
+                            appoitmentModels.Add(appointmentModel);
                         }
                     }
                 }
@@ -646,17 +646,19 @@ namespace c969
 
         }
 
-
-
-        public void SearchAppt(string selectedDate)
+        public  List<AppointmentModel> SearchAppt(string selectedDate)
         {
-            availableDay.Clear();
+            // Create a list to store the retrieved data
+            List<AppointmentModel> appointments = new List<AppointmentModel>();
+            appointments.Clear();
             try
             {
                 Connect();
-                string query = @"SELECT * FROM appointment
-                        WHERE DATE(start) = @date 
-                        AND customerId IS NULL";
+
+                string query = @"SELECT appointmentId, start, end FROM appointment
+                     WHERE DATE(start) = @date 
+                     AND (customerId IS NULL OR customerId = 0)
+                      AND (userId IS NULL OR userId = 0)";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -667,12 +669,13 @@ namespace c969
                     {
                         while (reader.Read())
                         {
+                            // Retrieve data from the reader
                             DateTime start = reader.GetDateTime("start");
                             int appointmentId = reader.GetInt32("appointmentId");
-                            
 
-                            AppoitmentModel appoitmentModel = new AppoitmentModel(Convert.ToDateTime(selectedDate), appointmentId) ;
-                            availableDay.Add(appoitmentModel);
+                            // Create an AppointmentModel object and add it to the list
+                            AppointmentModel appointment = new AppointmentModel(start, appointmentId);
+                            appointments.Add(appointment);
                         }
                     }
                 }
@@ -682,6 +685,37 @@ namespace c969
             catch (MySqlException ex)
             {
                 MessageBox.Show(ex.Message, "No connection");
+            }
+
+            // Return the list containing the retrieved data
+            return appointments;
+        }
+
+
+
+
+
+        //do not show columns with null values or 0 
+        public static void HideColumnsWithNullValues(DataGridView dataGridView)
+        {
+            foreach (DataGridViewColumn column in dataGridView.Columns)
+            {
+                bool allNull = true;
+                foreach (DataGridViewRow row in dataGridView.Rows)
+                {
+                    if (row.Cells[column.Index].Value != null && row.Cells[column.Index].Value.ToString() != "0")
+                    // Check if the cell is not null or equal to 0
+                    {
+                        allNull = false;
+                        break;
+                    }
+                }
+
+                // Hide the column if all its cells are null or equal to 0
+                if (allNull)
+                {
+                    column.Visible = false;
+                }
             }
         }
 

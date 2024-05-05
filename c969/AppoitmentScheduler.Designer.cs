@@ -32,9 +32,12 @@
             this.weekCheckBox = new System.Windows.Forms.CheckBox();
             this.Month = new System.Windows.Forms.CheckBox();
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
-            this.selectBtn = new System.Windows.Forms.Button();
             this.exitBtn = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.timetextBox = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.datetextbox = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.apptOrderLabel = new System.Windows.Forms.TextBox();
             this.descriptionText = new System.Windows.Forms.RichTextBox();
@@ -42,27 +45,24 @@
             this.addApptBtn = new System.Windows.Forms.Button();
             this.cancelApptBtn = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
-            this.NametextBox = new System.Windows.Forms.TextBox();
+            this.titletextBox = new System.Windows.Forms.TextBox();
             this.tittleLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.localTimelabel = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.estTimelabel = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.starttextBox = new System.Windows.Forms.TextBox();
-            this.endTextBox = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.datagrid2 = new System.Windows.Forms.DataGridView();
+            this.textBoxcount = new System.Windows.Forms.TextBox();
+            this.comboBoxappt = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.datagrid2)).BeginInit();
             this.SuspendLayout();
             // 
             // dayCheckBox
             // 
             this.dayCheckBox.AutoSize = true;
-            this.dayCheckBox.Location = new System.Drawing.Point(18, 39);
+            this.dayCheckBox.Location = new System.Drawing.Point(25, 58);
+            this.dayCheckBox.Margin = new System.Windows.Forms.Padding(4);
             this.dayCheckBox.Name = "dayCheckBox";
-            this.dayCheckBox.Size = new System.Drawing.Size(54, 20);
+            this.dayCheckBox.Size = new System.Drawing.Size(73, 29);
             this.dayCheckBox.TabIndex = 0;
             this.dayCheckBox.Text = "Day";
             this.dayCheckBox.UseVisualStyleBackColor = true;
@@ -70,9 +70,10 @@
             // weekCheckBox
             // 
             this.weekCheckBox.AutoSize = true;
-            this.weekCheckBox.Location = new System.Drawing.Point(18, 65);
+            this.weekCheckBox.Location = new System.Drawing.Point(25, 98);
+            this.weekCheckBox.Margin = new System.Windows.Forms.Padding(4);
             this.weekCheckBox.Name = "weekCheckBox";
-            this.weekCheckBox.Size = new System.Drawing.Size(65, 20);
+            this.weekCheckBox.Size = new System.Drawing.Size(90, 29);
             this.weekCheckBox.TabIndex = 1;
             this.weekCheckBox.Text = "Week";
             this.weekCheckBox.UseVisualStyleBackColor = true;
@@ -80,34 +81,28 @@
             // Month
             // 
             this.Month.AutoSize = true;
-            this.Month.Location = new System.Drawing.Point(18, 91);
+            this.Month.Location = new System.Drawing.Point(25, 136);
+            this.Month.Margin = new System.Windows.Forms.Padding(4);
             this.Month.Name = "Month";
-            this.Month.Size = new System.Drawing.Size(65, 20);
+            this.Month.Size = new System.Drawing.Size(93, 29);
             this.Month.TabIndex = 2;
             this.Month.Text = "Month";
             this.Month.UseVisualStyleBackColor = true;
             // 
             // monthCalendar1
             // 
-            this.monthCalendar1.Location = new System.Drawing.Point(18, 117);
+            this.monthCalendar1.Location = new System.Drawing.Point(25, 176);
+            this.monthCalendar1.Margin = new System.Windows.Forms.Padding(12, 14, 12, 14);
             this.monthCalendar1.Name = "monthCalendar1";
             this.monthCalendar1.TabIndex = 3;
             this.monthCalendar1.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendar1_DateChanged);
             // 
-            // selectBtn
-            // 
-            this.selectBtn.Location = new System.Drawing.Point(514, 391);
-            this.selectBtn.Name = "selectBtn";
-            this.selectBtn.Size = new System.Drawing.Size(170, 23);
-            this.selectBtn.TabIndex = 4;
-            this.selectBtn.Text = "Select  appointment";
-            this.selectBtn.UseVisualStyleBackColor = true;
-            // 
             // exitBtn
             // 
-            this.exitBtn.Location = new System.Drawing.Point(1004, 12);
+            this.exitBtn.Location = new System.Drawing.Point(1330, 13);
+            this.exitBtn.Margin = new System.Windows.Forms.Padding(4);
             this.exitBtn.Name = "exitBtn";
-            this.exitBtn.Size = new System.Drawing.Size(75, 23);
+            this.exitBtn.Size = new System.Drawing.Size(103, 48);
             this.exitBtn.TabIndex = 7;
             this.exitBtn.Text = "Exit";
             this.exitBtn.UseVisualStyleBackColor = true;
@@ -115,9 +110,9 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.endTextBox);
+            this.groupBox1.Controls.Add(this.timetextBox);
             this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.starttextBox);
+            this.groupBox1.Controls.Add(this.datetextbox);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.apptOrderLabel);
@@ -126,36 +121,79 @@
             this.groupBox1.Controls.Add(this.addApptBtn);
             this.groupBox1.Controls.Add(this.cancelApptBtn);
             this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.NametextBox);
+            this.groupBox1.Controls.Add(this.titletextBox);
             this.groupBox1.Controls.Add(this.tittleLabel);
-            this.groupBox1.Location = new System.Drawing.Point(735, 58);
+            this.groupBox1.Location = new System.Drawing.Point(949, 69);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(344, 356);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Size = new System.Drawing.Size(520, 551);
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
+            // 
+            // timetextBox
+            // 
+            this.timetextBox.Location = new System.Drawing.Point(362, 318);
+            this.timetextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.timetextBox.Name = "timetextBox";
+            this.timetextBox.Size = new System.Drawing.Size(137, 29);
+            this.timetextBox.TabIndex = 27;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.142858F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(241, 322);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(116, 23);
+            this.label7.TabIndex = 26;
+            this.label7.Text = "Local Time";
+            // 
+            // datetextbox
+            // 
+            this.datetextbox.Location = new System.Drawing.Point(80, 320);
+            this.datetextbox.Margin = new System.Windows.Forms.Padding(4);
+            this.datetextbox.Name = "datetextbox";
+            this.datetextbox.Size = new System.Drawing.Size(153, 29);
+            this.datetextbox.TabIndex = 25;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.142858F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(16, 324);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(56, 23);
+            this.label5.TabIndex = 24;
+            this.label5.Text = "Date";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Bahnschrift Condensed", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(6, 250);
+            this.label3.Location = new System.Drawing.Point(159, 373);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(112, 16);
+            this.label3.Size = new System.Drawing.Size(167, 23);
             this.label3.TabIndex = 23;
             this.label3.Text = "Appoitment confirmation";
             // 
             // apptOrderLabel
             // 
-            this.apptOrderLabel.Location = new System.Drawing.Point(130, 244);
+            this.apptOrderLabel.Location = new System.Drawing.Point(348, 369);
+            this.apptOrderLabel.Margin = new System.Windows.Forms.Padding(4);
             this.apptOrderLabel.Name = "apptOrderLabel";
-            this.apptOrderLabel.Size = new System.Drawing.Size(208, 22);
+            this.apptOrderLabel.Size = new System.Drawing.Size(115, 29);
             this.apptOrderLabel.TabIndex = 22;
             // 
             // descriptionText
             // 
-            this.descriptionText.Location = new System.Drawing.Point(6, 102);
+            this.descriptionText.Location = new System.Drawing.Point(12, 153);
+            this.descriptionText.Margin = new System.Windows.Forms.Padding(4);
             this.descriptionText.Name = "descriptionText";
-            this.descriptionText.Size = new System.Drawing.Size(344, 96);
+            this.descriptionText.Size = new System.Drawing.Size(472, 142);
             this.descriptionText.TabIndex = 21;
             this.descriptionText.Text = "What is this appoitment for?";
             // 
@@ -163,18 +201,20 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(11, 78);
+            this.label2.Location = new System.Drawing.Point(15, 117);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(112, 21);
+            this.label2.Size = new System.Drawing.Size(158, 30);
             this.label2.TabIndex = 20;
             this.label2.Text = "Description";
             // 
             // addApptBtn
             // 
             this.addApptBtn.BackColor = System.Drawing.SystemColors.Info;
-            this.addApptBtn.Location = new System.Drawing.Point(79, 285);
+            this.addApptBtn.Location = new System.Drawing.Point(140, 428);
+            this.addApptBtn.Margin = new System.Windows.Forms.Padding(4);
             this.addApptBtn.Name = "addApptBtn";
-            this.addApptBtn.Size = new System.Drawing.Size(158, 23);
+            this.addApptBtn.Size = new System.Drawing.Size(217, 47);
             this.addApptBtn.TabIndex = 18;
             this.addApptBtn.TabStop = false;
             this.addApptBtn.Text = "Create Appoitment";
@@ -182,9 +222,10 @@
             // 
             // cancelApptBtn
             // 
-            this.cancelApptBtn.Location = new System.Drawing.Point(263, 333);
+            this.cancelApptBtn.Location = new System.Drawing.Point(362, 500);
+            this.cancelApptBtn.Margin = new System.Windows.Forms.Padding(4);
             this.cancelApptBtn.Name = "cancelApptBtn";
-            this.cancelApptBtn.Size = new System.Drawing.Size(75, 23);
+            this.cancelApptBtn.Size = new System.Drawing.Size(103, 42);
             this.cancelApptBtn.TabIndex = 18;
             this.cancelApptBtn.Text = "Cancel";
             this.cancelApptBtn.UseVisualStyleBackColor = true;
@@ -192,132 +233,110 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(127, 337);
+            this.label10.Location = new System.Drawing.Point(175, 506);
+            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(127, 16);
+            this.label10.Size = new System.Drawing.Size(189, 25);
             this.label10.TabIndex = 19;
             this.label10.Text = "Cancel Appoitment?";
             // 
-            // NametextBox
+            // titletextBox
             // 
-            this.NametextBox.Location = new System.Drawing.Point(112, 33);
-            this.NametextBox.Name = "NametextBox";
-            this.NametextBox.Size = new System.Drawing.Size(226, 22);
-            this.NametextBox.TabIndex = 10;
-            this.NametextBox.Text = "What type of appoitment?";
+            this.titletextBox.Location = new System.Drawing.Point(154, 50);
+            this.titletextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.titletextBox.Name = "titletextBox";
+            this.titletextBox.Size = new System.Drawing.Size(309, 29);
+            this.titletextBox.TabIndex = 10;
+            this.titletextBox.Text = "What type of appoitment?";
             // 
             // tittleLabel
             // 
             this.tittleLabel.AutoSize = true;
             this.tittleLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tittleLabel.Location = new System.Drawing.Point(11, 34);
+            this.tittleLabel.Location = new System.Drawing.Point(15, 51);
+            this.tittleLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.tittleLabel.Name = "tittleLabel";
-            this.tittleLabel.Size = new System.Drawing.Size(54, 21);
+            this.tittleLabel.Size = new System.Drawing.Size(76, 30);
             this.tittleLabel.TabIndex = 4;
             this.tittleLabel.Text = "Tittle";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(316, 39);
+            this.label4.Location = new System.Drawing.Point(521, 58);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(142, 16);
+            this.label4.Size = new System.Drawing.Size(206, 25);
             this.label4.TabIndex = 13;
             this.label4.Text = "Available Appoitments";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // localTimelabel
             // 
             this.localTimelabel.AutoSize = true;
-            this.localTimelabel.Location = new System.Drawing.Point(15, 346);
+            this.localTimelabel.Location = new System.Drawing.Point(21, 519);
+            this.localTimelabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.localTimelabel.Name = "localTimelabel";
-            this.localTimelabel.Size = new System.Drawing.Size(0, 11);
+            this.localTimelabel.Size = new System.Drawing.Size(0, 25);
             this.localTimelabel.TabIndex = 15;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.ForeColor = System.Drawing.Color.IndianRed;
-            this.label6.Location = new System.Drawing.Point(12, 425);
+            this.label6.Location = new System.Drawing.Point(16, 638);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(370, 16);
+            this.label6.Size = new System.Drawing.Size(556, 25);
             this.label6.TabIndex = 16;
             this.label6.Text = " Business hours of 9:00 a.m. to 5:00 p.m., Monday–Friday, EST";
             // 
             // estTimelabel
             // 
             this.estTimelabel.AutoSize = true;
-            this.estTimelabel.Location = new System.Drawing.Point(15, 391);
+            this.estTimelabel.Location = new System.Drawing.Point(21, 586);
+            this.estTimelabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.estTimelabel.Name = "estTimelabel";
-            this.estTimelabel.Size = new System.Drawing.Size(0, 11);
+            this.estTimelabel.Size = new System.Drawing.Size(0, 25);
             this.estTimelabel.TabIndex = 17;
             // 
-            // label5
+            // textBoxcount
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(6, 212);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(53, 21);
-            this.label5.TabIndex = 24;
-            this.label5.Text = "Start";
+            this.textBoxcount.Location = new System.Drawing.Point(512, 86);
+            this.textBoxcount.Name = "textBoxcount";
+            this.textBoxcount.Size = new System.Drawing.Size(429, 29);
+            this.textBoxcount.TabIndex = 18;
             // 
-            // starttextBox
+            // comboBoxappt
             // 
-            this.starttextBox.Location = new System.Drawing.Point(71, 211);
-            this.starttextBox.Name = "starttextBox";
-            this.starttextBox.Size = new System.Drawing.Size(74, 22);
-            this.starttextBox.TabIndex = 25;
-            // 
-            // endTextBox
-            // 
-            this.endTextBox.Location = new System.Drawing.Point(254, 210);
-            this.endTextBox.Name = "endTextBox";
-            this.endTextBox.Size = new System.Drawing.Size(74, 22);
-            this.endTextBox.TabIndex = 27;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(204, 211);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(44, 21);
-            this.label7.TabIndex = 26;
-            this.label7.Text = "End";
-            // 
-            // datagrid2
-            // 
-            this.datagrid2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.datagrid2.Location = new System.Drawing.Point(319, 58);
-            this.datagrid2.Name = "datagrid2";
-            this.datagrid2.RowHeadersWidth = 51;
-            this.datagrid2.RowTemplate.Height = 24;
-            this.datagrid2.Size = new System.Drawing.Size(365, 320);
-            this.datagrid2.TabIndex = 19;
+            this.comboBoxappt.FormattingEnabled = true;
+            this.comboBoxappt.Location = new System.Drawing.Point(512, 201);
+            this.comboBoxappt.Name = "comboBoxappt";
+            this.comboBoxappt.Size = new System.Drawing.Size(415, 32);
+            this.comboBoxappt.TabIndex = 19;
+            this.comboBoxappt.SelectedIndexChanged += new System.EventHandler(this.comboBoxappt_SelectedIndexChanged);
             // 
             // AppoitmentScheduler
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1091, 450);
-            this.Controls.Add(this.datagrid2);
+            this.ClientSize = new System.Drawing.Size(1492, 675);
+            this.Controls.Add(this.comboBoxappt);
+            this.Controls.Add(this.textBoxcount);
             this.Controls.Add(this.estTimelabel);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.localTimelabel);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.exitBtn);
-            this.Controls.Add(this.selectBtn);
             this.Controls.Add(this.monthCalendar1);
             this.Controls.Add(this.Month);
             this.Controls.Add(this.weekCheckBox);
             this.Controls.Add(this.dayCheckBox);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "AppoitmentScheduler";
             this.Text = "AppoitmentScheduler";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.datagrid2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -329,13 +348,12 @@
         private System.Windows.Forms.CheckBox weekCheckBox;
         private System.Windows.Forms.CheckBox Month;
         private System.Windows.Forms.MonthCalendar monthCalendar1;
-        private System.Windows.Forms.Button selectBtn;
         private System.Windows.Forms.Button exitBtn;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button addApptBtn;
         private System.Windows.Forms.Button cancelApptBtn;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox NametextBox;
+        private System.Windows.Forms.TextBox titletextBox;
         private System.Windows.Forms.Label tittleLabel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.RichTextBox descriptionText;
@@ -346,9 +364,10 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label estTimelabel;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox endTextBox;
+        private System.Windows.Forms.TextBox timetextBox;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox starttextBox;
-        private System.Windows.Forms.DataGridView datagrid2;
+        private System.Windows.Forms.TextBox datetextbox;
+        private System.Windows.Forms.TextBox textBoxcount;
+        private System.Windows.Forms.ComboBox comboBoxappt;
     }
 }

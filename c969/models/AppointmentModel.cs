@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace c969.models
 {
-    public class AppoitmentModel
+    public class AppointmentModel
     {
         public int appointmentId { get; set; }
         public int customerId { get; set; }
@@ -21,23 +21,23 @@ namespace c969.models
         public string createdBy { get; set; }
         public DateTime lastUpdate { get; set; }
         public string lastUpdateBy { get; set; }
-        public AppoitmentModel(int appointmentId, int customerId, int userId, string title, string description, DateTime start, DateTime end, DateTime createDate,  DateTime lastUpdate)
+        
+
+        public AppointmentModel(int appointmentId, string title, string description, DateTime start, DateTime end)
         {
             this.appointmentId = appointmentId;
-            this.customerId = customerId;
-            this.userId = userId;
+         
             this.title = title;
             this.description = description;
-          
-          
+
+
             this.start = start;
             this.end = end;
-            this.createDate = createDate;
-            this.lastUpdate = lastUpdate;
-            
+   ;
+
         }
 
-        public AppoitmentModel (DateTime start, int appointmentId)
+        public AppointmentModel (DateTime start, int appointmentId)
         {
             this.start = start;
             this.appointmentId = appointmentId;

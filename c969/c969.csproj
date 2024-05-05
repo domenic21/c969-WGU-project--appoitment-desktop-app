@@ -118,7 +118,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="models\AddressModel.cs" />
-    <Compile Include="models\AppoitmentModel.cs" />
+    <Compile Include="models\AppointmentModel.cs" />
     <Compile Include="models\CityModel.cs" />
     <Compile Include="models\CountryModel.cs" />
     <Compile Include="models\CustomerModel.cs" />
