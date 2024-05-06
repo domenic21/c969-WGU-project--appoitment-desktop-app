@@ -47,15 +47,19 @@ namespace c969
             List<string> formattedAppointments = new List<string>();
             foreach (var appointment in UserDb.appoitmentModels)
             {
-                string formattedAppointment = $"Your appointment is at : {appointment.start}";
+                string formattedAppointment = $"Your appointment is at : {appointment.start} {appointment.appointmentId}";
+                int appointmentId = appointment.appointmentId;
 
                 formattedAppointments.Add(formattedAppointment);
+
 
              
             }
 
             // Set ListBox source retreieved from the lists
-            listBox.DataSource = formattedAppointments;
+            listBox.DataSource = formattedAppointments ;
+            
+            
         }
 
 
@@ -405,7 +409,59 @@ namespace c969
             this.Hide();
         }
 
-       
+        private void NametextBox_TextChanged(object sender, EventArgs e)
+        {
+            // Set the maximum length of the text box
+            NametextBox.MaxLength = 20;
+            if (NametextBox.Text.Length > 20)
+            {
+                MessageBox.Show("Please enter only 12 characters.");
+                NametextBox.Text = NametextBox.Text.Remove(NametextBox.Text.Length - 1); // Remove the last character
+            }
+        }
+
+        private void AddresstextBox2_TextChanged(object sender, EventArgs e)
+        {
+            AddresstextBox2.MaxLength = 50;
+            if (AddresstextBox2.Text.Length > 50)
+            {
+                MessageBox.Show("Please enter only 12 characters.");
+                AddresstextBox2.Text = AddresstextBox2.Text.Remove(AddresstextBox2.Text.Length - 1); // Remove the last character
+            }
+        }
+
+        private void modifyApptBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cancelapptbtn_Click(object sender, EventArgs e)
+        {
+
+  
+
+            DialogResult result = MessageBox.Show("Are you sure you want to cancell this appointment? ?", "Confirmation", MessageBoxButtons.YesNo);
+
+            if (result == DialogResult.Yes)
+            {
+                // User clicked Yes
+                // Perform action...
+                UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+               
+                AppointmentModel selectedAppointment = (AppointmentModel)listBox.SelectedItem;
+
+                // Retrieve the appointment ID 
+                int appointmentId = selectedAppointment.appointmentId;
+                ;
+                userDb.DeleteAppointment(appointmentId);
+                MessageBox.Show("Appointment canceled successfully");
+            }
+            else
+            {
+                return;
+            }
+
+        }
     }
 
 

@@ -33,7 +33,20 @@ namespace c969.models
 
             this.start = start;
             this.end = end;
-   ;
+  
+
+        }
+
+
+        public AppointmentModel(int userId,int appointmentId, string title, string description, DateTime start)
+        {
+            this.appointmentId = appointmentId;
+            this.userId = userId;
+            this.title = title;
+            this.description = description;
+            this.start = start;
+          
+
 
         }
 

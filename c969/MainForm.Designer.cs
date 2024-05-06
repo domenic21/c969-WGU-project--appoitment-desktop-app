@@ -56,14 +56,15 @@
             this.saveProfileBtn = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.cancelapptbtn = new System.Windows.Forms.Button();
+            this.listBox = new System.Windows.Forms.ListBox();
+            this.modifyApptBtn = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.labelAppt = new System.Windows.Forms.Label();
             this.UserIdlabel = new System.Windows.Forms.Label();
             this.labeluserId = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.deleteUserBtn = new System.Windows.Forms.Button();
-            this.listBox = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -290,6 +291,7 @@
             this.AddresstextBox2.Name = "AddresstextBox2";
             this.AddresstextBox2.Size = new System.Drawing.Size(243, 29);
             this.AddresstextBox2.TabIndex = 11;
+            this.AddresstextBox2.TextChanged += new System.EventHandler(this.AddresstextBox2_TextChanged);
             // 
             // NametextBox
             // 
@@ -298,6 +300,7 @@
             this.NametextBox.Name = "NametextBox";
             this.NametextBox.Size = new System.Drawing.Size(243, 29);
             this.NametextBox.TabIndex = 10;
+            this.NametextBox.TextChanged += new System.EventHandler(this.NametextBox_TextChanged);
             // 
             // cityBox
             // 
@@ -344,8 +347,9 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.cancelapptbtn);
             this.groupBox2.Controls.Add(this.listBox);
-            this.groupBox2.Controls.Add(this.button2);
+            this.groupBox2.Controls.Add(this.modifyApptBtn);
             this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.labelAppt);
             this.groupBox2.Location = new System.Drawing.Point(532, 54);
@@ -356,15 +360,37 @@
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
             // 
-            // button2
+            // cancelapptbtn
             // 
-            this.button2.Location = new System.Drawing.Point(440, 235);
-            this.button2.Margin = new System.Windows.Forms.Padding(4);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(103, 47);
-            this.button2.TabIndex = 24;
-            this.button2.Text = "Modify";
-            this.button2.UseVisualStyleBackColor = true;
+            this.cancelapptbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.142858F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cancelapptbtn.Location = new System.Drawing.Point(314, 235);
+            this.cancelapptbtn.Margin = new System.Windows.Forms.Padding(4);
+            this.cancelapptbtn.Name = "cancelapptbtn";
+            this.cancelapptbtn.Size = new System.Drawing.Size(223, 67);
+            this.cancelapptbtn.TabIndex = 26;
+            this.cancelapptbtn.Text = "Cancel Appointment";
+            this.cancelapptbtn.UseVisualStyleBackColor = true;
+            this.cancelapptbtn.Click += new System.EventHandler(this.cancelapptbtn_Click);
+            // 
+            // listBox
+            // 
+            this.listBox.FormattingEnabled = true;
+            this.listBox.ItemHeight = 24;
+            this.listBox.Location = new System.Drawing.Point(7, 104);
+            this.listBox.Name = "listBox";
+            this.listBox.Size = new System.Drawing.Size(530, 124);
+            this.listBox.TabIndex = 25;
+            // 
+            // modifyApptBtn
+            // 
+            this.modifyApptBtn.Location = new System.Drawing.Point(203, 235);
+            this.modifyApptBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.modifyApptBtn.Name = "modifyApptBtn";
+            this.modifyApptBtn.Size = new System.Drawing.Size(103, 67);
+            this.modifyApptBtn.TabIndex = 24;
+            this.modifyApptBtn.Text = "Modify";
+            this.modifyApptBtn.UseVisualStyleBackColor = true;
+            this.modifyApptBtn.Click += new System.EventHandler(this.modifyApptBtn_Click);
             // 
             // button1
             // 
@@ -432,15 +458,6 @@
             this.deleteUserBtn.UseVisualStyleBackColor = true;
             this.deleteUserBtn.Click += new System.EventHandler(this.deleteUserBtn_Click);
             // 
-            // listBox
-            // 
-            this.listBox.FormattingEnabled = true;
-            this.listBox.ItemHeight = 24;
-            this.listBox.Location = new System.Drawing.Point(7, 104);
-            this.listBox.Name = "listBox";
-            this.listBox.Size = new System.Drawing.Size(530, 124);
-            this.listBox.TabIndex = 25;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
@@ -505,7 +522,8 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button deleteUserBtn;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button modifyApptBtn;
         private System.Windows.Forms.ListBox listBox;
+        private System.Windows.Forms.Button cancelapptbtn;
     }
 }

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dayCheckBox = new System.Windows.Forms.CheckBox();
             this.weekCheckBox = new System.Windows.Forms.CheckBox();
             this.Month = new System.Windows.Forms.CheckBox();
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
@@ -53,30 +52,24 @@
             this.estTimelabel = new System.Windows.Forms.Label();
             this.textBoxcount = new System.Windows.Forms.TextBox();
             this.comboBoxappt = new System.Windows.Forms.ComboBox();
+            this.logout = new System.Windows.Forms.Button();
+            this.labelappt = new System.Windows.Forms.Label();
+            this.labeluser = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // dayCheckBox
-            // 
-            this.dayCheckBox.AutoSize = true;
-            this.dayCheckBox.Location = new System.Drawing.Point(25, 58);
-            this.dayCheckBox.Margin = new System.Windows.Forms.Padding(4);
-            this.dayCheckBox.Name = "dayCheckBox";
-            this.dayCheckBox.Size = new System.Drawing.Size(73, 29);
-            this.dayCheckBox.TabIndex = 0;
-            this.dayCheckBox.Text = "Day";
-            this.dayCheckBox.UseVisualStyleBackColor = true;
             // 
             // weekCheckBox
             // 
             this.weekCheckBox.AutoSize = true;
-            this.weekCheckBox.Location = new System.Drawing.Point(25, 98);
+            this.weekCheckBox.Location = new System.Drawing.Point(126, 136);
             this.weekCheckBox.Margin = new System.Windows.Forms.Padding(4);
             this.weekCheckBox.Name = "weekCheckBox";
             this.weekCheckBox.Size = new System.Drawing.Size(90, 29);
             this.weekCheckBox.TabIndex = 1;
             this.weekCheckBox.Text = "Week";
             this.weekCheckBox.UseVisualStyleBackColor = true;
+            this.weekCheckBox.CheckedChanged += new System.EventHandler(this.weekCheckBox_CheckedChanged);
             // 
             // Month
             // 
@@ -88,6 +81,7 @@
             this.Month.TabIndex = 2;
             this.Month.Text = "Month";
             this.Month.UseVisualStyleBackColor = true;
+            this.Month.CheckedChanged += new System.EventHandler(this.Month_CheckedChanged);
             // 
             // monthCalendar1
             // 
@@ -99,7 +93,7 @@
             // 
             // exitBtn
             // 
-            this.exitBtn.Location = new System.Drawing.Point(1330, 13);
+            this.exitBtn.Location = new System.Drawing.Point(1354, 13);
             this.exitBtn.Margin = new System.Windows.Forms.Padding(4);
             this.exitBtn.Name = "exitBtn";
             this.exitBtn.Size = new System.Drawing.Size(103, 48);
@@ -196,6 +190,7 @@
             this.descriptionText.Size = new System.Drawing.Size(472, 142);
             this.descriptionText.TabIndex = 21;
             this.descriptionText.Text = "What is this appoitment for?";
+            this.descriptionText.TextChanged += new System.EventHandler(this.descriptionText_TextChanged);
             // 
             // label2
             // 
@@ -219,6 +214,7 @@
             this.addApptBtn.TabStop = false;
             this.addApptBtn.Text = "Create Appoitment";
             this.addApptBtn.UseVisualStyleBackColor = false;
+            this.addApptBtn.Click += new System.EventHandler(this.addApptBtn_Click);
             // 
             // cancelApptBtn
             // 
@@ -248,6 +244,7 @@
             this.titletextBox.Size = new System.Drawing.Size(309, 29);
             this.titletextBox.TabIndex = 10;
             this.titletextBox.Text = "What type of appoitment?";
+            this.titletextBox.TextChanged += new System.EventHandler(this.titletextBox_TextChanged);
             // 
             // tittleLabel
             // 
@@ -315,11 +312,52 @@
             this.comboBoxappt.TabIndex = 19;
             this.comboBoxappt.SelectedIndexChanged += new System.EventHandler(this.comboBoxappt_SelectedIndexChanged);
             // 
+            // logout
+            // 
+            this.logout.Location = new System.Drawing.Point(1243, 13);
+            this.logout.Margin = new System.Windows.Forms.Padding(4);
+            this.logout.Name = "logout";
+            this.logout.Size = new System.Drawing.Size(103, 48);
+            this.logout.TabIndex = 20;
+            this.logout.Text = "Log Out";
+            this.logout.UseVisualStyleBackColor = true;
+            this.logout.Click += new System.EventHandler(this.logout_Click);
+            // 
+            // labelappt
+            // 
+            this.labelappt.AutoSize = true;
+            this.labelappt.Location = new System.Drawing.Point(512, 157);
+            this.labelappt.Name = "labelappt";
+            this.labelappt.Size = new System.Drawing.Size(0, 25);
+            this.labelappt.TabIndex = 21;
+            // 
+            // labeluser
+            // 
+            this.labeluser.AutoSize = true;
+            this.labeluser.Location = new System.Drawing.Point(121, 13);
+            this.labeluser.Name = "labeluser";
+            this.labeluser.Size = new System.Drawing.Size(27, 25);
+            this.labeluser.TabIndex = 22;
+            this.labeluser.Text = "id";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(108, 25);
+            this.label1.TabIndex = 23;
+            this.label1.Text = "Hello User:";
+            // 
             // AppoitmentScheduler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1492, 675);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labeluser);
+            this.Controls.Add(this.labelappt);
+            this.Controls.Add(this.logout);
             this.Controls.Add(this.comboBoxappt);
             this.Controls.Add(this.textBoxcount);
             this.Controls.Add(this.estTimelabel);
@@ -331,7 +369,6 @@
             this.Controls.Add(this.monthCalendar1);
             this.Controls.Add(this.Month);
             this.Controls.Add(this.weekCheckBox);
-            this.Controls.Add(this.dayCheckBox);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "AppoitmentScheduler";
             this.Text = "AppoitmentScheduler";
@@ -343,8 +380,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.CheckBox dayCheckBox;
         private System.Windows.Forms.CheckBox weekCheckBox;
         private System.Windows.Forms.CheckBox Month;
         private System.Windows.Forms.MonthCalendar monthCalendar1;
@@ -369,5 +404,9 @@
         private System.Windows.Forms.TextBox datetextbox;
         private System.Windows.Forms.TextBox textBoxcount;
         private System.Windows.Forms.ComboBox comboBoxappt;
+        private System.Windows.Forms.Button logout;
+        private System.Windows.Forms.Label labelappt;
+        private System.Windows.Forms.Label labeluser;
+        private System.Windows.Forms.Label label1;
     }
 }
