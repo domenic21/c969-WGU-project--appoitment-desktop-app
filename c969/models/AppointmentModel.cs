@@ -23,19 +23,7 @@ namespace c969.models
         public string lastUpdateBy { get; set; }
         
 
-        public AppointmentModel(int appointmentId, string title, string description, DateTime start, DateTime end)
-        {
-            this.appointmentId = appointmentId;
-         
-            this.title = title;
-            this.description = description;
-
-
-            this.start = start;
-            this.end = end;
-  
-
-        }
+    
 
 
         public AppointmentModel(int userId,int appointmentId, string title, string description, DateTime start)

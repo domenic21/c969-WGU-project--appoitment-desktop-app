@@ -231,6 +231,7 @@ namespace c969
                 }
                 MessageBox.Show("Appointment added successfully");
             }
+          
             catch
             {
                 MessageBox.Show("Please select and appointment and complete the required information");

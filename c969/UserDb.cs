@@ -17,7 +17,7 @@ namespace c969
 
 
         public static BindingList<CityModel> multipleChoiceCountry = new BindingList<CityModel>();
-        public static BindingList<AppointmentModel> appoitmentModels = new BindingList<AppointmentModel>();
+        public static BindingList<AppointmentModel> appointmentModels = new BindingList<AppointmentModel>();
     
 
         public void RegisterUser(UserModel user)
@@ -613,7 +613,7 @@ namespace c969
             try
             {
                 Connect();
-                string query = @"SELECT appointmentId, title, description, start, end FROM `c968_db`.`appointment` WHERE customerId = @CustomerId";
+                string query = @"SELECT appointmentId, title, description, start FROM `c968_db`.`appointment` WHERE customerId = @CustomerId";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -628,12 +628,12 @@ namespace c969
                             string title = reader.GetString("title");
                             string description = reader.GetString("description");
                             DateTime start = reader.GetDateTime("start");
-                            DateTime end = reader.GetDateTime("end");
+                            
                             
 
 
-                            AppointmentModel appointmentModel = new AppointmentModel(appointmentId,title, description, start, end) ;
-                            appoitmentModels.Add(appointmentModel);
+                            AppointmentModel appointmentModel = new AppointmentModel(userId, appointmentId,title, description, start) ;
+                            appointmentModels.Add(appointmentModel);
                         }
                     }
                 }

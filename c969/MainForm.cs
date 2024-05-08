@@ -1,8 +1,8 @@
 ﻿using c969.models;
-using Google.Protobuf.WellKnownTypes;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 
@@ -38,32 +38,37 @@ namespace c969
             cityBox.DropDownStyle = ComboBoxStyle.DropDownList;
             InitializeFormData(currentUserId);
             userDb.GetAppoitments(currentUserId);
-           
+
             this.StartPosition = FormStartPosition.CenterScreen;
             listBox.ClearSelected();
+            LoadAppointments();
 
+        }
 
-            // appt list users appotiments
+        //list of appointments
+        private void LoadAppointments()
+        {
+          
+            List<string> formattedAppointments = FormatAppointments(UserDb.appointmentModels);
+            listBox.DataSource = formattedAppointments;
+            if (UserDb.appointmentModels.Count == 0)
+            {
+                listBox.Text = "No appointments found, you can schedule an appoitment below.";
+            }
+        }
+
+        private List<string> FormatAppointments(BindingList<AppointmentModel> appointments)
+        {
             List<string> formattedAppointments = new List<string>();
-            foreach (var appointment in UserDb.appoitmentModels)
+            foreach (var appointment in appointments)
             {
                 string formattedAppointment = $"Your appointment is at : {appointment.start} {appointment.appointmentId}";
-                int appointmentId = appointment.appointmentId;
-
                 formattedAppointments.Add(formattedAppointment);
-
-
-             
             }
-
-            // Set ListBox source retreieved from the lists
-            listBox.DataSource = formattedAppointments ;
-            
-            
+            return formattedAppointments;
         }
 
 
-       
 
 
         //separation of concerns
@@ -331,7 +336,7 @@ namespace c969
             {
                 UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
 
-               userDb.DeleteProfileInfo(currentUserId);
+                userDb.DeleteProfileInfo(currentUserId);
                 MessageBox.Show("Profile information deleted successfully" + MessageBoxButtons.OK);
                 AddresstextBox2.ResetText();
                 countryBox.ResetText();
@@ -386,11 +391,11 @@ namespace c969
 
         private void deleteUserBtn_Click(object sender, EventArgs e)
         {
-               
+
             try
             {
                 UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
-               userDb.DeleteUser(currentUserId);
+                userDb.DeleteUser(currentUserId);
                 MessageBox.Show("Profile information deleted successfully" + MessageBoxButtons.OK);
                 loginForm loginForm = new loginForm();
                 return;
@@ -437,29 +442,39 @@ namespace c969
 
         private void cancelapptbtn_Click(object sender, EventArgs e)
         {
+            DialogResult result = MessageBox.Show("Are you sure you want to cancel this appointment?", "Confirmation", MessageBoxButtons.YesNo);
 
-  
-
-            DialogResult result = MessageBox.Show("Are you sure you want to cancell this appointment? ?", "Confirmation", MessageBoxButtons.YesNo);
-
+            // Check if the user clicked Yes in the message box
             if (result == DialogResult.Yes)
             {
-                // User clicked Yes
-                // Perform action...
-                UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
-               
-                AppointmentModel selectedAppointment = (AppointmentModel)listBox.SelectedItem;
+                // Get the selected appointment
+                string selectedAppointment = listBox.SelectedItem.ToString(); // Get the selected appointment
+                string[] appointmentParts = selectedAppointment.Split(' '); // Split the appointment string by spaces to get the appointment id
+                int appointmentId = int.Parse(appointmentParts[appointmentParts.Length - 1]); // Get the last part of the appointment id
 
-                // Retrieve the appointment ID 
-                int appointmentId = selectedAppointment.appointmentId;
-                ;
+                UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
                 userDb.DeleteAppointment(appointmentId);
                 MessageBox.Show("Appointment canceled successfully");
+                this.listBox.Refresh();
+                ReloadAppointments();
+               
+
+
             }
             else
             {
                 return;
             }
+        }
+        private void ReloadAppointments()
+        {
+            UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+            userDb.GetAppoitments(currentUserId);
+            LoadAppointments();
+            this.Refresh();
+            AppoitmentScheduler appoitmentScheduler = new AppoitmentScheduler(currentUserId);
+            appoitmentScheduler.Show();
+            this.Hide();
 
         }
     }
