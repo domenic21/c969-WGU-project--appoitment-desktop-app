@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Forms;
 
@@ -38,10 +39,12 @@ namespace c969
                     label1.Text = "Nuevo Usuario?";
                       break;
             }
+            
+
 
         }
 
-       
+
         private void RegisterBtn_Click(object sender, EventArgs e)
         {
             RegistrationForm registrationForm = new RegistrationForm();
@@ -56,14 +59,18 @@ namespace c969
                 UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
                 string userName = UserNametextBox.Text;
                 string password = PasswordtextBox.Text;
+                int currentUserId = userDb.GetCurrentID(userName);
 
-                
+                // Convert local time zone to Est, pass the current time
+                TimeZoneInfo estTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+                DateTime localStartTime = TimeZoneInfo.ConvertTime(DateTime.Now, estTimeZone);
+
                 // Check if the username or password is empty
                 if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
                 {
                     MessageBox.Show("Please enter a username and password");
                 }
-                int currentUserId = userDb.GetCurrentID(userName); // Retrieve the current user ID
+                // Retrieve the current user ID
 
                 // Validate the user login
                 if (userDb.ValidateUser(userName, password))
@@ -72,6 +79,13 @@ namespace c969
                     this.Hide();
                     MainForm mainForm = new MainForm(userName, currentUserId);
                     mainForm.Show();
+                    userDb.AlertAppointments(currentUserId, localStartTime);
+                }
+                else if (userName == "admin" && password == "admin") { 
+                    this.Hide();
+                    ReportsForm reportsForm = new ReportsForm();
+                    reportsForm.Show();
+                
                 }
                 else
                 {

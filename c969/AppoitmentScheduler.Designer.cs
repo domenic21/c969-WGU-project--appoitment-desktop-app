@@ -42,8 +42,6 @@
             this.descriptionText = new System.Windows.Forms.RichTextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.addApptBtn = new System.Windows.Forms.Button();
-            this.cancelApptBtn = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
             this.titletextBox = new System.Windows.Forms.TextBox();
             this.tittleLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -56,6 +54,8 @@
             this.labelappt = new System.Windows.Forms.Label();
             this.labeluser = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.mainMenubtn = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -93,7 +93,7 @@
             // 
             // exitBtn
             // 
-            this.exitBtn.Location = new System.Drawing.Point(1354, 13);
+            this.exitBtn.Location = new System.Drawing.Point(1376, 1);
             this.exitBtn.Margin = new System.Windows.Forms.Padding(4);
             this.exitBtn.Name = "exitBtn";
             this.exitBtn.Size = new System.Drawing.Size(103, 48);
@@ -113,8 +113,6 @@
             this.groupBox1.Controls.Add(this.descriptionText);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.addApptBtn);
-            this.groupBox1.Controls.Add(this.cancelApptBtn);
-            this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.titletextBox);
             this.groupBox1.Controls.Add(this.tittleLabel);
             this.groupBox1.Location = new System.Drawing.Point(949, 69);
@@ -216,26 +214,6 @@
             this.addApptBtn.UseVisualStyleBackColor = false;
             this.addApptBtn.Click += new System.EventHandler(this.addApptBtn_Click);
             // 
-            // cancelApptBtn
-            // 
-            this.cancelApptBtn.Location = new System.Drawing.Point(362, 500);
-            this.cancelApptBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.cancelApptBtn.Name = "cancelApptBtn";
-            this.cancelApptBtn.Size = new System.Drawing.Size(103, 42);
-            this.cancelApptBtn.TabIndex = 18;
-            this.cancelApptBtn.Text = "Cancel";
-            this.cancelApptBtn.UseVisualStyleBackColor = true;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(175, 506);
-            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(189, 25);
-            this.label10.TabIndex = 19;
-            this.label10.Text = "Cancel Appoitment?";
-            // 
             // titletextBox
             // 
             this.titletextBox.Location = new System.Drawing.Point(154, 50);
@@ -314,7 +292,7 @@
             // 
             // logout
             // 
-            this.logout.Location = new System.Drawing.Point(1243, 13);
+            this.logout.Location = new System.Drawing.Point(1300, 626);
             this.logout.Margin = new System.Windows.Forms.Padding(4);
             this.logout.Name = "logout";
             this.logout.Size = new System.Drawing.Size(103, 48);
@@ -334,7 +312,7 @@
             // labeluser
             // 
             this.labeluser.AutoSize = true;
-            this.labeluser.Location = new System.Drawing.Point(121, 13);
+            this.labeluser.Location = new System.Drawing.Point(169, 13);
             this.labeluser.Name = "labeluser";
             this.labeluser.Size = new System.Drawing.Size(27, 25);
             this.labeluser.TabIndex = 22;
@@ -349,11 +327,32 @@
             this.label1.TabIndex = 23;
             this.label1.Text = "Hello User:";
             // 
+            // mainMenubtn
+            // 
+            this.mainMenubtn.Location = new System.Drawing.Point(1147, 626);
+            this.mainMenubtn.Name = "mainMenubtn";
+            this.mainMenubtn.Size = new System.Drawing.Size(146, 48);
+            this.mainMenubtn.TabIndex = 24;
+            this.mainMenubtn.Text = "Main Page";
+            this.mainMenubtn.UseVisualStyleBackColor = true;
+            this.mainMenubtn.Click += new System.EventHandler(this.mainMenubtn_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(121, 13);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(27, 25);
+            this.label8.TabIndex = 25;
+            this.label8.Text = "id";
+            // 
             // AppoitmentScheduler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1492, 675);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.mainMenubtn);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.labeluser);
             this.Controls.Add(this.labelappt);
@@ -386,8 +385,6 @@
         private System.Windows.Forms.Button exitBtn;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button addApptBtn;
-        private System.Windows.Forms.Button cancelApptBtn;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox titletextBox;
         private System.Windows.Forms.Label tittleLabel;
         private System.Windows.Forms.Label label2;
@@ -408,5 +405,7 @@
         private System.Windows.Forms.Label labelappt;
         private System.Windows.Forms.Label labeluser;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button mainMenubtn;
+        private System.Windows.Forms.Label label8;
     }
 }

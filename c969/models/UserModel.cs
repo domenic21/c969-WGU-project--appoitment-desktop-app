@@ -26,14 +26,12 @@ namespace c969.models
             this.lastUpdateBy = lastUpdateBy;
         }
         //login constructor
-        public UserModel(string userName, string password)
+        public UserModel(string userName)
         {
             this.userName = userName;
-            this.password = password;
-
-
-
         }
+
+
 
 
 

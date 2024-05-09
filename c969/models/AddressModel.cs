@@ -15,16 +15,8 @@ namespace c969.models
       public string postalCode { get; set; }
        public string phone { get; set; }
        
-        public AddressModel(int addressId, string address, int cityId, string postalCode, string phone)
-        {
-            this.addressId = addressId;
-            this.address = address;
-            this.cityId = cityId;
-            this.postalCode = postalCode;
-            this.phone = phone;
-           
-        }
-        
+
+
 
 
 

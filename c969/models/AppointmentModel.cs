@@ -44,5 +44,16 @@ namespace c969.models
             this.appointmentId = appointmentId;
 
         }
+
+        public AppointmentModel(int appointmentId, string  title, string description)
+        {
+            this.appointmentId = appointmentId;
+            this.title = title;
+            this.description = description;
+          
+        }
+
+        
+       
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Forms;
 
+
 namespace c969
 {
     public partial class AppoitmentScheduler : Form
@@ -19,6 +20,10 @@ namespace c969
             this.StartPosition = FormStartPosition.CenterScreen;
             comboBoxappt.DropDownStyle = ComboBoxStyle.DropDownList;
             labeluser.Text =   currentUserId.ToString();
+            
+            UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+            string userName = userDb.GetUserName(currentUserId);
+            label8.Text = userName;
 
         }
 
@@ -258,6 +263,28 @@ namespace c969
                 MessageBox.Show("Please enter only 150 characters.");
                 descriptionText.Text = descriptionText.Text.Remove(descriptionText.Text.Length - 1); // Remove the last character
             }
+        }
+
+        private void mainMenubtn_Click(object sender, EventArgs e)
+        {
+            this.Close();
+          
+            try
+            {
+
+                UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+                string userName = label8.Text;
+                int userId = userDb.GetCurrentID(userName);
+
+
+                MainForm mainForm = new MainForm(userName, userId);
+                mainForm.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+          
         }
     }
 }

@@ -437,7 +437,13 @@ namespace c969
 
         private void modifyApptBtn_Click(object sender, EventArgs e)
         {
-
+           
+           string selectedAppt = listBox.SelectedItem.ToString();
+            // Get the selected appointment 
+            int appointmentId = int.Parse(selectedAppt.Split(' ')[selectedAppt.Split(' ').Length - 1]);
+            
+            ModifyForm modifyForm = new ModifyForm(appointmentId);
+            modifyForm.Show();
         }
 
         private void cancelapptbtn_Click(object sender, EventArgs e)
@@ -475,6 +481,7 @@ namespace c969
             AppoitmentScheduler appoitmentScheduler = new AppoitmentScheduler(currentUserId);
             appoitmentScheduler.Show();
             this.Hide();
+
 
         }
     }
