@@ -3,9 +3,10 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Linq;
+using System.IO;
 using System.Windows.Forms;
+
+
 
 namespace c969
 {
@@ -16,13 +17,19 @@ namespace c969
         {
 
         }
+      
 
 
         public static BindingList<CityModel> multipleChoiceCountry = new BindingList<CityModel>();
         public static BindingList<AppointmentModel> appointmentModels = new BindingList<AppointmentModel>();
         public static BindingList<AppointmentModel> reports = new BindingList<AppointmentModel>();
 
-        public IEnumerable<AppointmentModel> CustomerSchedules { get; internal set; }
+      
+
+        public void InsertAllDummyData()
+        {
+
+        }
 
         public void RegisterUser(UserModel user)
         {
@@ -586,7 +593,7 @@ namespace c969
                     command.Parameters.AddWithValue("@Title", appointment.title);
                     command.Parameters.AddWithValue("@Description", appointment.description);
                     command.Parameters.AddWithValue("@Start", appointment.start);
-                   
+
 
                     // Execute the query
                     int rowsAffected = command.ExecuteNonQuery();
@@ -937,16 +944,54 @@ namespace c969
 
 
 
-        public void GetCustomerSchedules()
+        public void GetType1()
         {
-           
+
 
             try
             {
-                string query = @"SELECT title, appointmentId, userId, start , description
+                string query = @"SELECT type ,start 
                               FROM appointment
                             WHERE userId IS NOT NULL
                                ORDER BY MONTH(start);";
+
+                Connect();
+
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+
+                            DateTime start = reader.GetDateTime("start");
+                            string type = reader.GetString("type");
+
+
+                            AppointmentModel appointmentModel = new AppointmentModel(type, start);
+                            reports.Add(appointmentModel);
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message, "no connection");
+            }
+
+
+        }
+
+        public void GetScheduleForEach()
+        {
+
+
+            try
+            {
+                string query = @"SELECT title,  userId, start , description,appointmentId
+                              FROM appointment
+                            WHERE userId IS NOT NULL
+                              ;";
 
                 Connect();
 
@@ -965,7 +1010,7 @@ namespace c969
 
 
                             AppointmentModel appointmentModel = new AppointmentModel(userId, appointmentId, title, description, start);
-                           reports.Add(appointmentModel);
+                            reports.Add(appointmentModel);
                         }
                     }
                 }
@@ -975,7 +1020,42 @@ namespace c969
                 MessageBox.Show(ex.Message, "no connection");
             }
 
-            
+
+        }
+        public void GetReport3()
+        {
+            try
+            {
+                string query = @"SELECT DATE(start) AS appointment_day, 
+                                   TIME(start) AS appointment_time, 
+                                   appointmentId, 
+                                   COUNT(*) AS appointments_count
+                                FROM appointment
+                                GROUP BY DATE(start), TIME(start), appointmentId;";
+
+                Connect();
+
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            DateTime appointmentDay = reader.GetDateTime("appointment_day");
+                            TimeSpan appointmentTime = reader.GetTimeSpan("appointment_time");
+                            int appointmentId = reader.GetInt32("appointmentId");
+                            int appointmentsCount = reader.GetInt32("appointments_count");
+
+                            AppointmentModel appointmentModel = new AppointmentModel(appointmentDay, appointmentTime, appointmentId, appointmentsCount);
+                            reports.Add(appointmentModel);
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message, "no connection");
+            }
         }
 
     }

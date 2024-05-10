@@ -3,6 +3,7 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
 
 
@@ -42,6 +43,7 @@ namespace c969
             this.StartPosition = FormStartPosition.CenterScreen;
             listBox.ClearSelected();
             LoadAppointments();
+           
 
         }
 
@@ -51,9 +53,25 @@ namespace c969
           
             List<string> formattedAppointments = FormatAppointments(UserDb.appointmentModels);
             listBox.DataSource = formattedAppointments;
+            
+            RemoveDuplicatesFromListBox();
             if (UserDb.appointmentModels.Count == 0)
             {
                 listBox.Text = "No appointments found, you can schedule an appoitment below.";
+            }
+        }
+        private void RemoveDuplicatesFromListBox()
+        {
+            if (listBox.DataSource != null)
+            {
+                // Cast the data source to a list of strings
+                var dataSource = (List<string>)listBox.DataSource;
+
+                // Remove duplicates
+                var distinctItems = dataSource.Distinct().ToList();
+
+                // Update the data source with distinct items
+                listBox.DataSource = distinctItems;
             }
         }
 

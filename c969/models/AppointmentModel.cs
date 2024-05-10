@@ -9,20 +9,37 @@ namespace c969.models
     public class AppointmentModel
     {
         public int appointmentId { get; set; }
-        public int customerId { get; set; }
+       
         public int userId { get; set; }
         public string title { get; set; }
         public string description { get; set; }
         
         public DateTime start { get; set; }
        
-        public DateTime end { get; set; }
-        public DateTime createDate { get; set; }
-        public string createdBy { get; set; }
-        public DateTime lastUpdate { get; set; }
-        public string lastUpdateBy { get; set; }
-        
+       
 
+        public string type { get; set; }
+        public string location { get; set; }
+
+        public DateTime appointmentDay { get; set; }
+        public TimeSpan appointmentTime { get; set; }
+        public int appointmentsCount { get; set; }
+
+
+        public AppointmentModel(string type, DateTime start)
+        {
+            this.type = type;
+            this.start = start;
+        }
+
+        public AppointmentModel(DateTime appointmentDay, TimeSpan appointmentTime,int  appointmentId, int appointmentsCount) 
+        {
+         this.appointmentId = appointmentId;
+            this.appointmentDay = appointmentDay;
+            this.appointmentTime = appointmentTime;
+            this.appointmentsCount = appointmentsCount;
+        
+        }
     
 
 

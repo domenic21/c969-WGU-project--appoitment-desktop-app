@@ -1,7 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Windows.Forms;
 
 namespace c969
@@ -37,12 +37,38 @@ namespace c969
                     button1.Text = "Iniciar sesión";
                     RegisterBtn.Text = "Registrarse";
                     label1.Text = "Nuevo Usuario?";
-                      break;
+                    break;
             }
-            
+
 
 
         }
+        private void LogLogin(string username)
+        {
+            // Get the current timestamp
+            string timestamp = DateTime.Now.ToString();
+
+            // Create the log entry
+            string logEntry = $"User: {username} - Timestamp: {timestamp}";
+
+            string filePath = "..\\..\\Login_History.txt";
+            
+
+            try
+            {
+                // Append the log entry to the login history file
+                using (StreamWriter writer = File.AppendText(filePath))
+                {
+                    writer.WriteLine(logEntry);
+                }
+            }
+            catch (Exception ex)
+            {
+               
+                MessageBox.Show($"Failed to log login: {ex.Message}");
+            }
+        }
+
 
 
         private void RegisterBtn_Click(object sender, EventArgs e)
@@ -80,12 +106,14 @@ namespace c969
                     MainForm mainForm = new MainForm(userName, currentUserId);
                     mainForm.Show();
                     userDb.AlertAppointments(currentUserId, localStartTime);
+                    LogLogin("username");
                 }
-                else if (userName == "admin" && password == "admin") { 
+                else if (userName == "admin" && password == "admin")
+                {
                     this.Hide();
                     ReportsForm reportsForm = new ReportsForm();
                     reportsForm.Show();
-                
+
                 }
                 else
                 {

@@ -267,7 +267,7 @@ namespace c969
 
         private void mainMenubtn_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.Hide();
           
             try
             {
@@ -286,5 +286,6 @@ namespace c969
             }
           
         }
+      
     }
 }

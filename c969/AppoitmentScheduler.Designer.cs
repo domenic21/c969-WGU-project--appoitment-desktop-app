@@ -370,7 +370,7 @@
             this.Controls.Add(this.weekCheckBox);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "AppoitmentScheduler";
-            this.Text = "AppoitmentScheduler";
+            this.Text = "e";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
