@@ -12,15 +12,13 @@ namespace c969
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
-            // Set the current culture to Spanish
-            CultureInfo culture = CultureInfo.CurrentCulture;
+         
+          
 
-            RegionInfo regionInfo = new RegionInfo(culture.Name);
-
-            string countryCode = regionInfo.TwoLetterISORegionName;
+          
 
             // Set the text box language based on the country code
-            switch (countryCode)
+            switch (CultureInfo.CurrentCulture.TwoLetterISOLanguageName)
             {
                 case "US": // English text
                     LoginLabel.Text = "Sign In";
@@ -39,7 +37,8 @@ namespace c969
                     label1.Text = "Nuevo Usuario?";
                     break;
             }
-
+            UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
+            userDb.InsertAllDummyData();
 
 
         }
@@ -66,6 +65,8 @@ namespace c969
             {
                
                 MessageBox.Show($"Failed to log login: {ex.Message}");
+            
+              
             }
         }
 
@@ -82,7 +83,7 @@ namespace c969
         {
             try
             {
-                UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+                UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
                 string userName = UserNametextBox.Text;
                 string password = PasswordtextBox.Text;
                 int currentUserId = userDb.GetCurrentID(userName);
@@ -119,6 +120,10 @@ namespace c969
                 {
                     // If the user login fails, display a message
                     MessageBox.Show("Login Failed, No user found");
+                    if (CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "es")
+                    {
+                        MessageBox.Show("Nombre de usuario y contraseña no coinciden.");
+                    }
                 }
             }
             catch (MySqlException ex)
@@ -126,6 +131,8 @@ namespace c969
                 MessageBox.Show(ex.Message, "no connection login");
             }
         }
+
+      
 
         // Form closing event
         private void loginForm_FormClosing(object sender, FormClosingEventArgs e)

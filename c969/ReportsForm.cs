@@ -33,7 +33,7 @@ namespace c969
             listBox1.Items.Clear();
 
             // Retrieve data and populate ListBox based on Option 1
-            UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+            UserDb userDb =  new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
             userDb.GetType1();
 
             foreach (var appointment in UserDb.reports)
@@ -54,7 +54,7 @@ namespace c969
             listBox1.Items.Clear();
 
             // Retrieve data and populate ListBox based on Option 1
-            UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+            UserDb userDb =  new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
             userDb.GetScheduleForEach();
 
             foreach (var appointment in UserDb.reports)
@@ -72,7 +72,7 @@ namespace c969
             listBox1.Items.Clear();
 
             // Retrieve data and populate ListBox based on Option 1
-            UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+            UserDb userDb =  new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
             userDb.GetReport3();
 
             foreach (var appointment in UserDb.reports)
@@ -133,6 +133,8 @@ namespace c969
             }
         }
         // LAMBDA EXPRESSION// FUNCTION INCORPORATED IN EACH REPORT OPTION TO AVOID DUPLICATES
+        //chose to user lambda expression to avoid creating a new function for each report option 
+        //to remove duplicates, better to user lambda expression to avoid code duplication and make the code more readable
         private void RemoveDuplicatesFromListBox()
         {
             var distinctItems = listBox1.Items.Cast<string>().Distinct().ToList();

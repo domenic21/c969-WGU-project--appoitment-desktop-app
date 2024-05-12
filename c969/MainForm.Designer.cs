@@ -380,6 +380,7 @@
             this.listBox.Name = "listBox";
             this.listBox.Size = new System.Drawing.Size(530, 124);
             this.listBox.TabIndex = 25;
+           
             // 
             // modifyApptBtn
             // 

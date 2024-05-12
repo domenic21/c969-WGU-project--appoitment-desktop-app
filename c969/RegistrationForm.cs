@@ -29,7 +29,7 @@ namespace c969
         {
             try
             {
-                UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+                UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
                  int userId = GenerateID();
 
                

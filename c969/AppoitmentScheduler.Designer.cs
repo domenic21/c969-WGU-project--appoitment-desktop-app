@@ -350,7 +350,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1492, 675);
+            this.ClientSize = new System.Drawing.Size(1480, 675);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.mainMenubtn);
             this.Controls.Add(this.label1);
@@ -371,6 +371,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "AppoitmentScheduler";
             this.Text = "e";
+            this.Load += new System.EventHandler(this.AppoitmentScheduler_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

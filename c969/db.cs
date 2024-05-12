@@ -11,9 +11,9 @@ namespace c969
     {
         private string _connectionString; //the _ prefix is a common naming convention for private fields
         protected MySqlConnection _connection;
-        public db(string server, string db, string user, string password)
+        public db(string server, string port,string db, string user, string password)
         {
-            _connectionString = $"Data source={server}; Initial Catalog ={db};"+
+            _connectionString = $"Data source={server}; Port={port};Initial Catalog ={db};"+
                 $"User={user}; Password ={password}";
         }
         public void Connect() //creates the object to open the connection

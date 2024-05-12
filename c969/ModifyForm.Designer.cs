@@ -35,11 +35,12 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.deleteApptBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // SaveBtn
             // 
-            this.SaveBtn.Location = new System.Drawing.Point(209, 371);
+            this.SaveBtn.Location = new System.Drawing.Point(280, 369);
             this.SaveBtn.Name = "SaveBtn";
             this.SaveBtn.Size = new System.Drawing.Size(133, 43);
             this.SaveBtn.TabIndex = 1;
@@ -49,7 +50,7 @@
             // 
             // cancelBtn
             // 
-            this.cancelBtn.Location = new System.Drawing.Point(12, 371);
+            this.cancelBtn.Location = new System.Drawing.Point(252, 427);
             this.cancelBtn.Name = "cancelBtn";
             this.cancelBtn.Size = new System.Drawing.Size(161, 43);
             this.cancelBtn.TabIndex = 2;
@@ -100,11 +101,22 @@
             this.label1.TabIndex = 7;
             this.label1.Visible = false;
             // 
+            // deleteApptBtn
+            // 
+            this.deleteApptBtn.Location = new System.Drawing.Point(49, 369);
+            this.deleteApptBtn.Name = "deleteApptBtn";
+            this.deleteApptBtn.Size = new System.Drawing.Size(201, 43);
+            this.deleteApptBtn.TabIndex = 8;
+            this.deleteApptBtn.Text = "Delete Appointment";
+            this.deleteApptBtn.UseVisualStyleBackColor = true;
+            this.deleteApptBtn.Click += new System.EventHandler(this.deleteApptBtn_Click);
+            // 
             // ModifyForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(425, 482);
+            this.Controls.Add(this.deleteApptBtn);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.textBox1);
@@ -128,5 +140,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button deleteApptBtn;
     }
 }

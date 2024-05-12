@@ -20,10 +20,18 @@ namespace c969
             this.StartPosition = FormStartPosition.CenterScreen;
             comboBoxappt.DropDownStyle = ComboBoxStyle.DropDownList;
             labeluser.Text =   currentUserId.ToString();
-            
-            UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+
+            UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
             string userName = userDb.GetUserName(currentUserId);
             label8.Text = userName;
+            monthCalendar1.MaxSelectionCount = 1;
+            textBoxcount.ReadOnly = true;
+            apptOrderLabel.ReadOnly = true;
+            datetextbox.ReadOnly = true;
+            timetextBox.ReadOnly = true;
+            this.Size = new System.Drawing.Size(1528, 739);
+
+
 
         }
 
@@ -37,7 +45,7 @@ namespace c969
             DateTime selectedDate = monthCalendar1.SelectionStart;
             string formattedDate = selectedDate.ToString("yyyy-MM-dd"); // Format the date
 
-            UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+            UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
             List<AppointmentModel> appointments = userDb.SearchAppt(formattedDate);
 
 
@@ -104,7 +112,7 @@ namespace c969
         private void Month_CheckedChanged(object sender, EventArgs e)
         {
             int month = monthCalendar1.SelectionStart.Month;
-            UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+            UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
 
             List<AppointmentModel> appointments = userDb.FilterAppointmentsByMonth(month);
             // unchecked after each request 
@@ -174,7 +182,7 @@ namespace c969
             DateTime selectedDate = monthCalendar1.SelectionStart;
             string formattedDate = selectedDate.ToString("yyyy-MM-dd"); // Format the date
 
-            UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+            UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
             List<AppointmentModel> appointments = userDb.FilterAppointmentsByWeek(formattedDate);
 
 
@@ -207,7 +215,7 @@ namespace c969
             {
 
                 // select insert appointment into the db
-                UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+                UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
 
                 if (string.IsNullOrEmpty(titletextBox.Text) || string.IsNullOrEmpty(descriptionText.Text))
                 {
@@ -272,7 +280,7 @@ namespace c969
             try
             {
 
-                UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+                UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
                 string userName = label8.Text;
                 int userId = userDb.GetCurrentID(userName);
 
@@ -286,6 +294,10 @@ namespace c969
             }
           
         }
-      
+
+        private void AppoitmentScheduler_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

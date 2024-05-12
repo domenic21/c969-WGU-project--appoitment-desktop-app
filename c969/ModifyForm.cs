@@ -13,7 +13,7 @@ namespace c969
         public ModifyForm( int appointmentId)
         {
             InitializeComponent();
-            UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+            UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
 
             userDb.GetAppoitmentsInfo( appointmentId);
             LoadAppointments();
@@ -57,7 +57,7 @@ namespace c969
              string description = richTextBox1.Text.ToString();
             string title = textBox1.Text.ToString();
             int appointmentId = int.Parse(label1.Text);
-            UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+                UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
                 userDb.UpdateAppointment(appointmentId, description, title);
                 MessageBox.Show("Appointment Updated");
                this.Close();
@@ -67,6 +67,24 @@ namespace c969
                 MessageBox.Show("Error: " + ex.Message);
             }
           
+        }
+
+        private void deleteApptBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string description = richTextBox1.Text.ToString();
+                string title = textBox1.Text.ToString();
+                int appointmentId = int.Parse(label1.Text);
+                UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
+                userDb.DeleteAppointment(appointmentId);
+                MessageBox.Show("Appointment Deleted");
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
     }
 }

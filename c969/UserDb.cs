@@ -1,10 +1,13 @@
 ﻿using c969.models;
+using Google.Protobuf.WellKnownTypes;
 using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
+
 using System.Windows.Forms;
+using static Google.Protobuf.Reflection.SourceCodeInfo.Types;
 
 
 
@@ -12,23 +15,77 @@ namespace c969
 {
     public class UserDb : db
     {
-        public UserDb(string server, string db, string user, string password)
-            : base(server, db, user, password)
+        public UserDb(string server, string port, string db, string user, string password)
+            : base(server, port, db, user, password)
         {
 
         }
-      
+
 
 
         public static BindingList<CityModel> multipleChoiceCountry = new BindingList<CityModel>();
         public static BindingList<AppointmentModel> appointmentModels = new BindingList<AppointmentModel>();
         public static BindingList<AppointmentModel> reports = new BindingList<AppointmentModel>();
 
-      
+
 
         public void InsertAllDummyData()
         {
+            try
+            {
+                Connect();
+  
+                string query = @"UPDATE appointment
+                  SET start = DATE_ADD(NOW(), INTERVAL 10 MINUTE)
+                  WHERE appointmentId = 1;";
 
+                string query1 = @"INSERT IGNORE INTO `client_schedule`.`appointment` (
+                  `appointmentId`,  `title`, `description`, `location`, `contact`, `type`, 
+                   `url`, `start`,  `end`,  `createDate`,  `createdBy`, `lastUpdate`, 
+                    `lastUpdateBy` ) VALUES 
+                  (2, 1, 1, 'Appointment Title', 'Appointment Description', 'Location', 'Contact Info', 'test', 'http://example.com', '2024-06-10 09:00:00', '2024-06-10 10:00:00', NOW(), 'System', NOW(), 'System'),
+                  (3, 1, 1, 'Appointment Title', 'Appointment Description', 'Location', 'Contact Info', 'test', 'http://example.com', '2024-05-11 12:00:00', '2024-05-11 13:00:00', NOW(), 'System', NOW(), 'System'),
+                  (4, 1, 1, 'Appointment Title', 'Appointment Description', 'Location', 'Contact Info', 'test', 'http://example.com', '2024-05-15 09:00:00', '2024-05-15 10:00:00', NOW(), 'System', NOW(), 'System'),
+                       ;";
+                string query2 = @"ALTER TABLE `client_schedule`.`appointment`
+                 DROP FOREIGN KEY `appointment_ibfk_1`,
+                 DROP FOREIGN KEY `appointment_ibfk_2`;
+
+                 ALTER TABLE `client_schedule`.`appointment`
+                 CHANGE COLUMN `customerId` `customerId` INT NULL,
+                 CHANGE COLUMN `userId` `userId` INT NULL;
+
+                  ALTER TABLE `client_schedule`.`appointment`
+                ADD CONSTRAINT `appointment_ibfk_1`
+                  FOREIGN KEY (`customerId`) REFERENCES `client_schedule`.`customer` (`customerId`),
+                    ADD CONSTRAINT `appointment_ibfk_2`
+                 FOREIGN KEY (`userId`) REFERENCES `client_schedule`.`user` (`userId`);
+                             ";
+
+
+
+
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+                using (MySqlCommand command = new MySqlCommand(query2, _connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+
+
+                using (MySqlCommand command = new MySqlCommand(query1, _connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message, "no connection");
+            }
         }
 
         public void RegisterUser(UserModel user)
@@ -36,7 +93,7 @@ namespace c969
             try
             {
                 Connect();
-                string query = "INSERT INTO `c968_db`.`user`(userId,userName, password, active, createDate, createdBy, lastUpdate, lastUpdateBy)" +
+                string query = "INSERT INTO `client_schedule`.`user`(userId,userName, password, active, createDate, createdBy, lastUpdate, lastUpdateBy)" +
                 "VALUES (@UserId,@UserName, @Password, @Active, @CreateDate, @CreatedBy, @LastUpdate, @LastUpdateBy)";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
@@ -55,7 +112,7 @@ namespace c969
                     int rowsAffected = command.ExecuteNonQuery();
 
 
-                    string insertQueryCustomer = @"INSERT INTO `c968_db`.`customer` (customerId, customerName) VALUES (@CustomerId,@customerName)";
+                    string insertQueryCustomer = @"INSERT INTO `client_schedule`.`customer` (customerId, customerName) VALUES (@CustomerId,@customerName)";
                     using (MySqlCommand insertCommand = new MySqlCommand(insertQueryCustomer, _connection))
                     {
                         insertCommand.Parameters.AddWithValue("@CustomerId", user.userId); // Assuming customerId is the same as UserId
@@ -80,13 +137,13 @@ namespace c969
             {
                 Connect();
 
-                string insertQueryCustomer = @"UPDATE `c968_db`.`customer`
+                string insertQueryCustomer = @"UPDATE `client_schedule`.`customer`
                         SET `customerName` = @UserName,
                        `addressId` = @addressId
                           WHERE `customerId` = @CustomerId;";
 
 
-                string addressInsert = $"INSERT INTO `c968_db`.`address`(addressId, address,  postalCode, phone) " +
+                string addressInsert = $"INSERT INTO `client_schedule`.`address`(addressId, address,  postalCode, phone) " +
                     $"VALUES (@addressId, @address, @postalCode, @phone)";
 
                 using (MySqlCommand command = new MySqlCommand(addressInsert, _connection))
@@ -132,7 +189,7 @@ namespace c969
             try
             {
                 Connect();
-                string Query = @"UPDATE `c968_db`.`address` SET `cityId` = @cityId WHERE (`addressId` = @addressId);";
+                string Query = @"UPDATE `client_schedule`.`address` SET `cityId` = @cityId WHERE (`addressId` = @addressId);";
 
                 using (MySqlCommand command = new MySqlCommand(Query, _connection))
                 {
@@ -160,7 +217,7 @@ namespace c969
             try
             {
                 Connect();
-                string Query = @"UPDATE `c968_db`.`city` SET `countryId` = @countryId WHERE (`cityId` = @cityId);";
+                string Query = @"UPDATE `client_schedule`.`city` SET `countryId` = @countryId WHERE (`cityId` = @cityId);";
 
                 using (MySqlCommand command = new MySqlCommand(Query, _connection))
                 {
@@ -182,7 +239,7 @@ namespace c969
             try
             {
                 Connect();
-                string query = "SELECT * FROM `c968_db`.`user` WHERE userName = @UserName AND password = @Password";
+                string query = "SELECT * FROM `client_schedule`.`user` WHERE userName = @UserName AND password = @Password";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -318,7 +375,7 @@ namespace c969
                 Connect();
 
                 // Retrieve the  addressId for the user
-                string getAddressIdQuery = "SELECT addressId FROM `c968_db`.`customer` WHERE customerId = @CustomerId";
+                string getAddressIdQuery = "SELECT addressId FROM `client_schedule`.`customer` WHERE customerId = @CustomerId";
                 int addressId = 0;
 
                 using (MySqlCommand getAddressIdCommand = new MySqlCommand(getAddressIdQuery, _connection))
@@ -399,7 +456,7 @@ namespace c969
             try
             {
                 Connect();
-                string query = "SELECT userId FROM `c968_db`.`user` WHERE userName = @UserName";
+                string query = "SELECT userId FROM `client_schedule`.`user` WHERE userName = @UserName";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -429,7 +486,7 @@ namespace c969
             try
             {
                 Connect();
-                string query = @"DELETE FROM `c968_db`.`user` WHERE (`userId` = @userId);";
+                string query = @"DELETE FROM `client_schedule`.`user` WHERE (`userId` = @userId);";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -479,7 +536,7 @@ namespace c969
             try
             {
                 Connect();
-                string query = "SELECT addressId FROM `c968_db`.`customer` WHERE customerId = @CustomerId";
+                string query = "SELECT addressId FROM `client_schedule`.`customer` WHERE customerId = @CustomerId";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -515,7 +572,7 @@ namespace c969
             try
             {
                 Connect();
-                string query = "SELECT cityId FROM `c968_db`.`city` WHERE city = @City";
+                string query = "SELECT cityId FROM `client_schedule`.`city` WHERE city = @City";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -547,7 +604,7 @@ namespace c969
             {
                 Connect();
 
-                string getCountryId = "SELECT countryId FROM `c968_db`.`city` WHERE city = @City";
+                string getCountryId = "SELECT countryId FROM `client_schedule`.`city` WHERE city = @City";
 
 
 
@@ -581,8 +638,8 @@ namespace c969
             {
                 Connect();
                 // int appointmentId = ;
-                string query = @"UPDATE `c968_db`.`appointment` SET `userId` = @CustomerId, `customerId` = @customerId ,`title` = @Title,
-                         `description` = @Description, `start` = @Start
+                string query = @"UPDATE `client_schedule`.`appointment` SET `userId` = @CustomerId ,`customerId` = @CustomerId ,`title` = @Title,
+                         `description` = @Description
                         WHERE (`appointmentId` = @AppointmentId);";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
@@ -592,7 +649,7 @@ namespace c969
                     command.Parameters.AddWithValue("@CustomerId", appointment.userId);
                     command.Parameters.AddWithValue("@Title", appointment.title);
                     command.Parameters.AddWithValue("@Description", appointment.description);
-                    command.Parameters.AddWithValue("@Start", appointment.start);
+                    
 
 
                     // Execute the query
@@ -615,7 +672,7 @@ namespace c969
             try
             {
                 Connect();
-                string query = @"SELECT appointmentId, title, description, start FROM `c968_db`.`appointment` WHERE customerId = @CustomerId";
+                string query = @"SELECT appointmentId, title, description, start FROM `client_schedule`.`appointment` WHERE customerId = @CustomerId";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -795,7 +852,7 @@ namespace c969
             try
             {
                 Connect();
-                string query = @"UPDATE `c968_db`.`appointment` SET `customerId` = null, `userId` = null  WHERE (`appointmentId` = @appointmentId);";
+                string query = @"UPDATE `client_schedule`.`appointment` SET `customerId` = null, `userId` = null  WHERE (`appointmentId` = @appointmentId);";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -819,7 +876,7 @@ namespace c969
             try
             {
                 Connect();
-                string query = @"UPDATE `c968_db`.`appointment` SET   `title` = @Title, `description` = @Description WHERE (`appointmentId` = @AppointmentId);";
+                string query = @"UPDATE `client_schedule`.`appointment` SET   `title` = @Title, `description` = @Description WHERE (`appointmentId` = @AppointmentId);";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -842,6 +899,7 @@ namespace c969
                 MessageBox.Show(ex.Message, "no connection");
             }
         }
+        
 
         // get appointment info
 
@@ -850,7 +908,7 @@ namespace c969
             try
             {
                 Connect();
-                string query = @"SELECT  title, description FROM `c968_db`.`appointment` WHERE appointmentId =  @appointmentId";
+                string query = @"SELECT  title, description FROM `client_schedule`.`appointment` WHERE appointmentId =  @appointmentId";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -883,7 +941,7 @@ namespace c969
             try
             {
                 Connect();
-                string query = "SELECT userName FROM `c968_db`.`user` WHERE userId = @UserId";
+                string query = "SELECT userName FROM `client_schedule`.`user` WHERE userId = @UserId";
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
                     command.Parameters.AddWithValue("@UserId", userId);
@@ -1057,6 +1115,8 @@ namespace c969
                 MessageBox.Show(ex.Message, "no connection");
             }
         }
+
+
 
     }
 }

@@ -29,7 +29,7 @@ namespace c969
             labeluserId.Text = currentUserId.ToString();// Set the label to the username
             //InitializeFormData(currentUserId, username);// Initialize the form data
             DeactivateTextBoxes();// Deactivate the text boxes
-            UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+            UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
             userDb.RetrieveCountryCity();// Populate the ComboBox with multiple-choice options
             countryBox.DataSource = UserDb.multipleChoiceCountry;
             cityBox.DataSource = UserDb.multipleChoiceCountry;///connects to the list of countries
@@ -80,8 +80,15 @@ namespace c969
             List<string> formattedAppointments = new List<string>();
             foreach (var appointment in appointments)
             {
-                string formattedAppointment = $"Your appointment is at : {appointment.start} {appointment.appointmentId}";
+                TimeZoneInfo userTimeZone = TimeZoneInfo.Local; // Get the user's time zone
+
+                string formattedAppointment = $"Your appointment is at : " +
+                
+                     TimeZoneInfo.ConvertTime(appointment.start, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), userTimeZone) +
+                $"{appointment.appointmentId}";
                 formattedAppointments.Add(formattedAppointment);
+                listBox.Refresh();
+                RemoveDuplicatesFromListBox();
             }
             return formattedAppointments;
         }
@@ -94,7 +101,7 @@ namespace c969
         {
             try
             {
-                UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+                UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
 
                 UserInfo userInfo = userDb.UserInformation(currentUserId);
 
@@ -184,7 +191,7 @@ namespace c969
             try
             {
 
-                UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+                UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
 
                 UserInfo userInfo = userDb.UserInformation(currentUserId);
                 //get userId to customer for updates functionality
@@ -271,7 +278,7 @@ namespace c969
         {
             try
             {
-                UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+                UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
 
                 UserInfo userInfo = userDb.UserInformation(currentUserId);
                 //get userId to customer for updates functionality
@@ -352,7 +359,7 @@ namespace c969
         {
             try
             {
-                UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+                UserDb userDb =  new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
 
                 userDb.DeleteProfileInfo(currentUserId);
                 MessageBox.Show("Profile information deleted successfully" + MessageBoxButtons.OK);
@@ -412,7 +419,7 @@ namespace c969
 
             try
             {
-                UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+                UserDb userDb =  new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
                 userDb.DeleteUser(currentUserId);
                 MessageBox.Show("Profile information deleted successfully" + MessageBoxButtons.OK);
                 loginForm loginForm = new loginForm();
@@ -455,44 +462,60 @@ namespace c969
 
         private void modifyApptBtn_Click(object sender, EventArgs e)
         {
+           if (listBox.SelectedItem != null)
+            {
+                string selectedAppt = listBox.SelectedItem.ToString();
+                // Get the selected appointment 
+                int appointmentId = int.Parse(selectedAppt.Split(' ')[selectedAppt.Split(' ').Length - 1]);
+
+                ModifyForm modifyForm = new ModifyForm(appointmentId);
+                modifyForm.Show();
+
+                return;
+           }
+           else
+            {
+               modifyApptBtn.Enabled = false;
+            }
            
-           string selectedAppt = listBox.SelectedItem.ToString();
-            // Get the selected appointment 
-            int appointmentId = int.Parse(selectedAppt.Split(' ')[selectedAppt.Split(' ').Length - 1]);
-            
-            ModifyForm modifyForm = new ModifyForm(appointmentId);
-            modifyForm.Show();
         }
 
         private void cancelapptbtn_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Are you sure you want to cancel this appointment?", "Confirmation", MessageBoxButtons.YesNo);
 
-            // Check if the user clicked Yes in the message box
-            if (result == DialogResult.Yes)
+            if (listBox.SelectedItem != null)
             {
-                // Get the selected appointment
-                string selectedAppointment = listBox.SelectedItem.ToString(); // Get the selected appointment
-                string[] appointmentParts = selectedAppointment.Split(' '); // Split the appointment string by spaces to get the appointment id
-                int appointmentId = int.Parse(appointmentParts[appointmentParts.Length - 1]); // Get the last part of the appointment id
+                DialogResult result = MessageBox.Show("Are you sure you want to cancel this appointment?", "Confirmation", MessageBoxButtons.YesNo);
 
-                UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
-                userDb.DeleteAppointment(appointmentId);
-                MessageBox.Show("Appointment canceled successfully");
-                this.listBox.Refresh();
-                ReloadAppointments();
-               
+                // Check if the user clicked Yes in the message box
+                if (result == DialogResult.Yes)
+                {
+                    // Get the selected appointment
+                    string selectedAppointment = listBox.SelectedItem.ToString(); // Get the selected appointment
+                    string[] appointmentParts = selectedAppointment.Split(' '); // Split the appointment string by spaces to get the appointment id
+                    int appointmentId = int.Parse(appointmentParts[appointmentParts.Length - 1]); // Get the last part of the appointment id
+
+                    UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
+                    userDb.DeleteAppointment(appointmentId);
+                    MessageBox.Show("Appointment canceled successfully");
+                    this.Refresh();
+                    ReloadAppointments();
 
 
-            }
-            else
-            {
+
+                }
+                else
+                {
+                    return;
+                }
+
                 return;
             }
+            
         }
         private void ReloadAppointments()
         {
-            UserDb userDb = new UserDb(@"localhost", "c968_db", "root", "Strenght21$");
+            UserDb userDb =  new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
             userDb.GetAppoitments(currentUserId);
             LoadAppointments();
             this.Refresh();
@@ -502,6 +525,7 @@ namespace c969
 
 
         }
+
     }
 
 
