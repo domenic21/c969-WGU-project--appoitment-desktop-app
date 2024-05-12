@@ -5,9 +5,9 @@ using Mysqlx.Crud;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-
+using System.Globalization;
 using System.Windows.Forms;
-using static Google.Protobuf.Reflection.SourceCodeInfo.Types;
+
 
 
 
@@ -40,28 +40,24 @@ namespace c969
                   WHERE appointmentId = 1;";
 
                 string query1 = @"INSERT IGNORE INTO `client_schedule`.`appointment` (
-                  `appointmentId`,  `title`, `description`, `location`, `contact`, `type`, 
-                   `url`, `start`,  `end`,  `createDate`,  `createdBy`, `lastUpdate`, 
-                    `lastUpdateBy` ) VALUES 
-                  (2, 1, 1, 'Appointment Title', 'Appointment Description', 'Location', 'Contact Info', 'test', 'http://example.com', '2024-06-10 09:00:00', '2024-06-10 10:00:00', NOW(), 'System', NOW(), 'System'),
-                  (3, 1, 1, 'Appointment Title', 'Appointment Description', 'Location', 'Contact Info', 'test', 'http://example.com', '2024-05-11 12:00:00', '2024-05-11 13:00:00', NOW(), 'System', NOW(), 'System'),
-                  (4, 1, 1, 'Appointment Title', 'Appointment Description', 'Location', 'Contact Info', 'test', 'http://example.com', '2024-05-15 09:00:00', '2024-05-15 10:00:00', NOW(), 'System', NOW(), 'System'),
-                       ;";
-                string query2 = @"ALTER TABLE `client_schedule`.`appointment`
-                 DROP FOREIGN KEY `appointment_ibfk_1`,
-                 DROP FOREIGN KEY `appointment_ibfk_2`;
+                   `appointmentId`, `description`, 
+                  `start`, `end`, `createDate`, `createdBy`, `lastUpdate`, 
+                   `lastUpdateBy` ) VALUES 
+                   (3, 'Appointment Description', '2024-06-10 09:00:00', '2024-06-10 10:00:00', NOW(), 'System', NOW(), 'System'),
+                  (4, 'Appointment Description', '2024-05-13 12:00:00', '2024-05-13 13:00:00', NOW(), 'System', NOW(), 'System'), 
+                   (5, 'Appointment Description', '2024-05-20 09:00:00', '2024-05-20 10:00:00', NOW(), 'System', NOW(), 'System'),
+                 (6, 'Appointment Description', '2024-05-23 13:00:00', '2024-05-20 10:00:00', NOW(), 'System', NOW(), 'System'),
+                 (7, 'Appointment Description', '2024-05-25 09:00:00', '2024-05-20 10:00:00', NOW(), 'System', NOW(), 'System'),
+                    (8, 'Appointment Description', '2024-05-30 10:00:00', '2024-05-20 10:00:00', NOW(), 'System', NOW(), 'System'),
+                    (9, 'Appointment Description', '2024-05-27 15:00:00', '2024-05-20 10:00:00', NOW(), 'System', NOW(), 'System')
+                     
+                      ;
+                    ";
+                string query4 = @"ALTER TABLE `client_schedule`.`appointment`
+                                     CHANGE COLUMN `customerId` `customerId` INT NULL,
+                                     CHANGE COLUMN `userId` `userId` INT NULL;
 
-                 ALTER TABLE `client_schedule`.`appointment`
-                 CHANGE COLUMN `customerId` `customerId` INT NULL,
-                 CHANGE COLUMN `userId` `userId` INT NULL;
-
-                  ALTER TABLE `client_schedule`.`appointment`
-                ADD CONSTRAINT `appointment_ibfk_1`
-                  FOREIGN KEY (`customerId`) REFERENCES `client_schedule`.`customer` (`customerId`),
-                    ADD CONSTRAINT `appointment_ibfk_2`
-                 FOREIGN KEY (`userId`) REFERENCES `client_schedule`.`user` (`userId`);
-                             ";
-
+                                    ;";
 
 
 
@@ -69,22 +65,22 @@ namespace c969
                 {
                     command.ExecuteNonQuery();
                 }
-                using (MySqlCommand command = new MySqlCommand(query2, _connection))
+               using (MySqlCommand command = new MySqlCommand(query4, _connection))
                 {
                     command.ExecuteNonQuery();
                 }
-
-
-
                 using (MySqlCommand command = new MySqlCommand(query1, _connection))
                 {
                     command.ExecuteNonQuery();
                 }
 
+
+
+
             }
             catch (MySqlException ex)
             {
-                MessageBox.Show(ex.Message, "no connection");
+                MessageBox.Show(ex.Message, "no connection queries");
             }
         }
 

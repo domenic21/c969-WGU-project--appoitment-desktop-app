@@ -29,7 +29,7 @@ namespace c969
             apptOrderLabel.ReadOnly = true;
             datetextbox.ReadOnly = true;
             timetextBox.ReadOnly = true;
-            this.Size = new System.Drawing.Size(1528, 739);
+            this.Size = new System.Drawing.Size(850, 550);
 
 
 
