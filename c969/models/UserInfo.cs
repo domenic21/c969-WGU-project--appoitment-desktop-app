@@ -1,4 +1,6 @@
-﻿namespace c969.models
+﻿using System;
+
+namespace c969.models
 {
     public class UserInfo
     {
@@ -32,6 +34,20 @@
             this.postalCode = postalCode;
             this.phone = phone;
          
+            this.customerId = customerId;
+
+
+        }
+        public UserInfo(int userId, string UserName, int customerId,int addressId, string address, int postalCode, string phone, int cityId)
+
+        {
+            this.UserId = userId;
+            this.UserName = UserName;
+            this.address = address;
+            this.cityId = cityId;
+            this.postalCode = postalCode;
+            this.phone = phone;
+            this.addressId = addressId;
             this.customerId = customerId;
 
 
@@ -75,5 +91,6 @@
             this.country = country;
             
         }
+
     }
 }

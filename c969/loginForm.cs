@@ -26,15 +26,15 @@ namespace c969
                     label3.Text = "Password";
                     button1.Text = "Login";
                     RegisterBtn.Text = "Register";
-                    label1.Text = "New User?";
+                  
                     break;
                 case "ES":// Spanish text
                     LoginLabel.Text = "Inicio de Sesion";
                     UserLabel.Text = "Usuario";
                     label3.Text = "Contraseña";
                     button1.Text = "Iniciar sesión";
-                    RegisterBtn.Text = "Registrarse";
-                    label1.Text = "Nuevo Usuario?";
+                    RegisterBtn.Text = "Registrar Nuevo Usuario";
+                  
                     break;
             }
             UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");

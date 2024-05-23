@@ -295,9 +295,6 @@ namespace c969
           
         }
 
-        private void AppoitmentScheduler_Load(object sender, EventArgs e)
-        {
-
-        }
+    
     }
 }

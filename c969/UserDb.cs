@@ -1,11 +1,9 @@
 ﻿using c969.models;
-using Google.Protobuf.WellKnownTypes;
 using MySql.Data.MySqlClient;
-using Mysqlx.Crud;
+using Org.BouncyCastle.Asn1.Cms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
 using System.Windows.Forms;
 
 
@@ -34,7 +32,7 @@ namespace c969
             try
             {
                 Connect();
-  
+
                 string query = @"UPDATE appointment
                   SET start = DATE_ADD(NOW(), INTERVAL 10 MINUTE)
                   WHERE appointmentId = 1;";
@@ -58,18 +56,24 @@ namespace c969
                                      CHANGE COLUMN `userId` `userId` INT NULL;
 
                                     ;";
-
+                string query5 = @"INSERT IGNORE INTO appointment (appointmentId, customerId, userId, title, description)
+                             VALUES (1, 1, 1, 'test', 'test');
+                           ";
 
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
                     command.ExecuteNonQuery();
                 }
-               using (MySqlCommand command = new MySqlCommand(query4, _connection))
+                using (MySqlCommand command = new MySqlCommand(query4, _connection))
                 {
                     command.ExecuteNonQuery();
                 }
                 using (MySqlCommand command = new MySqlCommand(query1, _connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+                using (MySqlCommand command = new MySqlCommand(query5, _connection))
                 {
                     command.ExecuteNonQuery();
                 }
@@ -91,6 +95,7 @@ namespace c969
                 Connect();
                 string query = "INSERT INTO `client_schedule`.`user`(userId,userName, password, active, createDate, createdBy, lastUpdate, lastUpdateBy)" +
                 "VALUES (@UserId,@UserName, @Password, @Active, @CreateDate, @CreatedBy, @LastUpdate, @LastUpdateBy)";
+
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -645,7 +650,7 @@ namespace c969
                     command.Parameters.AddWithValue("@CustomerId", appointment.userId);
                     command.Parameters.AddWithValue("@Title", appointment.title);
                     command.Parameters.AddWithValue("@Description", appointment.description);
-                    
+
 
 
                     // Execute the query
@@ -745,6 +750,43 @@ namespace c969
             return appointments;
         }
 
+        public List<AppointmentModel> SearchApptAll()
+        {
+            // Create a list to store the retrieved data
+            List<AppointmentModel> appointments = new List<AppointmentModel>();
+
+            try
+            {
+                Connect();
+
+                string query = @"SELECT appointmentId, start FROM appointment
+                                 WHERE userId IS NULL";
+
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int appointmentId = reader.GetInt32("appointmentId");
+                            DateTime start = reader.GetDateTime("start");
+
+                            AppointmentModel appointmentModel = new AppointmentModel(start, appointmentId);
+                            appointments.Add(appointmentModel);
+                        }
+                    }
+                }
+
+                Disconnect();
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message, "No connection");
+            }
+
+            // Return the list containing the retrieved data
+            return appointments;
+        }
 
 
 
@@ -895,7 +937,7 @@ namespace c969
                 MessageBox.Show(ex.Message, "no connection");
             }
         }
-        
+
 
         // get appointment info
 
@@ -1112,8 +1154,72 @@ namespace c969
             }
         }
 
+        public void UpdateTimeAppt(int appointmentId, string time)
+        {
+            try
+            {
+  
+                string query = @"
+                    UPDATE appointment
+                    SET start = CONCAT(DATE(start), ' ', @time)
+                    WHERE appointmentId = @appointmentId;";
+
+                Connect();
+
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    command.Parameters.AddWithValue("@appointmentId", appointmentId);
+                    command.Parameters.AddWithValue("@time", time);
+                    command.ExecuteNonQuery();
+                }
+
+                Disconnect();
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("An error occurred while updating the appointment time.", "Error" + ex.Code + ex.Message);
+            }
+        }
+
+        public DateTime GetAppointmentTime(int appointmentId)
+        {
+
+            try
+            {
+                /*string query = @"SELECT DATE_FORMAT(start, '%H:%i') AS start
+                           FROM appointment
+                                WHERE appointmentId = @appointmentId; 
+                                 ";*/
+                string query = @"SELECT start
+                           FROM appointment
+                                WHERE appointmentId = @appointmentId; 
+                                 ";
+
+                Connect();
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    command.Parameters.AddWithValue("@appointmentId", appointmentId);
 
 
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // Retrieve the formatted time as a string
+                            return reader.GetDateTime("start");
+                            
+                        }
+                    }
+                }
+            }
+
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message, "no connection");
+            }
+
+            return DateTime.MinValue;// Return the default value if no appointment time is found
+        }
     }
 }
 

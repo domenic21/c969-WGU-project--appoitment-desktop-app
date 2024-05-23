@@ -70,6 +70,12 @@ namespace c969.models
           
         }
 
+        public AppointmentModel(  DateTime start)
+        {
+        
+     
+            this.start = start;
+        }   
         
        
     }
