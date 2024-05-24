@@ -9,9 +9,9 @@ namespace c969
 {
     public partial class ModifyForm : Form
     {
+        
 
-
-        public ModifyForm(int appointmentId, string time)
+        public ModifyForm(int appointmentId, string time, int userId)
         {
             InitializeComponent();
             UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
@@ -19,36 +19,19 @@ namespace c969
             timeMinusBtn.Visible = false;
             apptOrderLabel.Text = appointmentId.ToString();
             Timelabel.Visible = false;
-
+            userIdLabel.Text = userId.ToString();
 
             TimeZoneInfo userTimeZone = TimeZoneInfo.Local; // Get the user's time zone
             DateTime localStartTime = TimeZoneInfo.ConvertTime(DateTime.Parse(time), TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), userTimeZone);
             Timelabel.Text = localStartTime.ToString("HH:mm:ss");
             userDb.GetAppoitmentsInfo(appointmentId);
-            LoadAppointments();
+   
 
-
-        }
-        private void LoadAppointments()
-        {
-
-            List<string> formattedAppointments = FormatAppointments(UserDb.appointmentModels);
 
 
         }
-        private List<string> FormatAppointments(BindingList<AppointmentModel> appointments)
-        {
-
-            List<string> formattedAppointments = new List<string>();
-            foreach (var appointment in appointments)
-            {
-                string formattedAppointment = $"Your appointment is at : {appointment.start} {appointment.appointmentId}";
-                richTextBox1.Text = appointment.description;
-                textBox1.Text = appointment.title;
-                formattedAppointments.Add(formattedAppointment);
-            }
-            return formattedAppointments;
-        }
+ 
+        
 
 
 
@@ -59,7 +42,9 @@ namespace c969
 
         private void cancelBtn_Click(object sender, EventArgs e)
         {
-            Close();
+            this.Hide();
+       
+
         }
 
 
@@ -73,10 +58,12 @@ namespace c969
             {
                 string description = richTextBox1.Text.ToString();
                 string title = textBox1.Text.ToString();
-                int appointmentId = int.Parse(label1.Text);
+                int appointmentId = int.Parse(apptOrderLabel.Text);
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
                 userDb.DeleteAppointment(appointmentId);
                 MessageBox.Show("Appointment Deleted");
+                MainForm mainForm = new MainForm(userDb.GetUserName(appointmentId), appointmentId);
+                mainForm.Show();
                 this.Close();
             }
             catch (Exception ex)
@@ -86,7 +73,7 @@ namespace c969
         }
 
 
-        
+
 
 
 
@@ -109,7 +96,7 @@ namespace c969
                 Timelabel.Text = time.ToString("HH:mm:ss");
 
                 // Define the business hours 
-                DateTime businessStart = DateTime.Today.AddHours(9); 
+                DateTime businessStart = DateTime.Today.AddHours(9);
                 DateTime businessEnd = DateTime.Today.AddHours(17);
 
                 // Check if the new time is within business hours
@@ -120,11 +107,11 @@ namespace c969
                 else
                 {
                     // Update the Timelabel with the new time
-                 
+
                     Timelabel.Text = time.ToString("HH:mm:ss");
                     string timeText = time.ToString("HH:mm:ss");
                     DateTime localTime = TimeZoneInfo.ConvertTime(DateTime.Parse(timeText), TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), TimeZoneInfo.Local);
-                    localTimelbl.Text = $"Your local time : {localTime.Hour:D2}:{localTime.Minute:D2}"; 
+                    localTimelbl.Text = $"Your local time : {localTime.Hour:D2}:{localTime.Minute:D2}";
                 }
             }
             else
@@ -182,15 +169,27 @@ namespace c969
                 // Retrieve the current appointment's start date to combine with the new time
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
                 DateTime currentStartDate = userDb.GetAppointmentTime(appointmentId);
-        
+
 
                 // Update the appointment details
                 userDb.UpdateAppointment(appointmentId, description, title);
                 userDb.UpdateTimeAppt(appointmentId, timeText);
                 DateTime localTime = TimeZoneInfo.ConvertTime(DateTime.Parse(timeText), TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), TimeZoneInfo.Local);
-                
-                MessageBox.Show($"Appointment Updated: Your appointment in your local time will be at :{localTime} ");
-                this.Close();
+
+
+                if (MessageBox.Show($"Appointment Updated: Your appointment in your local time will be at :{localTime}", "Confirmation", MessageBoxButtons.OK) == DialogResult.OK)
+                {
+                    int userId = int.Parse(userIdLabel.Text);
+                    string username = userDb.GetUserName(userId);
+                    // Open the MainForm
+                    MainForm mainForm = new MainForm(username, userId);
+                    mainForm.Show();
+                    this.Close();
+                }
+                else {
+                  return;
+                }
+
             }
             catch (Exception ex)
             {

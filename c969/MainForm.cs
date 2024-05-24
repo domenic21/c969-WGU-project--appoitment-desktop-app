@@ -44,36 +44,78 @@ namespace c969
 
             this.StartPosition = FormStartPosition.CenterScreen;
             listBox.ClearSelected();
-            LoadAppointments();
+         
+            this.Load += new EventHandler(ReportsForm_Load);
 
 
         }
+
+        //reloads the appointments
+        private void ReportsForm_Load(object sender, EventArgs e)
+        {
+            ReloadEverything();
+        }
+        private void ReloadEverything()
+        {
+            
+            listBox.DataSource = null;
+            listBox.Items.Clear();
+
+            LoadAppointments();
+
+        }
+
+        private void RemoveInvalidAppointments(BindingList<AppointmentModel> appointments)
+        {
+            // Remove appointments with the default date (1/1/0001)
+            for (int i = appointments.Count - 1; i >= 0; i--)
+            {
+                if (appointments[i].start == DateTime.MinValue)
+                {
+                    appointments.RemoveAt(i);
+                }
+            }
+        }
+
+
 
         //list of appointments
         private void LoadAppointments()
         {
 
+            
+            //remove duplicates from the listbox
+            RemoveDuplicatesFromListBox(UserDb.appointmentModels);
+            RemoveInvalidAppointments(UserDb.appointmentModels);
+            // Format the appointments for display
             List<string> formattedAppointments = FormatAppointments(UserDb.appointmentModels);
+
+            // Clear the ListBox before setting DataSource
+            listBox.DataSource = null;
+            listBox.Items.Clear();
+
+            // Set the new DataSource
             listBox.DataSource = formattedAppointments;
 
-            RemoveDuplicatesFromListBox();
             if (UserDb.appointmentModels.Count == 0)
             {
                 listBox.Text = "No appointments found, you can schedule an appoitment below.";
             }
         }
-        private void RemoveDuplicatesFromListBox()
+        private void RemoveDuplicatesFromListBox (BindingList<AppointmentModel> appointments)
         {
-            if (listBox.DataSource != null)
+            // Group the appointments by their date 
+            var groupedAppointments = appointments
+                .GroupBy(a => a.start.Date)
+                .Select(g => g.OrderByDescending(a => a.start).First()) // Keep the latest appointment of each date
+                .ToList();
+           
+
+            // Clear the original list and add back the filtered appointments
+            appointments.Clear();
+            foreach (var appointment in groupedAppointments)
             {
-                // Cast the data source to a list of strings
-                var dataSource = (List<string>)listBox.DataSource;
-
-                // Remove duplicates
-                var distinctItems = dataSource.Distinct().ToList();
-
-                // Update the data source with distinct items
-                listBox.DataSource = distinctItems;
+                appointments.Add(appointment);
             }
         }
 
@@ -92,7 +134,7 @@ namespace c969
                  
                 formattedAppointments.Add(formattedAppointment);
                 listBox.Refresh();
-                RemoveDuplicatesFromListBox();
+               
                
             }
             return formattedAppointments;
@@ -480,9 +522,11 @@ namespace c969
 
                 // Extract the time portion
                 string appointmentTimeOnly = appointmentTime.ToString();
+                int userId = currentUserId;
 
-                ModifyForm modifyForm = new ModifyForm(appointmentId, appointmentTimeOnly);
+                ModifyForm modifyForm = new ModifyForm(appointmentId, appointmentTimeOnly, userId);
                 modifyForm.Show();
+                this.Close();
 
                 return;
             }

@@ -45,6 +45,7 @@
             this.tittleLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.localTimelbl = new System.Windows.Forms.Label();
+            this.userIdLabel = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -100,6 +101,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.userIdLabel);
             this.groupBox1.Controls.Add(this.localTimelbl);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.Timelabel);
@@ -231,6 +233,17 @@
             this.localTimelbl.TabIndex = 31;
             this.localTimelbl.Text = "Your local time:";
             // 
+            // userIdLabel
+            // 
+            this.userIdLabel.AutoSize = true;
+            this.userIdLabel.Font = new System.Drawing.Font("Bahnschrift Condensed", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.userIdLabel.ForeColor = System.Drawing.Color.IndianRed;
+            this.userIdLabel.Location = new System.Drawing.Point(307, 0);
+            this.userIdLabel.Name = "userIdLabel";
+            this.userIdLabel.Size = new System.Drawing.Size(48, 21);
+            this.userIdLabel.TabIndex = 32;
+            this.userIdLabel.Text = "UserId:";
+            // 
             // ModifyForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -268,5 +281,6 @@
         private System.Windows.Forms.TextBox Timelabel;
         private System.Windows.Forms.Label localTimelbl;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label userIdLabel;
     }
 }
