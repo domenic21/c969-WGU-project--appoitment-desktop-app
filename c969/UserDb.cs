@@ -488,6 +488,7 @@ namespace c969
             {
                 Connect();
                 string query = @"DELETE FROM `client_schedule`.`user` WHERE (`userId` = @userId);";
+                string query2 = @"DELETE FROM `client_schedule`.`customer` WHERE (`customerId` = @userId);";    
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -498,6 +499,16 @@ namespace c969
                     int rowsAffected = command.ExecuteNonQuery();
                     // Check the rows affected and handle errors if necessary
                 }
+                using (MySqlCommand command = new MySqlCommand(query2, _connection))
+                {
+                    // Add the parameter to avoid SQL injection
+                    command.Parameters.AddWithValue("@userId", userId);
+
+                    // Execute the query
+                    int rowsAffected = command.ExecuteNonQuery();
+                    // Check the rows affected and handle errors if necessary
+                }
+
             }
             catch (MySqlException ex)
             {

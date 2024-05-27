@@ -348,7 +348,7 @@
             this.listBox.FormattingEnabled = true;
             this.listBox.ItemHeight = 16;
             this.listBox.Location = new System.Drawing.Point(5, 69);
-            this.listBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.listBox.Margin = new System.Windows.Forms.Padding(2);
             this.listBox.Name = "listBox";
             this.listBox.Size = new System.Drawing.Size(387, 84);
             this.listBox.TabIndex = 25;
@@ -407,15 +407,15 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(11, 385);
+            this.label11.Location = new System.Drawing.Point(24, 385);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(83, 16);
+            this.label11.Size = new System.Drawing.Size(167, 16);
             this.label11.TabIndex = 20;
-            this.label11.Text = "Delete user?";
+            this.label11.Text = "Delete user and customer?";
             // 
             // deleteUserBtn
             // 
-            this.deleteUserBtn.Location = new System.Drawing.Point(100, 376);
+            this.deleteUserBtn.Location = new System.Drawing.Point(232, 372);
             this.deleteUserBtn.Name = "deleteUserBtn";
             this.deleteUserBtn.Size = new System.Drawing.Size(75, 29);
             this.deleteUserBtn.TabIndex = 21;
