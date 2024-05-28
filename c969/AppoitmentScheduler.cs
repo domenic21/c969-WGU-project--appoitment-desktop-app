@@ -11,7 +11,7 @@ namespace c969
 
 
     {
-        
+
         public AppoitmentScheduler(int currentUserId)
         {
             InitializeComponent();
@@ -19,7 +19,7 @@ namespace c969
             estTimelabel.Text = "EST TIME:" + TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time")).ToString();
             this.StartPosition = FormStartPosition.CenterScreen;
             comboBoxappt.DropDownStyle = ComboBoxStyle.DropDownList;
-            labeluser.Text =   currentUserId.ToString();
+            labeluser.Text = currentUserId.ToString();
 
             UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
             string userName = userDb.GetUserName(currentUserId);
@@ -28,7 +28,7 @@ namespace c969
             textBoxcount.ReadOnly = true;
             apptOrderLabel.ReadOnly = true;
             datetextbox.ReadOnly = true;
-            timetextBox.ReadOnly = true;
+          
             this.Size = new System.Drawing.Size(850, 550);
 
 
@@ -93,7 +93,7 @@ namespace c969
                 //convert to the local time
                 TimeZoneInfo userTimeZone = TimeZoneInfo.Local; // Get the user's time zone
                 DateTime localStartTime = TimeZoneInfo.ConvertTime(startTime, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), userTimeZone);
-                timetextBox.Text = localStartTime.ToString("HH:mm:ss");
+                Timelabel.Text = localStartTime.ToString("HH:mm:ss");
                 titletextBox.Text = selectedAppointment.title;
                 descriptionText.Text = selectedAppointment.description;
 
@@ -221,13 +221,14 @@ namespace c969
                 {
                     MessageBox.Show("Please select and appointment and complete the required information");
                 }
-                else { 
+                else
+                {
 
                     string title = titletextBox.Text;
                     string description = descriptionText.Text;
                     int appointmentId = Convert.ToInt32(apptOrderLabel.Text);
                     int customerId = int.Parse(labeluser.Text);
-                    string time = timetextBox.Text;
+                    string time = Timelabel.Text;
                     string date = datetextbox.Text;
                     // Parse the date and time string into a DateTime object
                     DateTime start = DateTime.ParseExact($"{date} {time}", "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
@@ -237,14 +238,14 @@ namespace c969
 
 
 
-                    AppointmentModel appointment = new AppointmentModel(customerId ,appointmentId, title, description, estTime);
-
+                    AppointmentModel appointment = new AppointmentModel(customerId, appointmentId, title, description, estTime);
+                    userDb.UpdateTimeAppt(appointmentId, time);
                     userDb.InsertAppointment(appointment);
 
                 }
                 MessageBox.Show("Appointment added successfully");
             }
-          
+
             catch
             {
                 MessageBox.Show("Please select and appointment and complete the required information");
@@ -276,7 +277,7 @@ namespace c969
         private void mainMenubtn_Click(object sender, EventArgs e)
         {
             this.Hide();
-          
+
             try
             {
 
@@ -292,9 +293,79 @@ namespace c969
             {
                 MessageBox.Show("Error: " + ex.Message);
             }
-          
+
         }
 
-    
+        private void timeAddBtn_Click(object sender, EventArgs e)
+        {
+            if (DateTime.TryParseExact(Timelabel.Text, "HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime time))
+            {
+                time = time.AddMinutes(30);
+                Timelabel.Text = time.ToString("HH:mm:ss");
+
+                // Define the business hours 
+                DateTime businessStart = DateTime.Today.AddHours(9);
+                DateTime businessEnd = DateTime.Today.AddHours(17);
+
+                // Check if the new time is within business hours
+                if (time.TimeOfDay < businessStart.TimeOfDay || time.TimeOfDay >= businessEnd.TimeOfDay)
+                {
+                    MessageBox.Show("Time must be between 09:00 and 17:00. Please try again.");
+                }
+                else
+                {
+                    // Update the Timelabel with the new time
+
+                    Timelabel.Text = time.ToString("HH:mm:ss");
+                    string timeText = time.ToString("HH:mm:ss");
+                    DateTime localTime = TimeZoneInfo.ConvertTime(DateTime.Parse(timeText), TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), TimeZoneInfo.Local);
+                    localTimelbl.Text = $"Your local time : {localTime.Hour:D2}:{localTime.Minute:D2}";
+                }
+            }
+            else
+            {
+                MessageBox.Show("Invalid time format");
+            }
+        }
+
+        private void timeMinusBtn_Click(object sender, EventArgs e)
+        {
+            if (DateTime.TryParseExact(Timelabel.Text, "HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime time))
+            {
+                time = time.AddMinutes(-30); // Subtract 30 minutes
+                Timelabel.Text = time.ToString("HH:mm:ss");
+                // Define the business hours 
+                DateTime businessStart = DateTime.Today.AddHours(9);
+                DateTime businessEnd = DateTime.Today.AddHours(17);
+
+                // Check if the new time is within business hours
+                if (time.TimeOfDay < businessStart.TimeOfDay || time.TimeOfDay >= businessEnd.TimeOfDay)
+                {
+                    MessageBox.Show("Time must be between 09:00 and 17:00. Please try again.");
+                }
+                else
+                {
+                    // Update the Timelabel with the new time
+                    Timelabel.Text = time.ToString("HH:mm:ss");
+                    string timeText = time.ToString("HH:mm:ss");
+                    DateTime localTime = TimeZoneInfo.ConvertTime(DateTime.Parse(timeText), TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), TimeZoneInfo.Local);
+                    localTimelbl.Text = $"Your local time : {localTime.Hour:D2}:{localTime.Minute:D2}"; // Show just the hours and minutes
+                }
+            }
+            else
+            {
+                MessageBox.Show("Invalid time format");
+            }
+        }
+
+        private void changeApptBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Timelabel_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

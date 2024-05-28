@@ -33,8 +33,6 @@
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.exitBtn = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.timetextBox = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.datetextbox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -56,6 +54,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.mainMenubtn = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
+            this.localTimelbl = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.Timelabel = new System.Windows.Forms.TextBox();
+            this.timeAddBtn = new System.Windows.Forms.Button();
+            this.timeMinusBtn = new System.Windows.Forms.Button();
+            this.changeApptBtn = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -100,44 +104,30 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.timetextBox);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.datetextbox);
-            this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.apptOrderLabel);
+            this.groupBox1.Controls.Add(this.localTimelbl);
+            this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.descriptionText);
+            this.groupBox1.Controls.Add(this.datetextbox);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.addApptBtn);
             this.groupBox1.Controls.Add(this.titletextBox);
+            this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.tittleLabel);
+            this.groupBox1.Controls.Add(this.Timelabel);
+            this.groupBox1.Controls.Add(this.changeApptBtn);
+            this.groupBox1.Controls.Add(this.timeMinusBtn);
+            this.groupBox1.Controls.Add(this.timeAddBtn);
             this.groupBox1.Location = new System.Drawing.Point(690, 46);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(378, 367);
+            this.groupBox1.Size = new System.Drawing.Size(378, 437);
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
             // 
-            // timetextBox
-            // 
-            this.timetextBox.Location = new System.Drawing.Point(263, 212);
-            this.timetextBox.Name = "timetextBox";
-            this.timetextBox.Size = new System.Drawing.Size(101, 22);
-            this.timetextBox.TabIndex = 27;
-     
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.142858F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(175, 215);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(80, 16);
-            this.label7.TabIndex = 26;
-            this.label7.Text = "Local Time";
-            // 
             // datetextbox
             // 
-            this.datetextbox.Location = new System.Drawing.Point(58, 213);
+            this.datetextbox.Location = new System.Drawing.Point(104, 297);
             this.datetextbox.Name = "datetextbox";
             this.datetextbox.Size = new System.Drawing.Size(112, 22);
             this.datetextbox.TabIndex = 25;
@@ -146,7 +136,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.142858F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(12, 216);
+            this.label5.Location = new System.Drawing.Point(12, 297);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(38, 16);
             this.label5.TabIndex = 24;
@@ -156,7 +146,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Bahnschrift Condensed", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(116, 249);
+            this.label3.Location = new System.Drawing.Point(169, 373);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(112, 16);
             this.label3.TabIndex = 23;
@@ -164,7 +154,7 @@
             // 
             // apptOrderLabel
             // 
-            this.apptOrderLabel.Location = new System.Drawing.Point(253, 246);
+            this.apptOrderLabel.Location = new System.Drawing.Point(287, 373);
             this.apptOrderLabel.Name = "apptOrderLabel";
             this.apptOrderLabel.Size = new System.Drawing.Size(85, 22);
             this.apptOrderLabel.TabIndex = 22;
@@ -191,7 +181,7 @@
             // addApptBtn
             // 
             this.addApptBtn.BackColor = System.Drawing.SystemColors.Info;
-            this.addApptBtn.Location = new System.Drawing.Point(102, 285);
+            this.addApptBtn.Location = new System.Drawing.Point(104, 400);
             this.addApptBtn.Name = "addApptBtn";
             this.addApptBtn.Size = new System.Drawing.Size(158, 31);
             this.addApptBtn.TabIndex = 18;
@@ -257,7 +247,7 @@
             // textBoxcount
             // 
             this.textBoxcount.Location = new System.Drawing.Point(372, 57);
-            this.textBoxcount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBoxcount.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxcount.Name = "textBoxcount";
             this.textBoxcount.Size = new System.Drawing.Size(313, 22);
             this.textBoxcount.TabIndex = 18;
@@ -266,7 +256,7 @@
             // 
             this.comboBoxappt.FormattingEnabled = true;
             this.comboBoxappt.Location = new System.Drawing.Point(372, 134);
-            this.comboBoxappt.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxappt.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxappt.Name = "comboBoxappt";
             this.comboBoxappt.Size = new System.Drawing.Size(303, 24);
             this.comboBoxappt.TabIndex = 19;
@@ -274,7 +264,7 @@
             // 
             // logout
             // 
-            this.logout.Location = new System.Drawing.Point(945, 417);
+            this.logout.Location = new System.Drawing.Point(993, 500);
             this.logout.Name = "logout";
             this.logout.Size = new System.Drawing.Size(75, 32);
             this.logout.TabIndex = 20;
@@ -313,8 +303,8 @@
             // 
             // mainMenubtn
             // 
-            this.mainMenubtn.Location = new System.Drawing.Point(834, 417);
-            this.mainMenubtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.mainMenubtn.Location = new System.Drawing.Point(877, 500);
+            this.mainMenubtn.Margin = new System.Windows.Forms.Padding(2);
             this.mainMenubtn.Name = "mainMenubtn";
             this.mainMenubtn.Size = new System.Drawing.Size(106, 32);
             this.mainMenubtn.TabIndex = 24;
@@ -332,11 +322,74 @@
             this.label8.TabIndex = 25;
             this.label8.Text = "id";
             // 
+            // localTimelbl
+            // 
+            this.localTimelbl.AutoSize = true;
+            this.localTimelbl.Font = new System.Drawing.Font("Bahnschrift Condensed", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.localTimelbl.ForeColor = System.Drawing.Color.Black;
+            this.localTimelbl.Location = new System.Drawing.Point(217, 328);
+            this.localTimelbl.Name = "localTimelbl";
+            this.localTimelbl.Size = new System.Drawing.Size(94, 21);
+            this.localTimelbl.TabIndex = 37;
+            this.localTimelbl.Text = "Your local time:";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Bahnschrift Condensed", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.IndianRed;
+            this.label9.Location = new System.Drawing.Point(5, 257);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(143, 21);
+            this.label9.TabIndex = 36;
+            this.label9.Text = "Appointment in EST TIME";
+            // 
+            // Timelabel
+            // 
+            this.Timelabel.Location = new System.Drawing.Point(6, 328);
+            this.Timelabel.Name = "Timelabel";
+            this.Timelabel.Size = new System.Drawing.Size(85, 22);
+            this.Timelabel.TabIndex = 35;
+            this.Timelabel.TextChanged += new System.EventHandler(this.Timelabel_TextChanged);
+            // 
+            // timeAddBtn
+            // 
+            this.timeAddBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.timeAddBtn.Location = new System.Drawing.Point(104, 328);
+            this.timeAddBtn.Name = "timeAddBtn";
+            this.timeAddBtn.Size = new System.Drawing.Size(45, 23);
+            this.timeAddBtn.TabIndex = 34;
+            this.timeAddBtn.Text = "+";
+            this.timeAddBtn.UseVisualStyleBackColor = true;
+            this.timeAddBtn.Click += new System.EventHandler(this.timeAddBtn_Click);
+            // 
+            // timeMinusBtn
+            // 
+            this.timeMinusBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.timeMinusBtn.Location = new System.Drawing.Point(155, 327);
+            this.timeMinusBtn.Name = "timeMinusBtn";
+            this.timeMinusBtn.Size = new System.Drawing.Size(45, 23);
+            this.timeMinusBtn.TabIndex = 33;
+            this.timeMinusBtn.Text = "-";
+            this.timeMinusBtn.UseVisualStyleBackColor = true;
+            this.timeMinusBtn.Click += new System.EventHandler(this.timeMinusBtn_Click);
+            // 
+            // changeApptBtn
+            // 
+            this.changeApptBtn.Location = new System.Drawing.Point(65, 203);
+            this.changeApptBtn.Margin = new System.Windows.Forms.Padding(2);
+            this.changeApptBtn.Name = "changeApptBtn";
+            this.changeApptBtn.Size = new System.Drawing.Size(228, 29);
+            this.changeApptBtn.TabIndex = 32;
+            this.changeApptBtn.Text = "Change Appointment Time";
+            this.changeApptBtn.UseVisualStyleBackColor = true;
+            this.changeApptBtn.Click += new System.EventHandler(this.changeApptBtn_Click);
+            // 
             // AppoitmentScheduler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1083, 450);
+            this.ClientSize = new System.Drawing.Size(1083, 543);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.mainMenubtn);
             this.Controls.Add(this.label1);
@@ -381,8 +434,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label estTimelabel;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox timetextBox;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox datetextbox;
         private System.Windows.Forms.TextBox textBoxcount;
         private System.Windows.Forms.ComboBox comboBoxappt;
@@ -392,5 +443,11 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button mainMenubtn;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label localTimelbl;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox Timelabel;
+        private System.Windows.Forms.Button changeApptBtn;
+        private System.Windows.Forms.Button timeMinusBtn;
+        private System.Windows.Forms.Button timeAddBtn;
     }
 }

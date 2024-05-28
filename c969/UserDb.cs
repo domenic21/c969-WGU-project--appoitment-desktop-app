@@ -24,6 +24,7 @@ namespace c969
         public static BindingList<CityModel> multipleChoiceCountry = new BindingList<CityModel>();
         public static BindingList<AppointmentModel> appointmentModels = new BindingList<AppointmentModel>();
         public static BindingList<AppointmentModel> reports = new BindingList<AppointmentModel>();
+        public static BindingList<AppointmentModel> availableAppointments = new BindingList<AppointmentModel>();
 
 
 
@@ -770,9 +771,10 @@ namespace c969
             {
                 Connect();
 
-                string query = @"SELECT appointmentId, start FROM appointment
-                                 WHERE userId IS NULL";
-
+                string query = @"SELECT *
+                            FROM `client_schedule`.`appointment`
+                  WHERE userId IS NULL AND customerId IS NULL;
+                             ";
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
                     using (MySqlDataReader reader = command.ExecuteReader())
@@ -783,7 +785,7 @@ namespace c969
                             DateTime start = reader.GetDateTime("start");
 
                             AppointmentModel appointmentModel = new AppointmentModel(start, appointmentId);
-                            appointments.Add(appointmentModel);
+                            availableAppointments.Add(appointmentModel);
                         }
                     }
                 }
@@ -799,7 +801,42 @@ namespace c969
             return appointments;
         }
 
+        //get all appointments
+        public void GetAllAppointments()
+        {
+            try
+            {
+                Connect();
+                string query = @"SELECT *
+                            FROM `client_schedule`.`appointment`
+                  WHERE userId IS NULL AND customerId IS NULL;
+                             ";
 
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            
+                            DateTime start = reader.GetDateTime("start");
+                            // Skip appointments with date 1/1/0001
+                            if (start.Date == DateTime.MinValue.Date)
+                            {
+                                continue;
+                            }
+                            AppointmentModel appointmentModel = new AppointmentModel( start);
+                            availableAppointments.Add(appointmentModel);
+                        }
+                    }
+                }
+                Disconnect();
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message, "no connection");
+            }
+        }
 
 
         //FILTERS FOR APPT
@@ -1231,6 +1268,8 @@ namespace c969
 
             return DateTime.MinValue;// Return the default value if no appointment time is found
         }
+
+        
     }
 }
 

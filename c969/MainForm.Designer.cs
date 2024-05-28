@@ -65,6 +65,9 @@
             this.labeluserId = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.deleteUserBtn = new System.Windows.Forms.Button();
+            this.label12 = new System.Windows.Forms.Label();
+            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -73,7 +76,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial Narrow", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 415);
+            this.label1.Location = new System.Drawing.Point(12, 437);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(101, 27);
             this.label1.TabIndex = 0;
@@ -81,7 +84,7 @@
             // 
             // exitBtn
             // 
-            this.exitBtn.Location = new System.Drawing.Point(713, 411);
+            this.exitBtn.Location = new System.Drawing.Point(713, 440);
             this.exitBtn.Name = "exitBtn";
             this.exitBtn.Size = new System.Drawing.Size(75, 27);
             this.exitBtn.TabIndex = 1;
@@ -321,6 +324,9 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label13);
+            this.groupBox2.Controls.Add(this.listBox2);
+            this.groupBox2.Controls.Add(this.label12);
             this.groupBox2.Controls.Add(this.cancelapptbtn);
             this.groupBox2.Controls.Add(this.listBox);
             this.groupBox2.Controls.Add(this.modifyApptBtn);
@@ -328,14 +334,14 @@
             this.groupBox2.Controls.Add(this.labelAppt);
             this.groupBox2.Location = new System.Drawing.Point(387, 36);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(401, 348);
+            this.groupBox2.Size = new System.Drawing.Size(401, 395);
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
             // 
             // cancelapptbtn
             // 
             this.cancelapptbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.142858F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cancelapptbtn.Location = new System.Drawing.Point(228, 157);
+            this.cancelapptbtn.Location = new System.Drawing.Point(228, 129);
             this.cancelapptbtn.Name = "cancelapptbtn";
             this.cancelapptbtn.Size = new System.Drawing.Size(162, 45);
             this.cancelapptbtn.TabIndex = 26;
@@ -347,7 +353,7 @@
             // 
             this.listBox.FormattingEnabled = true;
             this.listBox.ItemHeight = 16;
-            this.listBox.Location = new System.Drawing.Point(5, 69);
+            this.listBox.Location = new System.Drawing.Point(5, 41);
             this.listBox.Margin = new System.Windows.Forms.Padding(2);
             this.listBox.Name = "listBox";
             this.listBox.Size = new System.Drawing.Size(387, 84);
@@ -355,7 +361,7 @@
             // 
             // modifyApptBtn
             // 
-            this.modifyApptBtn.Location = new System.Drawing.Point(148, 157);
+            this.modifyApptBtn.Location = new System.Drawing.Point(147, 129);
             this.modifyApptBtn.Name = "modifyApptBtn";
             this.modifyApptBtn.Size = new System.Drawing.Size(75, 45);
             this.modifyApptBtn.TabIndex = 24;
@@ -368,9 +374,9 @@
             this.button1.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button1.Location = new System.Drawing.Point(68, 258);
+            this.button1.Location = new System.Drawing.Point(10, 320);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(287, 70);
+            this.button1.Size = new System.Drawing.Size(370, 59);
             this.button1.TabIndex = 21;
             this.button1.TabStop = false;
             this.button1.Text = "Schedule new appoitment";
@@ -380,11 +386,12 @@
             // labelAppt
             // 
             this.labelAppt.AutoSize = true;
-            this.labelAppt.Location = new System.Drawing.Point(7, 18);
+            this.labelAppt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelAppt.Location = new System.Drawing.Point(6, 18);
             this.labelAppt.Name = "labelAppt";
-            this.labelAppt.Size = new System.Drawing.Size(149, 16);
+            this.labelAppt.Size = new System.Drawing.Size(283, 20);
             this.labelAppt.TabIndex = 20;
-            this.labelAppt.Text = "Upcoming appoitments:";
+            this.labelAppt.Text = "Your current appoitments scheduled:";
             this.labelAppt.Click += new System.EventHandler(this.label11_Click);
             // 
             // UserIdlabel
@@ -423,11 +430,42 @@
             this.deleteUserBtn.UseVisualStyleBackColor = true;
             this.deleteUserBtn.Click += new System.EventHandler(this.deleteUserBtn_Click);
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(6, 184);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(191, 20);
+            this.label12.TabIndex = 27;
+            this.label12.Text = "Appointments available :";
+            // 
+            // listBox2
+            // 
+            this.listBox2.FormattingEnabled = true;
+            this.listBox2.ItemHeight = 16;
+            this.listBox2.Location = new System.Drawing.Point(10, 210);
+            this.listBox2.Margin = new System.Windows.Forms.Padding(2);
+            this.listBox2.Name = "listBox2";
+            this.listBox2.Size = new System.Drawing.Size(387, 84);
+            this.listBox2.TabIndex = 28;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.ForeColor = System.Drawing.Color.Red;
+            this.label13.Location = new System.Drawing.Point(6, 297);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(224, 20);
+            this.label13.TabIndex = 29;
+            this.label13.Text = "To schedule an appointment:";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 473);
             this.Controls.Add(this.deleteUserBtn);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.labeluserId);
@@ -489,5 +527,8 @@
         private System.Windows.Forms.Button modifyApptBtn;
         private System.Windows.Forms.ListBox listBox;
         private System.Windows.Forms.Button cancelapptbtn;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ListBox listBox2;
     }
 }

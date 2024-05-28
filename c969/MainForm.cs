@@ -41,11 +41,13 @@ namespace c969
             cityBox.DropDownStyle = ComboBoxStyle.DropDownList;
             InitializeFormData(currentUserId);
             userDb.GetAppoitments(currentUserId);
+            
 
             this.StartPosition = FormStartPosition.CenterScreen;
             listBox.ClearSelected();
-         
+    
             this.Load += new EventHandler(ReportsForm_Load);
+            LoadAppointment();
 
 
         }
@@ -77,6 +79,28 @@ namespace c969
             }
         }
 
+     
+        private List<string> FormatAppointment(BindingList<AppointmentModel> appointments)
+        {
+            List<string> formattedAppointments = new List<string>();
+            UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
+            userDb.SearchApptAll();
+            foreach (var appointment in appointments)
+            {
+                TimeZoneInfo userTimeZone = TimeZoneInfo.Local; // Get the user's time zone
+                int appointmentId = appointment.appointmentId;
+                string formattedAppointment = $"Your appointment is at: " +
+                                              $"{TimeZoneInfo.ConvertTime(appointment.start, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), userTimeZone)} " +
+                                              $"ID: {appointmentId}";
+
+                formattedAppointments.Add(formattedAppointment);
+            }
+            return formattedAppointments;
+
+            
+        }
+
+        
 
 
         //list of appointments
@@ -118,6 +142,23 @@ namespace c969
                 appointments.Add(appointment);
             }
         }
+        private void LoadAppointment()
+        {
+            UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
+            userDb.SearchApptAll();
+
+            if (UserDb.availableAppointments.Count == 0)
+            {
+                listBox2.Items.Clear();
+                listBox2.Items.Add("No appointments found, you can schedule an appointment below.");
+            }
+            else
+            {
+                // Format and display appointments
+                List<string> formattedAppointments = FormatAppointments(UserDb.availableAppointments);
+                listBox2.DataSource = formattedAppointments;
+            }
+        }
 
         private List<string> FormatAppointments(BindingList<AppointmentModel> appointments)
         {
@@ -139,6 +180,8 @@ namespace c969
             }
             return formattedAppointments;
         }
+
+
 
 
 
