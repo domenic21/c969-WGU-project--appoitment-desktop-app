@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace c969
 {
@@ -20,10 +21,9 @@ namespace c969
             apptOrderLabel.Text = appointmentId.ToString();
             Timelabel.Visible = false;
             userIdLabel.Text = userId.ToString();
-
-            TimeZoneInfo userTimeZone = TimeZoneInfo.Local; // Get the user's time zone
-            DateTime localStartTime = TimeZoneInfo.ConvertTime(DateTime.Parse(time), TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), userTimeZone);
-            Timelabel.Text = localStartTime.ToString("HH:mm:ss");
+                 // Get the user's time zone
+            DateTime StartTime = DateTime.Parse(time);
+            Timelabel.Text = StartTime.ToString("HH:mm:ss");
             userDb.GetAppoitmentsInfo(appointmentId);
    
 
@@ -42,6 +42,12 @@ namespace c969
 
         private void cancelBtn_Click(object sender, EventArgs e)
         {
+            int userId = int.Parse(userIdLabel.Text);
+            UserDb UserDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!"); 
+            string userName = UserDb.GetUserName(userId);
+            MainForm mainForm = new MainForm(userName, userId);
+            mainForm.Show();
+           
             this.Hide();
        
 
@@ -103,6 +109,10 @@ namespace c969
                 if (time.TimeOfDay < businessStart.TimeOfDay || time.TimeOfDay >= businessEnd.TimeOfDay)
                 {
                     MessageBox.Show("Time must be between 09:00 and 17:00. Please try again.");
+                    DateTime resetTime = DateTime.Today.AddHours(9);
+                    Timelabel.Text = resetTime.ToString("HH:mm:ss");
+                   
+                
                 }
                 else
                 {
@@ -134,6 +144,10 @@ namespace c969
                 if (time.TimeOfDay < businessStart.TimeOfDay || time.TimeOfDay >= businessEnd.TimeOfDay)
                 {
                     MessageBox.Show("Time must be between 09:00 and 17:00. Please try again.");
+                    DateTime resetTime = DateTime.Today.AddHours(9);
+                    Timelabel.Text = resetTime.ToString("HH:mm:ss");
+
+                 
                 }
                 else
                 {

@@ -311,6 +311,10 @@ namespace c969
                 if (time.TimeOfDay < businessStart.TimeOfDay || time.TimeOfDay >= businessEnd.TimeOfDay)
                 {
                     MessageBox.Show("Time must be between 09:00 and 17:00. Please try again.");
+                    DateTime resetTime = DateTime.Today.AddHours(9);
+                    Timelabel.Text = resetTime.ToString("HH:mm:ss");
+
+                    localTimelbl.Text = $"Your local time : ";
                 }
                 else
                 {
@@ -342,6 +346,10 @@ namespace c969
                 if (time.TimeOfDay < businessStart.TimeOfDay || time.TimeOfDay >= businessEnd.TimeOfDay)
                 {
                     MessageBox.Show("Time must be between 09:00 and 17:00. Please try again.");
+                    DateTime resetTime = DateTime.Today.AddHours(9);
+                    Timelabel.Text = resetTime.ToString("HH:mm:ss");
+
+                    localTimelbl.Text = $"Your local time : ";
                 }
                 else
                 {

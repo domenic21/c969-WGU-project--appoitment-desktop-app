@@ -167,7 +167,7 @@ namespace c969
             {
                 TimeZoneInfo userTimeZone = TimeZoneInfo.Local; // Get the user's time zone
                 int appointmentId = appointment.appointmentId;
-                string formattedAppointment = $"Your appointment is at : " +
+                string formattedAppointment = $"Appointments available: " +
 
                 TimeZoneInfo.ConvertTime(appointment.start, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), userTimeZone)
                 +" " + appointmentId.ToString();
@@ -406,7 +406,7 @@ namespace c969
                     }
                     int addressId = GenerateID();
 
-                    UserInfo userInformation = new UserInfo(customerId, userName, customerId, address, postalCode, phone, cityId, addressId);
+                    UserInfo userInformation = new UserInfo(userId, userName, customerId, address, postalCode, phone, cityId, addressId);
 
                     // Insert user profile information
                     userDb.InsertProfileInfo(userInformation);
@@ -450,7 +450,7 @@ namespace c969
             try
             {
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-
+                
                 userDb.DeleteProfileInfo(currentUserId);
                 MessageBox.Show("Profile information deleted successfully" + MessageBoxButtons.OK);
                 AddresstextBox2.ResetText();
@@ -513,6 +513,8 @@ namespace c969
                 userDb.DeleteUser(currentUserId);
                 MessageBox.Show("Profile information deleted successfully" + MessageBoxButtons.OK);
                 loginForm loginForm = new loginForm();
+                loginForm.Show();
+                this.Close();
                 return;
 
             }
@@ -569,6 +571,7 @@ namespace c969
 
                 ModifyForm modifyForm = new ModifyForm(appointmentId, appointmentTimeOnly, userId);
                 modifyForm.Show();
+
                 this.Close();
 
                 return;

@@ -12,7 +12,7 @@ namespace c969
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
-         
+            
           
 
           
@@ -39,6 +39,8 @@ namespace c969
             }
             UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
             userDb.InsertAllDummyData();
+            userDb.dbConfig();
+
 
 
         }

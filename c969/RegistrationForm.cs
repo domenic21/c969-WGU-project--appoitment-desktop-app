@@ -31,7 +31,13 @@ namespace c969
             return newID;
 
         }
+        public static int GenerateAddressId()
+        {
+            Random random = new Random();
+            int newID = random.Next(1, 100); 
+            return newID;
 
+        }
         private void registerBtn_Click(object sender, EventArgs e)
         {
             try
@@ -63,12 +69,12 @@ namespace c969
                     int cityId = userDb.SelectCityId(cityBox.Text);
                     int countryId = userDb.SelectCountryId(cityBox.Text);
                     string cityName = cityBox.SelectedItem.ToString();
-                    int addressId = GenerateID();
+                    int addressId = GenerateAddressId();
 
                     UserModel user = new UserModel(userId, userName, password, 1, DateTime.Now, "user", DateTime.Now, "user");
-                    UserInfo userInformation = new UserInfo(userId, userName, userId, addressId, address, zipcode, phone, cityId);
-                    userDb.RegisterUser(user);
-                    userDb.InsertProfileInfo(userInformation);
+                    UserInfo userInformation = new UserInfo( userId, userName, userId, addressId, address, zipcode, phone, cityId);
+                    userDb.RegisterUser(user, userInformation);
+                    
 
                     userDb.InsertCityIntoDatabase(cityId, cityName, addressId);
                     userDb.InsertCountryIntoDatabase(countryId, cityId);
@@ -85,7 +91,7 @@ namespace c969
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "no connection");
+                MessageBox.Show(ex.Message, "no connection 94");
             }
             this.Close();
 
