@@ -228,6 +228,7 @@ namespace c969
                     string description = descriptionText.Text;
                     int appointmentId = Convert.ToInt32(apptOrderLabel.Text);
                     int customerId = int.Parse(labeluser.Text);
+                    int userId = int.Parse(labeluser.Text);
                     string time = Timelabel.Text;
                     string date = datetextbox.Text;
                     // Parse the date and time string into a DateTime object
@@ -235,12 +236,13 @@ namespace c969
                     // Convert the date and time to Eastern Standard Time
                     DateTime estTime = TimeZoneInfo.ConvertTimeToUtc(start, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
 
+                    string est = estTime.ToString(" HH:mm:ss");
 
 
-
-                    AppointmentModel appointment = new AppointmentModel(customerId, appointmentId, title, description, estTime);
-                    userDb.UpdateTimeAppt(appointmentId, time);
-                    userDb.InsertAppointment(appointment);
+                    //AppointmentModel appointment = new AppointmentModel(userId, appointmentId, title, description, estTime);
+                    userDb.UpdateTimeAppt(appointmentId, est);
+                    
+                    userDb.UpdateAppointment(appointmentId, description, title);
 
                 }
                 MessageBox.Show("Appointment added successfully");

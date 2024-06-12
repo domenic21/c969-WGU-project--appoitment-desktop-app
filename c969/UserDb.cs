@@ -93,8 +93,7 @@ namespace c969
         public void dbConfig() {
             try { 
                 Connect();
-                string query = @"ALTER TABLE `client_schedule`.`address` 
-                         CHANGE COLUMN `addressId` `addressId` INT NOT NULL DEFAULT 10 ;";
+        
                 string query1 = @"ALTER TABLE client_schedule.address
                   MODIFY COLUMN address VARCHAR(50) DEFAULT NULL,
                    MODIFY COLUMN address2 VARCHAR(50) DEFAULT NULL,
@@ -106,13 +105,14 @@ namespace c969
                     MODIFY COLUMN lastUpdate TIMESTAMP DEFAULT NULL,
                   MODIFY COLUMN lastUpdateBy VARCHAR(40) DEFAULT NULL; ";
 
+                string query2 = @"ALTER TABLE client_schedule.costumer MODIFY COLUMN active TINYINT (1) DEFAULT NULL;";
 
-
-                using (MySqlCommand command = new MySqlCommand(query, _connection))
+             
+                using (MySqlCommand command = new MySqlCommand(query1, _connection))
                 {
                     command.ExecuteNonQuery();
                 }
-                using (MySqlCommand command = new MySqlCommand(query1, _connection))
+                using (MySqlCommand command = new MySqlCommand(query2, _connection))
                 {
                     command.ExecuteNonQuery();
                 }
@@ -767,13 +767,13 @@ namespace c969
         }
 
         //Appointment section 
-        public void InsertAppointment(AppointmentModel appointment)
+        /*public void InsertAppointment(AppointmentModel appointment)
         {
             try
             {
                 Connect();
                 // int appointmentId = ;
-                string query = @"UPDATE `client_schedule`.`appointment` SET `userId` = @CustomerId ,`customerId` = @CustomerId ,`title` = @Title,
+                string query = @"UPDATE `client_schedule`.`appointment` SET `userId` = @userId ,`customerId` = @CustomerId ,`title` = @Title,
                          `description` = @Description
                         WHERE (`appointmentId` = @AppointmentId);";
 
@@ -781,7 +781,8 @@ namespace c969
                 {
                     // Add the parameters to avoid SQL injection
                     command.Parameters.AddWithValue("@AppointmentId", appointment.appointmentId);
-                    command.Parameters.AddWithValue("@CustomerId", appointment.userId);
+                    command.Parameters.AddWithValue("@userId", appointment.userId);
+                    command.Parameters.AddWithValue("@customerId", appointment);
                     command.Parameters.AddWithValue("@Title", appointment.title);
                     command.Parameters.AddWithValue("@Description", appointment.description);
 
@@ -800,7 +801,7 @@ namespace c969
 
 
 
-        }
+        }*/
         //select all appoitments from the db for each user
         public void GetAppoitments(int userId)
         {
