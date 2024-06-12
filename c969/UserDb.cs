@@ -105,7 +105,19 @@ namespace c969
                     MODIFY COLUMN lastUpdate TIMESTAMP DEFAULT NULL,
                   MODIFY COLUMN lastUpdateBy VARCHAR(40) DEFAULT NULL; ";
 
-                string query2 = @"ALTER TABLE client_schedule.costumer MODIFY COLUMN active TINYINT (1) DEFAULT NULL;";
+                string query2 = @"ALTER TABLE `client_schedule`.`customer` 
+                 DROP FOREIGN KEY `customer_ibfk_1`;
+                 ALTER TABLE `client_schedule`.`customer` 
+                  CHANGE COLUMN `customerName` `customerName` VARCHAR(45) NULL ,
+                 CHANGE COLUMN `addressId` `addressId` INT NULL ,
+                 CHANGE COLUMN `active` `active` TINYINT(1) NULL ,
+                 CHANGE COLUMN `createDate` `createDate` DATETIME NULL ,
+                  CHANGE COLUMN `createdBy` `createdBy` VARCHAR(40) NULL ,
+                  CHANGE COLUMN `lastUpdateBy` `lastUpdateBy` VARCHAR(40) NULL ;
+                    ALTER TABLE `client_schedule`.`customer` 
+                   ADD CONSTRAINT `customer_ibfk_1`
+                   FOREIGN KEY (`addressId`)
+                   REFERENCES `client_schedule`.`address` (`addressId`);";
 
              
                 using (MySqlCommand command = new MySqlCommand(query1, _connection))
