@@ -74,6 +74,7 @@ namespace c969
                     UserModel user = new UserModel(userId, userName, password, 1, DateTime.Now, "user", DateTime.Now, "user");
                     UserInfo userInformation = new UserInfo( userId, userName, userId, addressId, address, zipcode, phone, cityId);
                     userDb.RegisterUser(user, userInformation);
+                    userDb.InsertProfileInfo(userInformation);
                     
 
                     userDb.InsertCityIntoDatabase(cityId, cityName, addressId);

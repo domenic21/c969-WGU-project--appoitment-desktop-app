@@ -183,17 +183,17 @@ namespace c969
                 // Retrieve the current appointment's start date to combine with the new time
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
                 DateTime currentStartDate = userDb.GetAppointmentTime(appointmentId);
-
+                int userId = int.Parse(userIdLabel.Text);
 
                 // Update the appointment details
-                userDb.UpdateAppointment(appointmentId, description, title);
+                userDb.UpdateAppointment(appointmentId, description, title, userId);
                 userDb.UpdateTimeAppt(appointmentId, timeText);
                 DateTime localTime = TimeZoneInfo.ConvertTime(DateTime.Parse(timeText), TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), TimeZoneInfo.Local);
 
 
                 if (MessageBox.Show($"Appointment Updated: Your appointment in your local time will be at :{localTime}", "Confirmation", MessageBoxButtons.OK) == DialogResult.OK)
                 {
-                    int userId = int.Parse(userIdLabel.Text);
+                   
                     string username = userDb.GetUserName(userId);
                     // Open the MainForm
                     MainForm mainForm = new MainForm(username, userId);
