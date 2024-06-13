@@ -48,6 +48,9 @@ namespace c969
     
             this.Load += new EventHandler(ReportsForm_Load);
             LoadAppointment();
+            TimeZoneInfo estTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            DateTime localStartTime = TimeZoneInfo.ConvertTime(DateTime.Now, estTimeZone);
+            userDb.AlertAppointments(currentUserId, localStartTime);
 
 
         }
