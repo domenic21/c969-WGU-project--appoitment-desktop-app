@@ -66,7 +66,7 @@
             // 
             this.weekCheckBox.AutoSize = true;
             this.weekCheckBox.Location = new System.Drawing.Point(126, 136);
-            this.weekCheckBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.weekCheckBox.Margin = new System.Windows.Forms.Padding(4);
             this.weekCheckBox.Name = "weekCheckBox";
             this.weekCheckBox.Size = new System.Drawing.Size(90, 29);
             this.weekCheckBox.TabIndex = 1;
@@ -78,7 +78,7 @@
             // 
             this.Month.AutoSize = true;
             this.Month.Location = new System.Drawing.Point(25, 136);
-            this.Month.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Month.Margin = new System.Windows.Forms.Padding(4);
             this.Month.Name = "Month";
             this.Month.Size = new System.Drawing.Size(93, 29);
             this.Month.TabIndex = 2;
@@ -97,7 +97,7 @@
             // exitBtn
             // 
             this.exitBtn.Location = new System.Drawing.Point(1376, 2);
-            this.exitBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.exitBtn.Margin = new System.Windows.Forms.Padding(4);
             this.exitBtn.Name = "exitBtn";
             this.exitBtn.Size = new System.Drawing.Size(103, 48);
             this.exitBtn.TabIndex = 7;
@@ -122,9 +122,9 @@
             this.groupBox1.Controls.Add(this.timeMinusBtn);
             this.groupBox1.Controls.Add(this.timeAddBtn);
             this.groupBox1.Location = new System.Drawing.Point(949, 69);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(520, 656);
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
@@ -133,7 +133,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Bahnschrift Condensed", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(232, 560);
+            this.label3.Location = new System.Drawing.Point(193, 560);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(167, 23);
@@ -143,7 +143,7 @@
             // apptOrderLabel
             // 
             this.apptOrderLabel.Location = new System.Drawing.Point(395, 560);
-            this.apptOrderLabel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.apptOrderLabel.Margin = new System.Windows.Forms.Padding(4);
             this.apptOrderLabel.Name = "apptOrderLabel";
             this.apptOrderLabel.Size = new System.Drawing.Size(115, 29);
             this.apptOrderLabel.TabIndex = 22;
@@ -174,7 +174,7 @@
             // descriptionText
             // 
             this.descriptionText.Location = new System.Drawing.Point(12, 153);
-            this.descriptionText.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.descriptionText.Margin = new System.Windows.Forms.Padding(4);
             this.descriptionText.Name = "descriptionText";
             this.descriptionText.Size = new System.Drawing.Size(472, 142);
             this.descriptionText.TabIndex = 21;
@@ -184,7 +184,7 @@
             // datetextbox
             // 
             this.datetextbox.Location = new System.Drawing.Point(143, 446);
-            this.datetextbox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.datetextbox.Margin = new System.Windows.Forms.Padding(4);
             this.datetextbox.Name = "datetextbox";
             this.datetextbox.Size = new System.Drawing.Size(152, 29);
             this.datetextbox.TabIndex = 25;
@@ -204,7 +204,7 @@
             // 
             this.addApptBtn.BackColor = System.Drawing.SystemColors.Info;
             this.addApptBtn.Location = new System.Drawing.Point(143, 600);
-            this.addApptBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.addApptBtn.Margin = new System.Windows.Forms.Padding(4);
             this.addApptBtn.Name = "addApptBtn";
             this.addApptBtn.Size = new System.Drawing.Size(217, 46);
             this.addApptBtn.TabIndex = 18;
@@ -216,7 +216,7 @@
             // titletextBox
             // 
             this.titletextBox.Location = new System.Drawing.Point(154, 50);
-            this.titletextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.titletextBox.Margin = new System.Windows.Forms.Padding(4);
             this.titletextBox.Name = "titletextBox";
             this.titletextBox.Size = new System.Drawing.Size(309, 29);
             this.titletextBox.TabIndex = 10;
@@ -249,7 +249,7 @@
             // Timelabel
             // 
             this.Timelabel.Location = new System.Drawing.Point(8, 492);
-            this.Timelabel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Timelabel.Margin = new System.Windows.Forms.Padding(4);
             this.Timelabel.Name = "Timelabel";
             this.Timelabel.Size = new System.Drawing.Size(115, 29);
             this.Timelabel.TabIndex = 35;
@@ -259,7 +259,7 @@
             // 
             this.timeMinusBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.timeMinusBtn.Location = new System.Drawing.Point(213, 490);
-            this.timeMinusBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.timeMinusBtn.Margin = new System.Windows.Forms.Padding(4);
             this.timeMinusBtn.Name = "timeMinusBtn";
             this.timeMinusBtn.Size = new System.Drawing.Size(62, 34);
             this.timeMinusBtn.TabIndex = 33;
@@ -271,7 +271,7 @@
             // 
             this.timeAddBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.timeAddBtn.Location = new System.Drawing.Point(143, 492);
-            this.timeAddBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.timeAddBtn.Margin = new System.Windows.Forms.Padding(4);
             this.timeAddBtn.Name = "timeAddBtn";
             this.timeAddBtn.Size = new System.Drawing.Size(62, 34);
             this.timeAddBtn.TabIndex = 34;
@@ -337,7 +337,7 @@
             // logout
             // 
             this.logout.Location = new System.Drawing.Point(1365, 750);
-            this.logout.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.logout.Margin = new System.Windows.Forms.Padding(4);
             this.logout.Name = "logout";
             this.logout.Size = new System.Drawing.Size(103, 48);
             this.logout.TabIndex = 20;
@@ -412,7 +412,7 @@
             this.Controls.Add(this.monthCalendar1);
             this.Controls.Add(this.Month);
             this.Controls.Add(this.weekCheckBox);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "AppoitmentScheduler";
             this.Text = "e";
             this.groupBox1.ResumeLayout(false);

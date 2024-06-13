@@ -92,7 +92,7 @@ namespace c969
 
                 // Convert local time zone to Est, pass the current time
                 TimeZoneInfo estTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-                DateTime localStartTime = TimeZoneInfo.ConvertTime(DateTime.Now, estTimeZone);
+                DateTime localStartTime = DateTime.Now;
 
                 // Check if the username or password is empty
                 if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
