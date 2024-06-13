@@ -84,7 +84,16 @@ namespace c969.models
             this.description = description;
             this.start = start;
         }
-        
-       
+
+        public AppointmentModel(DateTime start, int userId, int appointmentId)
+        {
+
+           
+            this.userId = userId;
+            this.appointmentId = appointmentId;
+            this.start = start;
+        }
+
+
     }
 }

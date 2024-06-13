@@ -49,7 +49,7 @@ namespace c969
             this.Load += new EventHandler(ReportsForm_Load);
             LoadAppointment();
 
-
+           
         }
 
         //reloads the appointments

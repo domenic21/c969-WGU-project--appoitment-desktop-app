@@ -107,8 +107,9 @@ namespace c969
                     // If the user login is successful, open the MainForm
                     this.Hide();
                     MainForm mainForm = new MainForm(userName, currentUserId);
-                    mainForm.Show();
                     userDb.AlertAppointments(currentUserId, localStartTime);
+                    mainForm.Show();
+                   
                     LogLogin("username");
                 }
                 else if (userName == "admin" && password == "admin")

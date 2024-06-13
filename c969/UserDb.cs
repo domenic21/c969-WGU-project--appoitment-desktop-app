@@ -1214,6 +1214,7 @@ namespace c969
                 string query = @"SELECT * FROM appointment 
                    WHERE start BETWEEN @LocalTime AND DATE_ADD(@LocalTime, INTERVAL 15 MINUTE) 
                    AND userId = @UserId";
+         
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -1233,6 +1234,36 @@ namespace c969
             catch (MySqlException ex)
             {
                 MessageBox.Show(ex.Message, "no connection");
+            }
+        }
+
+        // insert appointment if exist chaging time to 15 minutes interval
+        public void InsertAppointmentAlert(AppointmentModel appointment)
+        {
+            try
+            {
+                Connect();
+                string query = @"INSERT INTO `client_schedule`.`appointment` (`customerId`, `userId`,  `start`) 
+                                VALUES ( @userId,  @start);";
+
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    // Add the parameters to avoid SQL injection
+
+                    command.Parameters.AddWithValue("@userId", appointment.userId);
+                    command.Parameters.AddWithValue("@customerId", appointment.userId);
+                    command.Parameters.AddWithValue("@start", appointment.start);
+                
+
+                    // Execute the query
+                    int rowsAffected = command.ExecuteNonQuery();
+                }
+
+                Disconnect();
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message, "no connection appoitment failed to insert");
             }
         }
 
