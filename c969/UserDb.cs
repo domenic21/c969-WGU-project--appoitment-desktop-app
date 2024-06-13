@@ -1232,7 +1232,7 @@ namespace c969
             }
             catch (MySqlException ex)
             {
-                MessageBox.Show(ex.Message, "no connection alert");
+                MessageBox.Show(ex.Message, "no connection");
             }
         }
 
