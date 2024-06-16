@@ -361,6 +361,9 @@ namespace c969
             countryBox.Show();
             CitytextBox.Hide();
             cityBox.Show();
+            UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
+            userDb.DeleteCustomer(currentUserId);
+
 
         }
 
