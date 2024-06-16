@@ -92,7 +92,7 @@ namespace c969
 
                 // Convert local time zone to Est, pass the current time
                 TimeZoneInfo estTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-                DateTime localStartTime = TimeZoneInfo.ConvertTime(DateTime.Now, estTimeZone);
+                DateTime localStartTime = DateTime.Now;
 
                 // Check if the username or password is empty
                 if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
@@ -107,8 +107,9 @@ namespace c969
                     // If the user login is successful, open the MainForm
                     this.Hide();
                     MainForm mainForm = new MainForm(userName, currentUserId);
-                    mainForm.Show();
                     userDb.AlertAppointments(currentUserId, localStartTime);
+                    mainForm.Show();
+                   
                     LogLogin("username");
                 }
                 else if (userName == "admin" && password == "admin")

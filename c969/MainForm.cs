@@ -49,7 +49,7 @@ namespace c969
             this.Load += new EventHandler(ReportsForm_Load);
             LoadAppointment();
 
-
+           
         }
 
         //reloads the appointments
@@ -361,6 +361,9 @@ namespace c969
             countryBox.Show();
             CitytextBox.Hide();
             cityBox.Show();
+            UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
+            userDb.DeleteCustomer(currentUserId);
+
 
         }
 
@@ -643,6 +646,24 @@ namespace c969
 
         }
 
+        private void addCustomer_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Are you sure you want to add a new customer information, it will replace the current customer?", "Confirmation", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                addCustomerForm addCustomerForm = new addCustomerForm(currentUserId);
+                addCustomerForm.Show();
+
+                this.Close();
+                UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
+                int addressId = userDb.GetAddressId(currentUserId);
+                userDb.DeleteCustomer(currentUserId);
+                
+            }
+            else { 
+                return;
+            }
+        }
     }
 
 

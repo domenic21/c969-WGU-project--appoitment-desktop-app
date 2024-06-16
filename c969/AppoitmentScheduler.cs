@@ -242,7 +242,7 @@ namespace c969
                     //AppointmentModel appointment = new AppointmentModel(userId, appointmentId, title, description, estTime);
                     userDb.UpdateTimeAppt(appointmentId, est);
                     
-                    userDb.UpdateAppointment(appointmentId, description, title);
+                    userDb.UpdateAppointment(appointmentId, description, title, userId);
 
                 }
                 MessageBox.Show("Appointment added successfully");
