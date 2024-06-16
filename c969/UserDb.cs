@@ -119,8 +119,29 @@ namespace c969
                    FOREIGN KEY (`addressId`)
                    REFERENCES `client_schedule`.`address` (`addressId`);";
 
-             
+                string query3 = @"ALTER TABLE `client_schedule`.`appointment` 
+                      DROP FOREIGN KEY `appointment_ibfk_2`,
+                      DROP FOREIGN KEY `appointment_ibfk_1`;
+                    ALTER TABLE `client_schedule`.`appointment` 
+                      DROP INDEX `appointment_ibfk_1` ,
+                      DROP INDEX `userId` 
+                         ;";
+                string query4 = @" ALTER TABLE `client_schedule`.`address` 
+                      DROP FOREIGN KEY `address_ibfk_1`;
+                      ALTER TABLE `client_schedule`.`address` 
+                        DROP INDEX `cityId` ;
+ 
+                            ";
+                using (MySqlCommand command = new MySqlCommand(query4, _connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
                 using (MySqlCommand command = new MySqlCommand(query1, _connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+                using (MySqlCommand command = new MySqlCommand(query3, _connection))
                 {
                     command.ExecuteNonQuery();
                 }
