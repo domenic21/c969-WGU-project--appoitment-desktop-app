@@ -1453,13 +1453,13 @@ namespace c969
             return DateTime.MinValue;// Return the default value if no appointment time is found
         }
 
-        public void DeleteCustomer(int customerId, int addressId)
+        public void DeleteCustomer(int customerId)
         {
             try
             {
                 Connect();
                 string query = @"DELETE FROM `client_schedule`.`customer` WHERE (`customerId` = @customerId);";
-                string query2 = @"DELETE FROM `client_schedule`.`address` WHERE (`addressId` = @addressId);";
+            
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -1467,13 +1467,7 @@ namespace c969
                 
                     command.ExecuteNonQuery();
                 }
-                using (MySqlCommand command = new MySqlCommand(query2, _connection))
-                {
-                    command.Parameters.AddWithValue("@addressId", addressId);
-
-                    command.ExecuteNonQuery();
-                }
-
+               
 
 
 
@@ -1519,7 +1513,7 @@ namespace c969
             }
             catch (MySqlException ex)
             {
-              Console.WriteLine(ex.Message );
+              //Console.WriteLine(ex.Message );
             }
         }
     }

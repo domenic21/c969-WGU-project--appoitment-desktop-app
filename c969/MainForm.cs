@@ -654,7 +654,7 @@ namespace c969
                 this.Close();
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
                 int addressId = userDb.GetAddressId(currentUserId);
-                userDb.DeleteCustomer(currentUserId, addressId);
+                userDb.DeleteCustomer(currentUserId);
                 
             }
             else { 
