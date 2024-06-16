@@ -214,14 +214,17 @@
             // 
             // profileRegistrationBtn
             // 
-            this.profileRegistrationBtn.Location = new System.Drawing.Point(192, 315);
+            this.profileRegistrationBtn.BackColor = System.Drawing.Color.Red;
+            this.profileRegistrationBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.142858F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.profileRegistrationBtn.ForeColor = System.Drawing.SystemColors.InactiveBorder;
+            this.profileRegistrationBtn.Location = new System.Drawing.Point(36, 315);
             this.profileRegistrationBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.profileRegistrationBtn.Name = "profileRegistrationBtn";
-            this.profileRegistrationBtn.Size = new System.Drawing.Size(103, 34);
+            this.profileRegistrationBtn.Size = new System.Drawing.Size(259, 34);
             this.profileRegistrationBtn.TabIndex = 18;
             this.profileRegistrationBtn.TabStop = false;
-            this.profileRegistrationBtn.Text = "Register";
-            this.profileRegistrationBtn.UseVisualStyleBackColor = true;
+            this.profileRegistrationBtn.Text = "Register Customer";
+            this.profileRegistrationBtn.UseVisualStyleBackColor = false;
             this.profileRegistrationBtn.Click += new System.EventHandler(this.profileRegistrationBtn_Click);
             // 
             // countryBox
