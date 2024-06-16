@@ -98,6 +98,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="addCustomerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="addCustomerForm.Designer.cs">
+      <DependentUpon>addCustomerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AppoitmentScheduler.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,6 +151,9 @@
       <DependentUpon>ReportsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UserDb.cs" />
+    <EmbeddedResource Include="addCustomerForm.resx">
+      <DependentUpon>addCustomerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AppoitmentScheduler.resx">
       <DependentUpon>AppoitmentScheduler.cs</DependentUpon>
     </EmbeddedResource>

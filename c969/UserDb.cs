@@ -1453,7 +1453,75 @@ namespace c969
             return DateTime.MinValue;// Return the default value if no appointment time is found
         }
 
-        
+        public void DeleteCustomer(int customerId, int addressId)
+        {
+            try
+            {
+                Connect();
+                string query = @"DELETE FROM `client_schedule`.`customer` WHERE (`customerId` = @customerId);";
+                string query2 = @"DELETE FROM `client_schedule`.`address` WHERE (`addressId` = @addressId);";
+
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    command.Parameters.AddWithValue("@customerId", customerId);
+                
+                    command.ExecuteNonQuery();
+                }
+                using (MySqlCommand command = new MySqlCommand(query2, _connection))
+                {
+                    command.Parameters.AddWithValue("@addressId", addressId);
+
+                    command.ExecuteNonQuery();
+                }
+
+
+
+
+                Disconnect();
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("An error occurred while deleting the customer's appointments.", "Error" + ex.Code + ex.Message);
+            }
+        }
+
+        public void AddCustomer(UserInfo info, int customerId , string customerName , int addressId)
+        {
+            try
+            {
+                Connect();
+                string query = @"INSERT INTO `client_schedule`.`customer` (customerId, customerName, addressId) VALUES (@customerId, @customerName, @addressId);";
+                string addressInsert = $"INSERT INTO `client_schedule`.`address`(addressId, address,  postalCode, phone) " +
+              $"VALUES (@addressId, @address, @postalCode, @phone)";
+
+                using (MySqlCommand insertCommand = new MySqlCommand(addressInsert, _connection))
+                {
+
+                    insertCommand.Parameters.AddWithValue("@addressId", info.addressId);
+                    insertCommand.Parameters.AddWithValue("@address", info.address);
+                    insertCommand.Parameters.AddWithValue("@postalCode", info.postalCode);
+                    insertCommand.Parameters.AddWithValue("@phone", info.phone);
+                    //command.Parameters.AddWithValue("@country", Info.country);
+
+
+                    insertCommand.ExecuteNonQuery();
+                    // Check the rows affected and handle errors if necessary
+                }
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    command.Parameters.AddWithValue("@customerId", customerId);
+                    command.Parameters.AddWithValue("@customerName", customerName);
+                    command.Parameters.AddWithValue("@addressId", addressId);
+                    command.ExecuteNonQuery();
+                }
+
+                Disconnect();
+            }
+            catch (MySqlException ex)
+            {
+              Console.WriteLine(ex.Message );
+            }
+        }
     }
 }
 
