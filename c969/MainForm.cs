@@ -100,8 +100,6 @@ namespace c969
             
         }
 
-        
-
 
         //list of appointments
         private void LoadAppointments()
@@ -142,6 +140,8 @@ namespace c969
                 appointments.Add(appointment);
             }
         }
+
+
         private void LoadAppointment()
         {
             UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
@@ -654,16 +654,21 @@ namespace c969
                 addCustomerForm addCustomerForm = new addCustomerForm(currentUserId);
                 addCustomerForm.Show();
 
-                this.Close();
+              this.Refresh();
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
                 int addressId = userDb.GetAddressId(currentUserId);
                 userDb.DeleteCustomer(currentUserId);
                 
             }
             else { 
+
                 return;
+
             }
         }
+
+
+
     }
 
 

@@ -13,7 +13,7 @@ namespace c969
 {
     public partial class addCustomerForm : Form
     {
-        private int currentUserId;
+        
         public addCustomerForm(int currentUserId)
         {
             InitializeComponent();
@@ -29,7 +29,7 @@ namespace c969
             countryBox.DropDownStyle = ComboBoxStyle.DropDownList;
             cityBox.DropDownStyle = ComboBoxStyle.DropDownList;
 
-
+           
         }
         public static int GenerateID()
         {
@@ -47,16 +47,17 @@ namespace c969
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            this.Close();
-           string userName = label1.Text;
-            int userId = currentUserId;
-            MainForm mainForm = new MainForm(userName, userId);
-            mainForm.Show();
+           
+
+            this.Hide();
+
+           
         }
 
         //add customer button
         private void button2_Click(object sender, EventArgs e)
         {
+            this.Hide();
          
          
 
@@ -103,6 +104,15 @@ namespace c969
                     MessageBox.Show("Customer Registered");
                     MainForm mainForm = new MainForm(userName.Text, userId);
                     mainForm.Show();
+                    // Close any existing MainForm instances
+                    foreach (Form form in Application.OpenForms)
+                    {
+                        if (form is MainForm)
+                        {
+                            form.Close();
+                            break; // Exit the loop after closing the first MainForm instance
+                        }
+                    }
                 }
 
 
@@ -113,6 +123,38 @@ namespace c969
             }
             this.Close();
 
+
+        }
+
+        private void ZipcodetextBox4_TextChanged(object sender, EventArgs e)
+        {
+            ZipcodetextBox4.MaxLength = 5;
+            if (System.Text.RegularExpressions.Regex.IsMatch(ZipcodetextBox4.Text, "[^0-9]")) // Check if the input is not a number 
+            {
+                MessageBox.Show("Please enter only numbers.");
+                ZipcodetextBox4.Text = ZipcodetextBox4.Text.Remove(ZipcodetextBox4.Text.Length - 1);// Remove the last character
+            }
+            if (ZipcodetextBox4.Text.Length > 5)
+            {
+                MessageBox.Show("Please enter only 5 digits.");
+                ZipcodetextBox4.Text = ZipcodetextBox4.Text.Remove(ZipcodetextBox4.Text.Length - 1);// Remove the last character
+            }
+        }
+
+        private void PhonetextBox5_TextChanged(object sender, EventArgs e)
+        {
+            PhonetextBox5.MaxLength = 12;
+            if (System.Text.RegularExpressions.Regex.IsMatch(PhonetextBox5.Text, "[^0-9-]")) // Check if the input is not a number or dash
+            {
+                MessageBox.Show("Please enter only numbers and dashes.");
+                PhonetextBox5.Text = PhonetextBox5.Text.Remove(PhonetextBox5.Text.Length - 1); // Remove the last character
+            }
+            // Trim the phone number to 12 characters
+            if (PhonetextBox5.Text.Length > 12)
+            {
+                MessageBox.Show("Please enter only 12 characters.");
+                PhonetextBox5.Text = PhonetextBox5.Text.Remove(PhonetextBox5.Text.Length - 1); // Remove the last character
+            }
 
         }
     }

@@ -98,6 +98,7 @@
             this.PhonetextBox5.Name = "PhonetextBox5";
             this.PhonetextBox5.Size = new System.Drawing.Size(243, 29);
             this.PhonetextBox5.TabIndex = 26;
+            this.PhonetextBox5.TextChanged += new System.EventHandler(this.PhonetextBox5_TextChanged);
             // 
             // ZipcodetextBox4
             // 
@@ -106,6 +107,7 @@
             this.ZipcodetextBox4.Name = "ZipcodetextBox4";
             this.ZipcodetextBox4.Size = new System.Drawing.Size(243, 29);
             this.ZipcodetextBox4.TabIndex = 25;
+            this.ZipcodetextBox4.TextChanged += new System.EventHandler(this.ZipcodetextBox4_TextChanged);
             // 
             // AddresstextBox2
             // 
