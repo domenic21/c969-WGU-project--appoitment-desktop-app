@@ -45,8 +45,8 @@ namespace c969
             int userId = int.Parse(userIdLabel.Text);
             UserDb UserDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!"); 
             string userName = UserDb.GetUserName(userId);
-            MainForm mainForm = new MainForm(userName, userId);
-            mainForm.Show();
+         /*   MainForm mainForm = new MainForm(customerId);
+            mainForm.Show();*/
            
             this.Hide();
        
@@ -68,8 +68,8 @@ namespace c969
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
                 userDb.DeleteAppointment(appointmentId);
                 MessageBox.Show("Appointment Deleted");
-                MainForm mainForm = new MainForm(userDb.GetUserName(appointmentId), appointmentId);
-                mainForm.Show();
+               /* MainForm mainForm = new MainForm(userDb.GetUserName(appointmentId), appointmentId);
+                mainForm.Show();*/
                 this.Close();
             }
             catch (Exception ex)
@@ -196,8 +196,8 @@ namespace c969
                    
                     string username = userDb.GetUserName(userId);
                     // Open the MainForm
-                    MainForm mainForm = new MainForm(username, userId);
-                    mainForm.Show();
+                   /* MainForm mainForm = new MainForm(username, userId);
+                    mainForm.Show();*/
                     this.Close();
                 }
                 else {

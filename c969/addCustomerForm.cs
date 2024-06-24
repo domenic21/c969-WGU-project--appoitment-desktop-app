@@ -102,8 +102,8 @@ namespace c969
                     userDb.InsertCountryIntoDatabase(countryId, cityId);
 
                     MessageBox.Show("Customer Registered");
-                    MainForm mainForm = new MainForm(userName.Text, userId);
-                    mainForm.Show();
+                   /* MainForm mainForm = new MainForm(userName.Text, userId);
+                    mainForm.Show();*/
                     // Close any existing MainForm instances
                     foreach (Form form in Application.OpenForms)
                     {

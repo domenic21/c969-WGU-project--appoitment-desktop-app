@@ -288,8 +288,8 @@ namespace c969
                 int userId = userDb.GetCurrentID(userName);
 
 
-                MainForm mainForm = new MainForm(userName, userId);
-                mainForm.Show();
+              /*  MainForm mainForm = new MainForm(customerId);
+                mainForm.Show();*/
             }
             catch (Exception ex)
             {

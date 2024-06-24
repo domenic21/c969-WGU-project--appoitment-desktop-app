@@ -70,6 +70,8 @@
             this.deleteUserBtn = new System.Windows.Forms.Button();
             this.addCustomer = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
+            this.customerIdText = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -88,7 +90,7 @@
             // exitBtn
             // 
             this.exitBtn.Location = new System.Drawing.Point(980, 660);
-            this.exitBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.exitBtn.Margin = new System.Windows.Forms.Padding(4);
             this.exitBtn.Name = "exitBtn";
             this.exitBtn.Size = new System.Drawing.Size(103, 40);
             this.exitBtn.TabIndex = 1;
@@ -99,7 +101,7 @@
             // saveBtn
             // 
             this.saveBtn.Location = new System.Drawing.Point(304, 315);
-            this.saveBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.saveBtn.Margin = new System.Windows.Forms.Padding(4);
             this.saveBtn.Name = "saveBtn";
             this.saveBtn.Size = new System.Drawing.Size(103, 34);
             this.saveBtn.TabIndex = 2;
@@ -186,6 +188,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.customerIdText);
+            this.groupBox1.Controls.Add(this.label15);
             this.groupBox1.Controls.Add(this.profileRegistrationBtn);
             this.groupBox1.Controls.Add(this.countryBox);
             this.groupBox1.Controls.Add(this.deleteAddressBtn);
@@ -204,11 +208,11 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.cityBox);
-            this.groupBox1.Location = new System.Drawing.Point(23, 54);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Location = new System.Drawing.Point(23, 35);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox1.Size = new System.Drawing.Size(407, 430);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Size = new System.Drawing.Size(407, 449);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             // 
@@ -218,7 +222,7 @@
             this.profileRegistrationBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.142858F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.profileRegistrationBtn.ForeColor = System.Drawing.SystemColors.InactiveBorder;
             this.profileRegistrationBtn.Location = new System.Drawing.Point(36, 315);
-            this.profileRegistrationBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.profileRegistrationBtn.Margin = new System.Windows.Forms.Padding(4);
             this.profileRegistrationBtn.Name = "profileRegistrationBtn";
             this.profileRegistrationBtn.Size = new System.Drawing.Size(259, 34);
             this.profileRegistrationBtn.TabIndex = 18;
@@ -231,7 +235,7 @@
             // 
             this.countryBox.FormattingEnabled = true;
             this.countryBox.Location = new System.Drawing.Point(154, 141);
-            this.countryBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.countryBox.Margin = new System.Windows.Forms.Padding(4);
             this.countryBox.Name = "countryBox";
             this.countryBox.Size = new System.Drawing.Size(243, 32);
             this.countryBox.TabIndex = 16;
@@ -240,7 +244,7 @@
             // deleteAddressBtn
             // 
             this.deleteAddressBtn.Location = new System.Drawing.Point(296, 387);
-            this.deleteAddressBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.deleteAddressBtn.Margin = new System.Windows.Forms.Padding(4);
             this.deleteAddressBtn.Name = "deleteAddressBtn";
             this.deleteAddressBtn.Size = new System.Drawing.Size(103, 34);
             this.deleteAddressBtn.TabIndex = 18;
@@ -251,7 +255,7 @@
             // CitytextBox
             // 
             this.CitytextBox.Location = new System.Drawing.Point(154, 186);
-            this.CitytextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CitytextBox.Margin = new System.Windows.Forms.Padding(4);
             this.CitytextBox.Name = "CitytextBox";
             this.CitytextBox.Size = new System.Drawing.Size(243, 29);
             this.CitytextBox.TabIndex = 15;
@@ -269,7 +273,7 @@
             // PhonetextBox5
             // 
             this.PhonetextBox5.Location = new System.Drawing.Point(154, 273);
-            this.PhonetextBox5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.PhonetextBox5.Margin = new System.Windows.Forms.Padding(4);
             this.PhonetextBox5.Name = "PhonetextBox5";
             this.PhonetextBox5.Size = new System.Drawing.Size(243, 29);
             this.PhonetextBox5.TabIndex = 14;
@@ -278,7 +282,7 @@
             // ZipcodetextBox4
             // 
             this.ZipcodetextBox4.Location = new System.Drawing.Point(154, 228);
-            this.ZipcodetextBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ZipcodetextBox4.Margin = new System.Windows.Forms.Padding(4);
             this.ZipcodetextBox4.Name = "ZipcodetextBox4";
             this.ZipcodetextBox4.Size = new System.Drawing.Size(243, 29);
             this.ZipcodetextBox4.TabIndex = 13;
@@ -287,7 +291,7 @@
             // CountrytextBox
             // 
             this.CountrytextBox.Location = new System.Drawing.Point(154, 144);
-            this.CountrytextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CountrytextBox.Margin = new System.Windows.Forms.Padding(4);
             this.CountrytextBox.Name = "CountrytextBox";
             this.CountrytextBox.Size = new System.Drawing.Size(243, 29);
             this.CountrytextBox.TabIndex = 12;
@@ -295,7 +299,7 @@
             // AddresstextBox2
             // 
             this.AddresstextBox2.Location = new System.Drawing.Point(154, 102);
-            this.AddresstextBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.AddresstextBox2.Margin = new System.Windows.Forms.Padding(4);
             this.AddresstextBox2.Name = "AddresstextBox2";
             this.AddresstextBox2.Size = new System.Drawing.Size(243, 29);
             this.AddresstextBox2.TabIndex = 11;
@@ -303,8 +307,8 @@
             // 
             // NametextBox
             // 
-            this.NametextBox.Location = new System.Drawing.Point(154, 60);
-            this.NametextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.NametextBox.Location = new System.Drawing.Point(154, 65);
+            this.NametextBox.Margin = new System.Windows.Forms.Padding(4);
             this.NametextBox.Name = "NametextBox";
             this.NametextBox.Size = new System.Drawing.Size(243, 29);
             this.NametextBox.TabIndex = 10;
@@ -314,7 +318,7 @@
             // 
             this.cityBox.FormattingEnabled = true;
             this.cityBox.Location = new System.Drawing.Point(154, 183);
-            this.cityBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cityBox.Margin = new System.Windows.Forms.Padding(4);
             this.cityBox.Name = "cityBox";
             this.cityBox.Size = new System.Drawing.Size(243, 32);
             this.cityBox.TabIndex = 17;
@@ -323,7 +327,7 @@
             // modifyBtn
             // 
             this.modifyBtn.Location = new System.Drawing.Point(216, 495);
-            this.modifyBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.modifyBtn.Margin = new System.Windows.Forms.Padding(4);
             this.modifyBtn.Name = "modifyBtn";
             this.modifyBtn.Size = new System.Drawing.Size(103, 34);
             this.modifyBtn.TabIndex = 11;
@@ -334,7 +338,7 @@
             // saveProfileBtn
             // 
             this.saveProfileBtn.Location = new System.Drawing.Point(327, 495);
-            this.saveProfileBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.saveProfileBtn.Margin = new System.Windows.Forms.Padding(4);
             this.saveProfileBtn.Name = "saveProfileBtn";
             this.saveProfileBtn.Size = new System.Drawing.Size(103, 34);
             this.saveProfileBtn.TabIndex = 12;
@@ -364,9 +368,9 @@
             this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.labelAppt);
             this.groupBox2.Location = new System.Drawing.Point(532, 54);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox2.Size = new System.Drawing.Size(551, 592);
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
@@ -407,7 +411,7 @@
             // 
             this.cancelapptbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.142858F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancelapptbtn.Location = new System.Drawing.Point(314, 194);
-            this.cancelapptbtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cancelapptbtn.Margin = new System.Windows.Forms.Padding(4);
             this.cancelapptbtn.Name = "cancelapptbtn";
             this.cancelapptbtn.Size = new System.Drawing.Size(223, 68);
             this.cancelapptbtn.TabIndex = 26;
@@ -427,7 +431,7 @@
             // modifyApptBtn
             // 
             this.modifyApptBtn.Location = new System.Drawing.Point(202, 194);
-            this.modifyApptBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.modifyApptBtn.Margin = new System.Windows.Forms.Padding(4);
             this.modifyApptBtn.Name = "modifyApptBtn";
             this.modifyApptBtn.Size = new System.Drawing.Size(103, 68);
             this.modifyApptBtn.TabIndex = 24;
@@ -441,7 +445,7 @@
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.button1.Location = new System.Drawing.Point(14, 480);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(509, 88);
             this.button1.TabIndex = 21;
@@ -494,7 +498,7 @@
             // deleteUserBtn
             // 
             this.deleteUserBtn.Location = new System.Drawing.Point(317, 602);
-            this.deleteUserBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.deleteUserBtn.Margin = new System.Windows.Forms.Padding(4);
             this.deleteUserBtn.Name = "deleteUserBtn";
             this.deleteUserBtn.Size = new System.Drawing.Size(103, 44);
             this.deleteUserBtn.TabIndex = 21;
@@ -523,6 +527,25 @@
             this.label14.TabIndex = 22;
             this.label14.Text = "Add new costumer?";
             // 
+            // customerIdText
+            // 
+            this.customerIdText.Location = new System.Drawing.Point(196, 24);
+            this.customerIdText.Margin = new System.Windows.Forms.Padding(4);
+            this.customerIdText.Name = "customerIdText";
+            this.customerIdText.Size = new System.Drawing.Size(203, 29);
+            this.customerIdText.TabIndex = 21;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(8, 26);
+            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(178, 30);
+            this.label15.TabIndex = 20;
+            this.label15.Text = "Customer ID:";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
@@ -542,7 +565,7 @@
             this.Controls.Add(this.exitBtn);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.Text = "MainForm";
             this.groupBox1.ResumeLayout(false);
@@ -597,5 +620,7 @@
         private System.Windows.Forms.ListBox listBox2;
         private System.Windows.Forms.Button addCustomer;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox customerIdText;
+        private System.Windows.Forms.Label label15;
     }
 }

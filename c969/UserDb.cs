@@ -26,6 +26,7 @@ namespace c969
         public static BindingList<AppointmentModel> appointmentModels = new BindingList<AppointmentModel>();
         public static BindingList<AppointmentModel> reports = new BindingList<AppointmentModel>();
         public static BindingList<AppointmentModel> availableAppointments = new BindingList<AppointmentModel>();
+        public static BindingList<UserModel> customerAppointments = new BindingList<UserModel>();
 
 
 
@@ -160,7 +161,47 @@ namespace c969
         
         
         }
-        public void RegisterUser(UserModel user, UserInfo Info)
+
+        public void RegisterUser(UserModel user) {
+
+            try {
+
+                Connect();
+                string query = "INSERT  INTO `client_schedule`.`user`(userId,userName, password, active, createDate, createdBy, lastUpdate, lastUpdateBy) " +
+                              "VALUES (@UserId,@UserName, @Password, @Active, @CreateDate, @CreatedBy, @LastUpdate, @LastUpdateBy);"; 
+
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    command.Parameters.AddWithValue("@UserName", user.userName);
+                    
+                    command.Parameters.AddWithValue("@UserId", user.userId);
+                    command.Parameters.AddWithValue("@Password", user.password);
+                    command.Parameters.AddWithValue("@Active", user.active);
+                    command.Parameters.AddWithValue("@CreateDate", user.createDate);
+                    command.Parameters.AddWithValue("@CreatedBy", user.createdBy);
+                    command.Parameters.AddWithValue("@LastUpdate", user.lastUpdate);
+                    command.Parameters.AddWithValue("@LastUpdateBy", user.lastUpdateBy);
+
+                    int rowsAffected = command.ExecuteNonQuery();
+                }
+
+                Disconnect();
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message, "no connection");
+            }
+        
+        
+        
+        
+        
+        
+        } 
+
+         // CHECKKKKKKKKKKKKKK
+
+        public void RegisterCustomer(UserModel user, UserInfo Info)
         {
             try
             {
@@ -169,9 +210,22 @@ namespace c969
                 "VALUES (@UserId,@UserName, @Password, @Active, @CreateDate, @CreatedBy, @LastUpdate, @LastUpdateBy)";
 
                 string insertQueryCustomer = @"UPDATE `client_schedule`.`customer`
-                        SET `customerName` = @UserName,
+                        SET `customerName` = @CustomerName,
                        `addressId` = @addressId
                           WHERE `customerId` = @CustomerId;";
+
+                string insertCustomer = @"INSERT INTO `client_schedule`.`customer` (customerId, customerName, addressId) VALUES (@CustomerId, @UserName, @addressId);";
+
+                using (MySqlCommand command = new MySqlCommand(insertCustomer, _connection))
+                {
+                    command.Parameters.AddWithValue("@CustomerId", user.customerId); // Assuming customerId is the same as UserId
+                    command.Parameters.AddWithValue("@addressId", Info.addressId); // Add addressId parameter
+                    command.Parameters.AddWithValue("@CustomerName", user.customerName);
+                    command.ExecuteNonQuery();
+
+
+
+                }
                 using (MySqlCommand command = new MySqlCommand(insertQueryCustomer, _connection))
                 {
                     command.Parameters.AddWithValue("@customerId", Info.UserId); // Assuming customerId is the same as UserId
@@ -187,6 +241,8 @@ namespace c969
                 {
                     // Add the parameters to avoid SQL injection
                     command.Parameters.AddWithValue("@UserName", user.userName);
+                    command.Parameters.AddWithValue("@CustomerName", user.customerName);
+                    command.Parameters.AddWithValue("@CustomerId", user.customerId);
                     command.Parameters.AddWithValue("@UserId", user.userId);
                     command.Parameters.AddWithValue("@Password", user.password);
                     command.Parameters.AddWithValue("@Active", user.active);
@@ -260,7 +316,7 @@ namespace c969
                 }
                 using (MySqlCommand command = new MySqlCommand(insertQueryCustomer, _connection))
                 {
-                    command.Parameters.AddWithValue("@customerId", Info.UserId); // Assuming customerId is the same as UserId
+                    command.Parameters.AddWithValue("@customerId", Info.customerId); 
                     command.Parameters.AddWithValue("@addressId", Info.addressId); // Add addressId parameter
                     command.Parameters.AddWithValue("@UserName", Info.UserName);
                     command.ExecuteNonQuery();
@@ -270,8 +326,8 @@ namespace c969
                 }
                 using (MySqlCommand command = new MySqlCommand(insertCustomer, _connection))
                 {
-                    command.Parameters.AddWithValue("@customerId", Info.UserId); // Assuming customerId is the same as UserId
-                    command.Parameters.AddWithValue("@addressId", Info.addressId); // Add addressId parameter
+                    command.Parameters.AddWithValue("@customerId", Info.customerId); 
+                    command.Parameters.AddWithValue("@addressId", Info.addressId); 
                     command.Parameters.AddWithValue("@UserName", Info.UserName);
                     command.ExecuteNonQuery();
 
@@ -369,7 +425,7 @@ namespace c969
         }
 
         // retrieve information from the database
-        public UserInfo UserInformation(int currentUserId)
+        public UserInfo UserInformation(int customerId)
         {
             UserInfo userInfo = null;
             // Initialize UserInfo object
@@ -377,33 +433,44 @@ namespace c969
             {
                 Connect();
                 // Query to retrieve user information
-                string query = @"SELECT
+                /*string query = @"SELECT
                             u.userId,
                             c.customerId,
-                             c.customerName,
-                   ad.addressId,
-                                   ad.address,
-                             ad.address2,
-                             ad.postalCode,
-                                  ad.phone,
-                                 ci.cityId,
-                               ci.city,
-                                 co.country,
-                                    co.countryId
+                            c.customerName,
+                            ad.addressId,
+                            ad.address,
+                            ad.address2,
+                            ad.postalCode,
+                            ad.phone,
+                            ci.cityId,
+                            ci.city,
+                                co.country,
+                                   co.countryId
 
-                            FROM
-                                        user u
-                           INNER JOIN customer c ON u.userId = c.customerId
-                           INNER JOIN address ad ON c.addressId = ad.addressId
-                         INNER JOIN city ci ON ad.cityId = ci.cityId
+                           FROM
+                                       user u
+                          INNER JOIN customer c ON u.userId = c.customerId
+                          INNER JOIN address ad ON c.addressId = ad.addressId
+                        INNER JOIN city ci ON ad.cityId = ci.cityId
+                        INNER JOIN country co ON ci.countryId = co.countryId
+                                    WHERE
+                                        u.userId = @userId;";*/
+                string query = @"SELECT a.address, a.postalCode, a.phone, ci.cityId,
+                               ci.city,
+                             co.country,
+                            co.countryId
+                        FROM customer c
+                    JOIN address a ON c.addressId = a.addressId
+                    JOIN appointment ap ON c.customerId = ap.customerId
+                        INNER JOIN city ci ON a.cityId = ci.cityId
                          INNER JOIN country co ON ci.countryId = co.countryId
-                                     WHERE
-                                         u.userId = @userId;";
+                                 WHERE c.customerId = 1;
+                                    ";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
                     // Add parameters
-                    command.Parameters.AddWithValue("@userId", currentUserId);
+                    command.Parameters.AddWithValue("@userId", customerId);
 
                     // Execute the query
                     using (MySqlDataReader reader = command.ExecuteReader())
@@ -412,7 +479,7 @@ namespace c969
                         {
                             // Retrieve user information from the reader
                             int retrievedUserId = reader.GetInt32("userId");
-                            int customerId = reader.GetInt32("customerId");
+                         
                             string customerName = reader.GetString("customerName");
                             string address = reader.GetString("address");
                             int postalCode = reader.GetInt32("postalCode");
@@ -437,6 +504,38 @@ namespace c969
                 return null;
             }
         }
+        // retrieve customers 
+
+        public void RetrieveCustomers()
+        {
+            try
+            {
+                Connect();
+                string query = @"SELECT * FROM client_schedule.customer;";
+
+
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int customerId = reader.GetInt32("customerId");
+                            string customerName = reader.GetString("customerName");
+
+                            UserModel user = new UserModel(customerName, customerId);
+                            customerAppointments.Add(user);
+                        }
+                    }
+                }
+
+                Disconnect();
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message, "no connection");
+            }
+        }
 
         //retrieve country and city information to chose from 
         public void RetrieveCountryCity()
@@ -452,8 +551,10 @@ namespace c969
                 {
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
+
                         while (reader.Read())
-                        {
+                        { 
+
                             int cityId = reader.GetInt32("cityId");
                             string city = reader.GetString("city");
                             int countryId = reader.GetInt32("countryId");
@@ -463,6 +564,7 @@ namespace c969
                             multipleChoiceCountry.Add(cityModel);
 
                         }
+
                     }
                 }
 

@@ -16,17 +16,20 @@ namespace c969
     public partial class MainForm : Form
     {
         private string username; // Create a property to store the user
+        private int customerId;
         private int currentUserId;
 
 
 
 
-        public MainForm(string username, int currentUserId)
+
+        public MainForm( int customerId)
         {
             InitializeComponent();
-            this.username = username;// Set the username property to the username passed in
+            this.customerId = customerId;
+      
             NametextBox.Text = username;// Set the text box to the username
-            this.currentUserId = currentUserId;// Set the currentUserId property to the currentUserId passed in
+         
             UserIdlabel.Text = ' ' + " Hello , " + username;
             labeluserId.Text = currentUserId.ToString();// Set the label to the username
             //InitializeFormData(currentUserId, username);// Initialize the form data
@@ -40,16 +43,14 @@ namespace c969
             countryBox.DropDownStyle = ComboBoxStyle.DropDownList;
             cityBox.DropDownStyle = ComboBoxStyle.DropDownList;
             InitializeFormData(currentUserId);
-            userDb.GetAppoitments(currentUserId);
-            
+            userDb.GetAppoitments(customerId);
 
             this.StartPosition = FormStartPosition.CenterScreen;
             listBox.ClearSelected();
-    
+            
             this.Load += new EventHandler(ReportsForm_Load);
             LoadAppointment();
-
-           
+ 
         }
 
         //reloads the appointments
@@ -402,11 +403,8 @@ namespace c969
                     // Retrieve the selected city model from the combobox
 
 
-                    int customerId = userId;
-                    if (customerId == 0) // Assuming 0 represents an invalid customerId
-                    {
-                        MessageBox.Show("Failed to retrieve customer ID. Please try again or contact support.");
-                    }
+                    int customerId = GenerateID();
+                  
                     int addressId = GenerateID();
 
                     UserInfo userInformation = new UserInfo(userId, userName, customerId, address, postalCode, phone, cityId, addressId);

@@ -106,9 +106,11 @@ namespace c969
                 {
                     // If the user login is successful, open the MainForm
                     this.Hide();
-                    MainForm mainForm = new MainForm(userName, currentUserId);
+                   // MainForm mainForm = new MainForm(userName, currentUserId);
                     userDb.AlertAppointments(currentUserId, localStartTime);
-                    mainForm.Show();
+                    //mainForm.Show();
+                    RegisterCustomer registerCustomerForm = new RegisterCustomer( currentUserId);
+                    registerCustomerForm.Show();
                    
                     LogLogin("username");
                 }
