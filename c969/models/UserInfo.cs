@@ -20,29 +20,16 @@ namespace c969.models
         public int customerId { get; set; }
 
         public int addressId { get; set; }
-   
+        public string customerName { get; set; }
   
        
      
-        public UserInfo(int userId, string UserName,int customerId, string address,  int postalCode, string phone, int cityId)
-             
-        {
-            this.UserId = userId;
-            this.UserName = UserName;
-            this.address = address;
-            this.cityId = cityId;
-            this.postalCode = postalCode;
-            this.phone = phone;
-         
-            this.customerId = customerId;
-
-
-        }
-        public UserInfo(int userId, string UserName, int customerId,int addressId, string address, int postalCode, string phone, int cityId)
+  
+        
+        public UserInfo(int customerId, string customerName,int addressId, string address, int postalCode, string phone, int cityId)
 
         {
-            this.UserId = userId;
-            this.UserName = UserName;
+            this.customerName = customerName;
             this.address = address;
             this.cityId = cityId;
             this.postalCode = postalCode;
@@ -53,21 +40,7 @@ namespace c969.models
 
         }
 
-        public UserInfo(int userId, string UserName, int customerId, string address, int postalCode, string phone, int cityId, int addressId)
-
-        {
-            this.UserId = userId;
-            this.UserName = UserName;
-            this.address = address;
-            this.cityId = cityId;
-            this.postalCode = postalCode;
-            this.phone = phone;
-            this.addressId = addressId;
-
-            this.customerId = customerId;
-
-
-        }
+        
 
         public UserInfo(int userId, string city, int cityId)
         {
@@ -78,19 +51,7 @@ namespace c969.models
 
         }
 
-        public UserInfo (int userId, string userName, int customerId, string address, int postalCode, string phone,int cityId, string city, string country)
-        {
-          this.UserId = userId;
-            this.UserName = userName;
-            this.address = address;
-            this.postalCode = postalCode;
-            this.phone = phone;
-            this.customerId = customerId;
-            this.cityId = cityId;
-            this.city = city;
-            this.country = country;
-            
-        }
+       
 
     }
 }

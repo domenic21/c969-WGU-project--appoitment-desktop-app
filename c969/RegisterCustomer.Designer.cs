@@ -256,7 +256,6 @@
             this.logIn.TabIndex = 34;
             this.logIn.Text = "Log In";
             this.logIn.UseVisualStyleBackColor = true;
-            this.logIn.Visible = false;
             this.logIn.Click += new System.EventHandler(this.logIn_Click);
             // 
             // RegisterCustomer

@@ -433,7 +433,7 @@ namespace c969
             {
                 Connect();
                 // Query to retrieve user information
-                /*string query = @"SELECT
+               /* string query = @"SELECT
                             u.userId,
                             c.customerId,
                             c.customerName,
@@ -454,23 +454,19 @@ namespace c969
                         INNER JOIN city ci ON ad.cityId = ci.cityId
                         INNER JOIN country co ON ci.countryId = co.countryId
                                     WHERE
-                                        u.userId = @userId;";*/
-                string query = @"SELECT a.address, a.postalCode, a.phone, ci.cityId,
-                               ci.city,
-                             co.country,
-                            co.countryId
-                        FROM customer c
-                    JOIN address a ON c.addressId = a.addressId
-                    JOIN appointment ap ON c.customerId = ap.customerId
-                        INNER JOIN city ci ON a.cityId = ci.cityId
-                         INNER JOIN country co ON ci.countryId = co.countryId
-                                 WHERE c.customerId = 1;
+                                        u.userId = @userId and c.customerId = @customerId;";*/
+                string query = @"SELECT c.customerName, a.address, a.address2, a.cityId, a.postalCode, a.phone, ci.city, co.country,a.addressId
+                           FROM customer c
+                        JOIN address a ON c.addressId = a.addressId
+                       JOIN city ci ON a.cityId = ci.cityId
+                               JOIN country co ON ci.countryId = co.countryId
+                               WHERE c.customerId = @customerId;
                                     ";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
                     // Add parameters
-                    command.Parameters.AddWithValue("@userId", customerId);
+                    command.Parameters.AddWithValue("@customerId", customerId);
 
                     // Execute the query
                     using (MySqlDataReader reader = command.ExecuteReader())
@@ -478,8 +474,6 @@ namespace c969
                         if (reader.Read()) // Check if the user exists in the database
                         {
                             // Retrieve user information from the reader
-                            int retrievedUserId = reader.GetInt32("userId");
-                         
                             string customerName = reader.GetString("customerName");
                             string address = reader.GetString("address");
                             int postalCode = reader.GetInt32("postalCode");
@@ -487,9 +481,10 @@ namespace c969
                             int cityId = reader.GetInt32("cityId");
                             string city = reader.GetString("city");
                             string country = reader.GetString("country");
+                            int addressId = reader.GetInt32("addressId");
 
                             // Create a new UserInfo object
-                            userInfo = new UserInfo(retrievedUserId, customerName, customerId, address, postalCode, phone, cityId, city, country);
+                            userInfo = new UserInfo( customerId, customerName, addressId,address, postalCode, phone, cityId);
                         }
                     }
                 }
@@ -500,7 +495,7 @@ namespace c969
             }
             catch (MySqlException ex)
             {
-                MessageBox.Show(ex.Message, "no connection retrieving data");
+                MessageBox.Show(ex.Message, "no connection retrieving data 499");
                 return null;
             }
         }
@@ -871,7 +866,7 @@ namespace c969
             }
             catch (MySqlException ex)
             {
-                MessageBox.Show(ex.Message, "Error retrieving cityId dbselectedcity");
+                MessageBox.Show(ex.Message, "Error retrieving cityId dbselectedcity 870");
             }
 
             return cityId;
@@ -904,11 +899,46 @@ namespace c969
             }
             catch (MySqlException ex)
             {
-                MessageBox.Show(ex.Message, "Error retrieving cityId dbselectedcity");
+                MessageBox.Show(ex.Message, "Error retrieving countryId dbselectedcity 903 ");
             }
 
             return countryId;
         }
+
+        //select customerId
+        public int SelectCustomerId(string customerName)
+        {
+            int customerId = 0;
+            try
+            {
+                Connect();
+
+                string getCountryId = "SELECT customerId FROM `client_schedule`.`customer` WHERE customerName = @CustomerName;";
+
+
+
+                using (MySqlCommand command = new MySqlCommand(getCountryId, _connection))
+                {
+                    // Add the parameter to avoid SQL injection
+                    command.Parameters.AddWithValue("@CustomerName", customerName);
+
+                    // Execute the query and retrieve the cityId
+                    object result = command.ExecuteScalar(); // ExecuteScalar is used to retrieve a single value
+                    if (result != null)
+                    {
+                        customerId = Convert.ToInt32(result);
+                    }
+                }
+
+                Disconnect();
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Error retrieving customerId dbselectedcity 938 ");
+               }
+            return customerId;
+        }
+
 
         //Appointment section 
         /*public void InsertAppointment(AppointmentModel appointment)
@@ -947,7 +977,7 @@ namespace c969
 
         }*/
         //select all appoitments from the db for each user
-        public void GetAppoitments(int userId)
+        public void GetAppoitments(int customerId)
         {
             try
             {
@@ -956,7 +986,7 @@ namespace c969
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
-                    command.Parameters.AddWithValue("@CustomerId", userId);
+                    command.Parameters.AddWithValue("@CustomerId", customerId);
 
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
@@ -971,7 +1001,7 @@ namespace c969
 
 
 
-                            AppointmentModel appointmentModel = new AppointmentModel(userId, appointmentId, title, description, start);
+                            AppointmentModel appointmentModel = new AppointmentModel(customerId, appointmentId, title, description, start);
                             appointmentModels.Add(appointmentModel);
                         }
                     }

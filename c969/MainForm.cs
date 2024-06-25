@@ -31,7 +31,7 @@ namespace c969
             NametextBox.Text = username;// Set the text box to the username
          
             UserIdlabel.Text = ' ' + " Hello , " + username;
-            labeluserId.Text = currentUserId.ToString();// Set the label to the username
+            labeluserId.Text = customerId.ToString();// Set the label to the username
             //InitializeFormData(currentUserId, username);// Initialize the form data
             DeactivateTextBoxes();// Deactivate the text boxes
             UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
@@ -42,7 +42,7 @@ namespace c969
             countryBox.DisplayMember = "Country";// Display the country name
             countryBox.DropDownStyle = ComboBoxStyle.DropDownList;
             cityBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            InitializeFormData(currentUserId);
+            InitializeFormData(customerId);
             userDb.GetAppoitments(customerId);
 
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -188,13 +188,13 @@ namespace c969
 
 
         //separation of concerns
-        private void InitializeFormData(int currentUserId)
+        private void InitializeFormData(int customerId)
         {
             try
             {
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
 
-                UserInfo userInfo = userDb.UserInformation(currentUserId);
+                UserInfo userInfo = userDb.UserInformation(customerId);
 
 
                 // Check if userInfo is null before accessing its properties
@@ -284,7 +284,7 @@ namespace c969
 
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
 
-                UserInfo userInfo = userDb.UserInformation(currentUserId);
+                UserInfo userInfo = userDb.UserInformation(customerId);
                 //get userId to customer for updates functionality
 
 
@@ -300,7 +300,7 @@ namespace c969
                 else
                 {
                     // Update the user information
-                    string userName = NametextBox.Text;
+                    string customerName = NametextBox.Text;
                     string address = AddresstextBox2.Text;
                     int postalCode = int.Parse(ZipcodetextBox4.Text);
                     string phone = (PhonetextBox5.Text).ToString();
@@ -309,22 +309,22 @@ namespace c969
                     int cityId = userDb.SelectCityId(cityBox.Text);
                     int countryId = userDb.SelectCountryId(cityBox.Text);
                     string cityName = cityBox.SelectedItem.ToString();
-
-
+                    int customerId = userDb.SelectCustomerId(customerName);
+                    int addressId = userDb.GetAddressId(customerId);
 
                     // Get the selected city
                     int userId = int.Parse(labeluserId.Text);
-                    int customerId = userId;
+                   
                     if (customerId == 0) // Assuming 0 represents an invalid customerId
                     {
                         MessageBox.Show("Failed to retrieve customer ID. Please try again or contact support.");
                     }
 
-                    UserInfo userInformation = new UserInfo(currentUserId, userName, customerId, address, postalCode, phone, cityId);
+                    UserInfo userInformation = new UserInfo(  customerId,customerName,addressId, address, postalCode, phone, cityId);
                     // Update the user information
 
                     userDb.UpdateUser(userInformation);
-                    int addressId = userDb.GetAddressId(userId);
+                    
                     userDb.InsertCityIntoDatabase(cityId, cityName, addressId);
                     userDb.InsertCountryIntoDatabase(countryId, cityId);
 
@@ -374,7 +374,7 @@ namespace c969
             {
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
 
-                UserInfo userInfo = userDb.UserInformation(currentUserId);
+                UserInfo userInfo = userDb.UserInformation(customerId);
                 //get userId to customer for updates functionality
 
                 //data input textbox validation 
@@ -407,7 +407,7 @@ namespace c969
                   
                     int addressId = GenerateID();
 
-                    UserInfo userInformation = new UserInfo(userId, userName, customerId, address, postalCode, phone, cityId, addressId);
+                    UserInfo userInformation = new UserInfo(customerId, userName,  addressId,address, postalCode, phone, cityId);
 
                     // Insert user profile information
                     userDb.InsertProfileInfo(userInformation);

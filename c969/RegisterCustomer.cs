@@ -105,7 +105,7 @@ namespace c969
                     int addressId = GenerateAddressId();
 
 
-                    UserInfo userInformation = new UserInfo(userId, userName, customerId, address, postalCode, phone, cityId, addressId);
+                    UserInfo userInformation = new UserInfo(customerId, userName, addressId, address, postalCode, phone, cityId);
              
                     // Insert user profile information
                     userDb.InsertProfileInfo(userInformation);
@@ -133,8 +133,11 @@ namespace c969
 
         private void logIn_Click(object sender, EventArgs e)
         {
-           /* MainForm mainForm = new MainForm( );
-            mainForm.Show();*/
+
+            UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
+            int customerId = userDb.SelectCustomerId(comboBox.Text);  
+            MainForm mainForm = new MainForm( customerId);
+            mainForm.Show();
         }
     }
 }
