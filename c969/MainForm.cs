@@ -16,25 +16,26 @@ namespace c969
     public partial class MainForm : Form
     {
         private string username; // Create a property to store the user
-        private int customerId;
+       
         private int currentUserId;
+       
 
 
 
 
-
-        public MainForm( int customerId)
+        public MainForm( int customerId, int userId )
         {
             InitializeComponent();
-            this.customerId = customerId;
-      
-            NametextBox.Text = username;// Set the text box to the username
+            
+            UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
+
+            this.currentUserId = userDb.GetCurrentID(username);
+            customerIdText.Text = customerId.ToString();// Set the text box to the username
+            UserIdlabel.Text =  userId.ToString() ;
          
-            UserIdlabel.Text = ' ' + " Hello , " + username;
-            labeluserId.Text = customerId.ToString();// Set the label to the username
             //InitializeFormData(currentUserId, username);// Initialize the form data
             DeactivateTextBoxes();// Deactivate the text boxes
-            UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
+            
             userDb.RetrieveCountryCity();// Populate the ComboBox with multiple-choice options
             countryBox.DataSource = UserDb.multipleChoiceCountry;
             cityBox.DataSource = UserDb.multipleChoiceCountry;///connects to the list of countries
@@ -184,9 +185,6 @@ namespace c969
 
 
 
-
-
-
         //separation of concerns
         private void InitializeFormData(int customerId)
         {
@@ -201,7 +199,7 @@ namespace c969
                 if (userInfo != null)
                 {
                     // Set the text box values only if the corresponding properties are not null
-                    NametextBox.Text = userInfo.UserName;
+                    NametextBox.Text = userInfo.customerName;
                     AddresstextBox2.Text = userInfo.address;
                     ZipcodetextBox4.Text = userInfo.postalCode.ToString();
                     PhonetextBox5.Text = userInfo.phone.ToString();
@@ -209,18 +207,16 @@ namespace c969
                     CountrytextBox.Text = userInfo.country;
                     cityBox.Text = userInfo.city;
                     countryBox.Text = userInfo.country;
-
+                    customerIdText.Text = userInfo.customerId.ToString();
                     modifyBtn.Enabled = true; // Enable the modify button
-                    profileRegistrationBtn.Hide(); // Hide the registration button
                     saveProfileBtn.Enabled = true; // Enable the save button
-                    saveBtn.Enabled = false; // Disable the save button
-                    saveBtn.Hide(); // Hide the save button
+                    
                 }
                 else
                 {
                     // No user information found, handle it accordingly (e.g., display default values, leave text boxes empty
                     MessageBox.Show("Please dont forget to complete your registration"); // Display a message to the user
-                    profileRegistrationBtn.Show(); // Show the registration button
+                 
                                                    // Disable the modify button   // Deactivate the save button
                     saveProfileBtn.Enabled = false;
                     modifyBtn.Enabled = false;
@@ -283,7 +279,7 @@ namespace c969
             {
 
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-
+                int customerId = Convert.ToInt32(customerIdText.Text);
                 UserInfo userInfo = userDb.UserInformation(customerId);
                 //get userId to customer for updates functionality
 
@@ -309,7 +305,7 @@ namespace c969
                     int cityId = userDb.SelectCityId(cityBox.Text);
                     int countryId = userDb.SelectCountryId(cityBox.Text);
                     string cityName = cityBox.SelectedItem.ToString();
-                    int customerId = userDb.SelectCustomerId(customerName);
+               
                     int addressId = userDb.GetAddressId(customerId);
 
                     // Get the selected city
@@ -320,11 +316,10 @@ namespace c969
                         MessageBox.Show("Failed to retrieve customer ID. Please try again or contact support.");
                     }
 
-                    UserInfo userInformation = new UserInfo(  customerId,customerName,addressId, address, postalCode, phone, cityId);
+                    UserInfo userInformation = new UserInfo(customerId,customerName,addressId, address, postalCode, phone, cityId);
                     // Update the user information
 
-                    userDb.UpdateUser(userInformation);
-                    
+                    userDb.UpdateUser(userInformation); 
                     userDb.InsertCityIntoDatabase(cityId, cityName, addressId);
                     userDb.InsertCountryIntoDatabase(countryId, cityId);
 
@@ -373,7 +368,7 @@ namespace c969
             try
             {
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-
+                int customerId = Convert.ToInt32(customerIdText.Text);
                 UserInfo userInfo = userDb.UserInformation(customerId);
                 //get userId to customer for updates functionality
 
@@ -403,11 +398,11 @@ namespace c969
                     // Retrieve the selected city model from the combobox
 
 
-                    int customerId = GenerateID();
+                    int customerId1 = GenerateID();
                   
                     int addressId = GenerateID();
 
-                    UserInfo userInformation = new UserInfo(customerId, userName,  addressId,address, postalCode, phone, cityId);
+                    UserInfo userInformation = new UserInfo(customerId1, userName,  addressId,address, postalCode, phone, cityId);
 
                     // Insert user profile information
                     userDb.InsertProfileInfo(userInformation);
@@ -435,9 +430,10 @@ namespace c969
                 saveProfileBtn.Show();
                 modifyBtn.Show();
                 modifyBtn.Enabled = true;
-                saveBtn.Hide();
+             
+
                 saveProfileBtn.Show();
-                profileRegistrationBtn.Hide();
+             
             }
             catch (MySqlException ex)
             {
@@ -511,7 +507,10 @@ namespace c969
             try
             {
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-                userDb.DeleteUser(currentUserId);
+                int customerId = Convert.ToInt32(customerIdText.Text);
+                int userId = Convert.ToInt32(labeluserId.Text);
+
+                userDb.DeleteUser(userId, customerId);
                 MessageBox.Show("Profile information deleted successfully" + MessageBoxButtons.OK);
                 loginForm loginForm = new loginForm();
                 loginForm.Show();
@@ -527,7 +526,9 @@ namespace c969
 
         private void button1_Click(object sender, EventArgs e)
         {
-            AppoitmentScheduler appoitmentScheduler = new AppoitmentScheduler(currentUserId);
+            int customerId = Convert.ToInt32(customerIdText.Text);
+            int userId = Convert.ToInt32(UserIdlabel.Text);
+            AppoitmentScheduler appoitmentScheduler = new AppoitmentScheduler(customerId, userId);
             appoitmentScheduler.Show();
             this.Hide();
         }
@@ -568,9 +569,9 @@ namespace c969
 
                 // Extract the time portion
                 string appointmentTimeOnly = appointmentTime.ToString();
-                int userId = currentUserId;
-
-                ModifyForm modifyForm = new ModifyForm(appointmentId, appointmentTimeOnly, userId);
+                int userId = Convert.ToInt32(UserIdlabel.Text);
+                int customerId = Convert.ToInt32(customerIdText.Text);
+                ModifyForm modifyForm = new ModifyForm(appointmentId, appointmentTimeOnly, userId, customerId);
                 modifyForm.Show();
 
                 this.Close();
@@ -634,10 +635,13 @@ namespace c969
         private void ReloadAppointments()
         {
             UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-            userDb.GetAppoitments(currentUserId);
+            int customerId = Convert.ToInt32(customerIdText.Text);
+            userDb.GetAppoitments(customerId);
             LoadAppointments();
             this.Refresh();
-            AppoitmentScheduler appoitmentScheduler = new AppoitmentScheduler(currentUserId);
+            int userId = Convert.ToInt32(UserIdlabel.Text);
+            
+            AppoitmentScheduler appoitmentScheduler = new AppoitmentScheduler(customerId, userId);
             appoitmentScheduler.Show();
             this.Hide();
 
@@ -665,8 +669,13 @@ namespace c969
             }
         }
 
-
-
+        private void changeUserBtn_Click(object sender, EventArgs e)
+        {
+            int userId = Convert.ToInt32(UserIdlabel.Text);
+            RegisterCustomer registerCustomer = new RegisterCustomer(userId);
+            registerCustomer.Show();
+            this.Hide();
+        }
     }
 
 

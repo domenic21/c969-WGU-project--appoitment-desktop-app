@@ -1,14 +1,8 @@
 ﻿using c969.models;
 using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Bcpg;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace c969
@@ -33,6 +27,10 @@ namespace c969
             countryBox.DisplayMember = "Country";// Display the country name
             countryBox.DropDownStyle = ComboBoxStyle.DropDownList;
             cityBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.userId = userId;
+            userIdlabel.Text = userId.ToString();
+            RemoveDuplicatesFromComboBox();
+            
         }
 
         private void registerBtn_Click(object sender, EventArgs e)
@@ -50,9 +48,17 @@ namespace c969
             label7.Visible = true;
             label8.Visible = true;
             saveBtn.Visible = true;
+            comboBox.Visible = false;
 
 
 
+        }
+        private void RemoveDuplicatesFromComboBox()
+        {
+            comboBox.DataSource = UserDb.customerAppointments
+                .GroupBy(c => c.customerName)
+                .Select(g => g.First())
+                .ToList();
         }
 
         public static int GenerateCustomerID()
@@ -79,7 +85,6 @@ namespace c969
             try
             {
                 
-          
 
                 //data input textbox validation 
                 if (string.IsNullOrEmpty(NametextBox.Text) ||
@@ -92,7 +97,7 @@ namespace c969
                 else
                 {
                     // Update the user information
-                    string userName = NametextBox.Text;
+                    string customerName = NametextBox.Text;
                     string address = AddresstextBox2.Text;
                     int postalCode = int.Parse(ZipcodetextBox4.Text);
                     string phone = (PhonetextBox5.Text).ToString();
@@ -105,23 +110,27 @@ namespace c969
                     int addressId = GenerateAddressId();
 
 
-                    UserInfo userInformation = new UserInfo(customerId, userName, addressId, address, postalCode, phone, cityId);
+                    UserInfo userInformation = new UserInfo(customerId, customerName, addressId, address, postalCode, phone, cityId);
              
                     // Insert user profile information
                     userDb.InsertProfileInfo(userInformation);
-
-                
-            
 
 
                  //enter country and city into database
                     userDb.InsertCityIntoDatabase(cityId, cityName, addressId);
                     userDb.InsertCountryIntoDatabase(countryId, cityId);
 
-               
-
                     // Display a message to the user
                     MessageBox.Show("Profile information saved successfully");
+                   NametextBox.Enabled = false;
+                    AddresstextBox2.Enabled = false;
+                  PhonetextBox5.Enabled = false;
+                    ZipcodetextBox4.Enabled = false;
+                    countryBox.Enabled = false;
+                    cityBox.Enabled = false;
+                    saveBtn.Enabled = false;
+                    comboBox.Visible = false;
+
                 }
               
             }
@@ -133,11 +142,24 @@ namespace c969
 
         private void logIn_Click(object sender, EventArgs e)
         {
-
             UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-            int customerId = userDb.SelectCustomerId(comboBox.Text);  
-            MainForm mainForm = new MainForm( customerId);
+
+            int customerId;
+            int userId = int.Parse(userIdlabel.Text);
+            if (comboBox.Visible != false)
+            {
+               
+                customerId = userDb.SelectCustomerId(comboBox.Text);
+            }
+            else
+            {
+                customerId = userDb.SelectCustomerId(NametextBox.Text);
+
+            }
+
+            MainForm mainForm = new MainForm(customerId, userId);
             mainForm.Show();
+            this.Hide();
         }
     }
 }

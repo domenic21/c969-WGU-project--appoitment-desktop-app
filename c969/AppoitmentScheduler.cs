@@ -11,19 +11,21 @@ namespace c969
 
 
     {
+        private int currentUserId;
 
-        public AppoitmentScheduler(int currentUserId)
+
+        public AppoitmentScheduler(int customerId, int userId)
         {
             InitializeComponent();
             localTimelabel.Text = "Your local time:" + DateTime.Now.ToString();
             estTimelabel.Text = "EST TIME:" + TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time")).ToString();
             this.StartPosition = FormStartPosition.CenterScreen;
             comboBoxappt.DropDownStyle = ComboBoxStyle.DropDownList;
-            labeluser.Text = currentUserId.ToString();
-
+            labeluser.Text = userId.ToString();
+            customerLabel.Text = customerId.ToString();
             UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
             string userName = userDb.GetUserName(currentUserId);
-            label8.Text = userName;
+            
             monthCalendar1.MaxSelectionCount = 1;
             textBoxcount.ReadOnly = true;
             apptOrderLabel.ReadOnly = true;
@@ -219,7 +221,7 @@ namespace c969
 
                 if (string.IsNullOrEmpty(titletextBox.Text) || string.IsNullOrEmpty(descriptionText.Text))
                 {
-                    MessageBox.Show("Please select and appointment and complete the required information");
+                    MessageBox.Show("Please select and appointment and complete the required information 224");
                 }
                 else
                 {
@@ -227,7 +229,7 @@ namespace c969
                     string title = titletextBox.Text;
                     string description = descriptionText.Text;
                     int appointmentId = Convert.ToInt32(apptOrderLabel.Text);
-                    int customerId = int.Parse(labeluser.Text);
+                    int customerId = int.Parse(customerLabel.Text);
                     int userId = int.Parse(labeluser.Text);
                     string time = Timelabel.Text;
                     string date = datetextbox.Text;
@@ -239,10 +241,10 @@ namespace c969
                     string est = estTime.ToString(" HH:mm:ss");
 
 
-                    //AppointmentModel appointment = new AppointmentModel(userId, appointmentId, title, description, estTime);
+                    AppointmentModel appointment = new AppointmentModel(userId, appointmentId, title, description, estTime);
                     userDb.UpdateTimeAppt(appointmentId, est);
                     
-                    userDb.UpdateAppointment(appointmentId, description, title, userId);
+                    userDb.UpdateAppointment(appointmentId, description, title, userId, customerId);
 
                 }
                 MessageBox.Show("Appointment added successfully");
@@ -250,7 +252,7 @@ namespace c969
 
             catch
             {
-                MessageBox.Show("Please select and appointment and complete the required information");
+                MessageBox.Show("Please select and appointment and complete the required information 255");
 
 
             }
@@ -284,12 +286,12 @@ namespace c969
             {
 
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-                string userName = label8.Text;
-                int userId = userDb.GetCurrentID(userName);
+                string userName = customerLabel.Text;
+                int userId = int.Parse(labeluser.Text);
+                int customerId = int.Parse(customerLabel.Text);
 
-
-              /*  MainForm mainForm = new MainForm(customerId);
-                mainForm.Show();*/
+                MainForm mainForm = new MainForm(customerId, userId);
+                mainForm.Show();
             }
             catch (Exception ex)
             {

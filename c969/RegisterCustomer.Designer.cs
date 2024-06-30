@@ -48,6 +48,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.cityBox = new System.Windows.Forms.ComboBox();
             this.logIn = new System.Windows.Forms.Button();
+            this.userIdlabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // comboBox
@@ -155,7 +156,7 @@
             // 
             // saveBtn
             // 
-            this.saveBtn.Location = new System.Drawing.Point(310, 584);
+            this.saveBtn.Location = new System.Drawing.Point(160, 584);
             this.saveBtn.Margin = new System.Windows.Forms.Padding(4);
             this.saveBtn.Name = "saveBtn";
             this.saveBtn.Size = new System.Drawing.Size(103, 34);
@@ -249,20 +250,30 @@
             // 
             // logIn
             // 
-            this.logIn.Location = new System.Drawing.Point(310, 646);
+            this.logIn.Location = new System.Drawing.Point(215, 626);
             this.logIn.Margin = new System.Windows.Forms.Padding(4);
             this.logIn.Name = "logIn";
-            this.logIn.Size = new System.Drawing.Size(153, 34);
+            this.logIn.Size = new System.Drawing.Size(248, 54);
             this.logIn.TabIndex = 34;
             this.logIn.Text = "Log In";
             this.logIn.UseVisualStyleBackColor = true;
             this.logIn.Click += new System.EventHandler(this.logIn_Click);
+            // 
+            // userIdlabel
+            // 
+            this.userIdlabel.AutoSize = true;
+            this.userIdlabel.Location = new System.Drawing.Point(328, 9);
+            this.userIdlabel.Name = "userIdlabel";
+            this.userIdlabel.Size = new System.Drawing.Size(75, 25);
+            this.userIdlabel.TabIndex = 35;
+            this.userIdlabel.Text = "UserId:";
             // 
             // RegisterCustomer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(476, 693);
+            this.Controls.Add(this.userIdlabel);
             this.Controls.Add(this.logIn);
             this.Controls.Add(this.countryBox);
             this.Controls.Add(this.CitytextBox);
@@ -312,5 +323,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox cityBox;
         private System.Windows.Forms.Button logIn;
+        private System.Windows.Forms.Label userIdlabel;
     }
 }

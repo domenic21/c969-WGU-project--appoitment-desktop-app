@@ -292,10 +292,10 @@ namespace c969
                 Connect();
 
                 string insertQueryCustomer = @"UPDATE `client_schedule`.`customer`
-                        SET `customerName` = @UserName,
+                        SET `customerName` = @CustomerName,
                        `addressId` = @addressId
                           WHERE `customerId` = @CustomerId;";
-                string insertCustomer = @"INSERT INTO `client_schedule`.`customer` (customerId, customerName, addressId) VALUES (@CustomerId, @UserName, @addressId);";
+                string insertCustomer = @"INSERT INTO `client_schedule`.`customer` (customerId, customerName, addressId) VALUES (@CustomerId, @CustomerName, @addressId);";
 
 
                 string addressInsert = $"INSERT INTO `client_schedule`.`address`(addressId, address,  postalCode, phone) " +
@@ -318,7 +318,7 @@ namespace c969
                 {
                     command.Parameters.AddWithValue("@customerId", Info.customerId); 
                     command.Parameters.AddWithValue("@addressId", Info.addressId); // Add addressId parameter
-                    command.Parameters.AddWithValue("@UserName", Info.UserName);
+                    command.Parameters.AddWithValue("@CustomerName", Info.customerName);
                     command.ExecuteNonQuery();
 
 
@@ -328,7 +328,7 @@ namespace c969
                 {
                     command.Parameters.AddWithValue("@customerId", Info.customerId); 
                     command.Parameters.AddWithValue("@addressId", Info.addressId); 
-                    command.Parameters.AddWithValue("@UserName", Info.UserName);
+                    command.Parameters.AddWithValue("@CustomerName", Info.customerName);
                     command.ExecuteNonQuery();
 
 
@@ -338,7 +338,7 @@ namespace c969
             catch (MySqlException ex)
             {
 
-                MessageBox.Show("error query INSERT : " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("error query INSERT 341: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -433,29 +433,9 @@ namespace c969
             {
                 Connect();
                 // Query to retrieve user information
-               /* string query = @"SELECT
-                            u.userId,
-                            c.customerId,
-                            c.customerName,
-                            ad.addressId,
-                            ad.address,
-                            ad.address2,
-                            ad.postalCode,
-                            ad.phone,
-                            ci.cityId,
-                            ci.city,
-                                co.country,
-                                   co.countryId
-
-                           FROM
-                                       user u
-                          INNER JOIN customer c ON u.userId = c.customerId
-                          INNER JOIN address ad ON c.addressId = ad.addressId
-                        INNER JOIN city ci ON ad.cityId = ci.cityId
-                        INNER JOIN country co ON ci.countryId = co.countryId
-                                    WHERE
-                                        u.userId = @userId and c.customerId = @customerId;";*/
-                string query = @"SELECT c.customerName, a.address, a.address2, a.cityId, a.postalCode, a.phone, ci.city, co.country,a.addressId
+               
+                string query = @"SELECT c.customerName, a.address, a.address2, a.cityId,
+                     a.postalCode, a.phone, ci.city, co.country,a.addressId
                            FROM customer c
                         JOIN address a ON c.addressId = a.addressId
                        JOIN city ci ON a.cityId = ci.cityId
@@ -484,7 +464,7 @@ namespace c969
                             int addressId = reader.GetInt32("addressId");
 
                             // Create a new UserInfo object
-                            userInfo = new UserInfo( customerId, customerName, addressId,address, postalCode, phone, cityId);
+                            userInfo = new UserInfo( customerId, customerName, addressId,address, postalCode, phone, cityId, country ,city);
                         }
                     }
                 }
@@ -578,65 +558,42 @@ namespace c969
             {
                 Connect();
 
-                // Retrieve the  addressId for the user
-                string getAddressIdQuery = "SELECT addressId FROM `client_schedule`.`customer` WHERE customerId = @CustomerId";
-                int addressId = 0;
-
-                using (MySqlCommand getAddressIdCommand = new MySqlCommand(getAddressIdQuery, _connection))
-                {
-                    getAddressIdCommand.Parameters.AddWithValue("@CustomerId", Info.UserId);
-                    object result = getAddressIdCommand.ExecuteScalar();
-                    if (result != null)
-                    {
-                        addressId = Convert.ToInt32(result);
-                    }
-                }
-
                 // Update the user information
-                string updateCustomerQuery = @"UPDATE user AS u JOIN customer AS c ON u.userId = c.customerId
-                                               JOIN address AS a ON c.addressId = a.addressId
-                                               SET u.userName = @UserName, 
-                                                   c.customerName = @CustomerName, 
-                                                   a.address = @NewAddress,
-                                                   a.address2 = @Address2,
-                                                   a.postalCode = @PostalCode,
-                                                
-                                                   a.phone = @phone
-                                               WHERE u.userId = @UserId;";
+                string updateCustomerQuery = @"UPDATE customer AS c
+                       JOIN address AS a ON c.customerId = @CustomerId
+                           SET c.customerName = @CustomerName
+                             WHERE c.customerId = @CustomerId;
+                                                       ";
 
                 using (MySqlCommand command = new MySqlCommand(updateCustomerQuery, _connection))
                 {
 
                     command.Parameters.AddWithValue("@UserName", Info.UserName);
                     command.Parameters.AddWithValue("@UserId", Info.UserId);
-                    command.Parameters.AddWithValue("@CustomerName", Info.UserName);
+                    command.Parameters.AddWithValue("@CustomerName", Info.customerName);
                     command.Parameters.AddWithValue("@NewAddress", Info.address);
                     command.Parameters.AddWithValue("@Address2", Info.address2);
                     command.Parameters.AddWithValue("@PostalCode", Info.postalCode);
-                    command.Parameters.AddWithValue("@phone", Info.phone);
-
-
+                    command.Parameters.AddWithValue("@Phone", Info.phone);
+                    command.Parameters.AddWithValue("@CustomerId", Info.customerId);
                     int rowsAffected = command.ExecuteNonQuery();
 
                 }
 
                 // Update the address information
                 string updateAddressQuery = @"UPDATE address SET address = @NewAddress, 
-                                                                address2 = @Address2, 
-                                                                postalCode = @PostalCode, 
-                                                                phone = @phone
                                                                 
-                                                              
+                                                                postalCode = @PostalCode, 
+                                                                phone = @phone                     
                                             WHERE addressId = @AddressId;";
 
                 using (MySqlCommand command = new MySqlCommand(updateAddressQuery, _connection))
                 {
                     // Add the parameters to avoid SQL injection
-                    command.Parameters.AddWithValue("@NewAddress", Info.address);
-                    command.Parameters.AddWithValue("@Address2", Info.address2);
+                    command.Parameters.AddWithValue("@NewAddress", Info.address);                 
                     command.Parameters.AddWithValue("@PostalCode", Info.postalCode);
                     command.Parameters.AddWithValue("@phone", Info.phone);
-                    command.Parameters.AddWithValue("@AddressId", addressId);
+                    command.Parameters.AddWithValue("@AddressId", Info.addressId);
                     command.Parameters.AddWithValue("@cityId", Info.cityId);
 
                     // Execute the query
@@ -648,7 +605,7 @@ namespace c969
             }
             catch (MySqlException ex)
             {
-                MessageBox.Show(ex.Message, "no connection");
+                MessageBox.Show(ex.Message, "no connection 631");
             }
         }
 
@@ -685,13 +642,13 @@ namespace c969
             return currentID;
         }
 
-        public void DeleteUser(int userId)
+        public void DeleteUser(int userId, int customerId)
         {
             try
             {
                 Connect();
                 string query = @"DELETE FROM `client_schedule`.`user` WHERE (`userId` = @userId);";
-                string query2 = @"DELETE FROM `client_schedule`.`customer` WHERE (`customerId` = @userId);";
+                string query2 = @"DELETE FROM `client_schedule`.`customer` WHERE (`customerId` = @CustomerId);";
                 string query3 = @"-- Step 1: Create a Temporary Table
                       CREATE TEMPORARY TABLE temp_appointment_ids
                        SELECT appointmentId 
@@ -727,7 +684,7 @@ namespace c969
                 using (MySqlCommand command = new MySqlCommand(query2, _connection))
                 {
                     // Add the parameter to avoid SQL injection
-                    command.Parameters.AddWithValue("@userId", userId);
+                    command.Parameters.AddWithValue("@CustomerId", customerId);
 
                     // Execute the query
                     int rowsAffected = command.ExecuteNonQuery();
@@ -737,7 +694,7 @@ namespace c969
             }
             catch (MySqlException ex)
             {
-                MessageBox.Show(ex.Message, "no connection");
+                MessageBox.Show(ex.Message, "no connection 697");
             }
         }
 
@@ -1254,13 +1211,13 @@ namespace c969
         }
 
         //update appoitment
-        public void UpdateAppointment(int appointmentId, string description, string title, int userId)
+        public void UpdateAppointment(int appointmentId, string description, string title, int userId, int customerId)
         {
             try
             {
                 Connect();
                 string query = @"UPDATE `client_schedule`.`appointment` SET   `title` = @Title, `description` = @Description WHERE (`appointmentId` = @AppointmentId);";
-                string query2 = @"UPDATE `client_schedule`.`appointment` SET `customerId` = @userId, `userId` = @userId  WHERE (`appointmentId` = @appointmentId);";
+                string query2 = @"UPDATE `client_schedule`.`appointment` SET `customerId` = @customerId, `userId` = @userId  WHERE (`appointmentId` = @appointmentId);";
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
                     // Add the parameters to avoid SQL injection
@@ -1278,7 +1235,7 @@ namespace c969
                     // Add the parameters to avoid SQL injection
                     command.Parameters.AddWithValue("@appointmentId", appointmentId);
                     command.Parameters.AddWithValue("@userId" , userId);
-
+                    command.Parameters.AddWithValue("@customerId", customerId);
                     // Execute the query
                     int rowsAffected = command.ExecuteNonQuery();
                     // Check the rows affected and handle errors if necessary

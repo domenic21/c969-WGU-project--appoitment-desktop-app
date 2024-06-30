@@ -40,7 +40,22 @@ namespace c969.models
 
         }
 
-        
+        public UserInfo(int customerId, string customerName, int addressId, string address, int postalCode, string phone, int cityId , string country , string city)
+
+        {
+            this.customerName = customerName;
+            this.address = address;
+            this.cityId = cityId;
+            this.postalCode = postalCode;
+            this.phone = phone;
+            this.addressId = addressId;
+            this.customerId = customerId;
+            this.city = city;
+            this.country = country;
+
+        }
+
+
 
         public UserInfo(int userId, string city, int cityId)
         {
