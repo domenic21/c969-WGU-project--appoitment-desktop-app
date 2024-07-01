@@ -159,7 +159,42 @@ namespace c969
 
             MainForm mainForm = new MainForm(customerId, userId);
             mainForm.Show();
-            this.Hide();
+            this.Close();
+        }
+    
+
+   
+
+        private void ZipcodetextBox4_TextChanged_1(object sender, EventArgs e)
+        {
+            ZipcodetextBox4.MaxLength = 5;
+            if (System.Text.RegularExpressions.Regex.IsMatch(ZipcodetextBox4.Text, "[^0-9]")) // Check if the input is not a number 
+            {
+                MessageBox.Show("Please enter only numbers.");
+                ZipcodetextBox4.Text = ZipcodetextBox4.Text.Remove(ZipcodetextBox4.Text.Length - 1);// Remove the last character
+            }
+            if (ZipcodetextBox4.Text.Length > 5)
+            {
+                MessageBox.Show("Please enter only 5 digits.");
+                ZipcodetextBox4.Text = ZipcodetextBox4.Text.Remove(ZipcodetextBox4.Text.Length - 1);// Remove the last character
+            }
+
+        }
+
+        private void PhonetextBox5_TextChanged_1(object sender, EventArgs e)
+        {
+            PhonetextBox5.MaxLength = 12;
+            if (System.Text.RegularExpressions.Regex.IsMatch(PhonetextBox5.Text, "[^0-9-]")) // Check if the input is not a number or dash
+            {
+                MessageBox.Show("Please enter only numbers and dashes.");
+                PhonetextBox5.Text = PhonetextBox5.Text.Remove(PhonetextBox5.Text.Length - 1); // Remove the last character
+            }
+            // Trim the phone number to 12 characters
+            if (PhonetextBox5.Text.Length > 12)
+            {
+                MessageBox.Show("Please enter only 12 characters.");
+                PhonetextBox5.Text = PhonetextBox5.Text.Remove(PhonetextBox5.Text.Length - 1); // Remove the last character
+            }
         }
     }
 }

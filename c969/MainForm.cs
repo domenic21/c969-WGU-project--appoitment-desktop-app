@@ -1,12 +1,12 @@
 ﻿using c969.models;
 using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Asn1.Cms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
+
 using System.Windows.Forms;
+
 
 
 
@@ -15,13 +15,7 @@ namespace c969
 {
     public partial class MainForm : Form
     {
-        private string username; // Create a property to store the user
-       
-        private int currentUserId;
-       
-
-
-
+ 
 
         public MainForm( int customerId, int userId )
         {
@@ -29,7 +23,6 @@ namespace c969
             
             UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
 
-            this.currentUserId = userDb.GetCurrentID(username);
             customerIdText.Text = customerId.ToString();// Set the text box to the username
             UserIdlabel.Text =  userId.ToString() ;
          
@@ -38,36 +31,27 @@ namespace c969
             
             userDb.RetrieveCountryCity();// Populate the ComboBox with multiple-choice options
             countryBox.DataSource = UserDb.multipleChoiceCountry;
-            cityBox.DataSource = UserDb.multipleChoiceCountry;///connects to the list of countries
+            cityBox.DataSource = UserDb.multipleChoiceCountry;
             cityBox.DisplayMember = "City";// Display the city name
             countryBox.DisplayMember = "Country";// Display the country name
             countryBox.DropDownStyle = ComboBoxStyle.DropDownList;
             cityBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            InitializeFormData(customerId);
-            userDb.GetAppoitments(customerId);
-
+            int currentCustomerId = Convert.ToInt32(customerIdText.Text);
+            InitializeFormData(currentCustomerId);
+          
+   
             this.StartPosition = FormStartPosition.CenterScreen;
-            listBox.ClearSelected();
-            
-            this.Load += new EventHandler(ReportsForm_Load);
-            LoadAppointment();
- 
+
+            RemoveDuplicatesFromComboBox();
+         
+
+
         }
 
         //reloads the appointments
-        private void ReportsForm_Load(object sender, EventArgs e)
-        {
-            ReloadEverything();
-        }
-        private void ReloadEverything()
-        {
-            
-            listBox.DataSource = null;
-            listBox.Items.Clear();
+   
 
-            LoadAppointments();
 
-        }
 
         private void RemoveInvalidAppointments(BindingList<AppointmentModel> appointments)
         {
@@ -82,25 +66,7 @@ namespace c969
         }
 
      
-        private List<string> FormatAppointment(BindingList<AppointmentModel> appointments)
-        {
-            List<string> formattedAppointments = new List<string>();
-            UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-            userDb.SearchApptAll();
-            foreach (var appointment in appointments)
-            {
-                TimeZoneInfo userTimeZone = TimeZoneInfo.Local; // Get the user's time zone
-                int appointmentId = appointment.appointmentId;
-                string formattedAppointment = $"Your appointment is at: " +
-                                              $"{TimeZoneInfo.ConvertTime(appointment.start, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), userTimeZone)} " +
-                                              $"ID: {appointmentId}";
-
-                formattedAppointments.Add(formattedAppointment);
-            }
-            return formattedAppointments;
-
-            
-        }
+        
 
 
         //list of appointments
@@ -108,59 +74,28 @@ namespace c969
         {
 
             
-            //remove duplicates from the listbox
-            RemoveDuplicatesFromListBox(UserDb.appointmentModels);
-            RemoveInvalidAppointments(UserDb.appointmentModels);
+            RemoveInvalidAppointments(UserDb.appointmentsTaken);
             // Format the appointments for display
-            List<string> formattedAppointments = FormatAppointments(UserDb.appointmentModels);
-
+            List<string> formattedAppointments = FormatAppointments(UserDb.appointmentsTaken);
+            List<string> formattedAppointments2 = FormatAppointments(UserDb.availableAppointments);
             // Clear the ListBox before setting DataSource
             listBox.DataSource = null;
             listBox.Items.Clear();
+            listBox2.DataSource = null;
+            listBox2.Items.Clear();
 
             // Set the new DataSource
             listBox.DataSource = formattedAppointments;
-
-            if (UserDb.appointmentModels.Count == 0)
-            {
-                listBox.Text = "No appointments found, you can schedule an appoitment below.";
-            }
-        }
-        private void RemoveDuplicatesFromListBox (BindingList<AppointmentModel> appointments)
-        {
-            // Group the appointments by their date 
-            var groupedAppointments = appointments
-                .GroupBy(a => a.start.Date)
-                .Select(g => g.OrderByDescending(a => a.start).First()) // Keep the latest appointment of each date
-                .ToList();
            
+            listBox2.DataSource = formattedAppointments2;
 
-            // Clear the original list and add back the filtered appointments
-            appointments.Clear();
-            foreach (var appointment in groupedAppointments)
-            {
-                appointments.Add(appointment);
-            }
+           
         }
+       
+        
 
 
-        private void LoadAppointment()
-        {
-            UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-            userDb.SearchApptAll();
-
-            if (UserDb.availableAppointments.Count == 0)
-            {
-                listBox2.Items.Clear();
-                listBox2.Items.Add("No appointments found, you can schedule an appointment below.");
-            }
-            else
-            {
-                // Format and display appointments
-                List<string> formattedAppointments = FormatAppointments(UserDb.availableAppointments);
-                listBox2.DataSource = formattedAppointments;
-            }
-        }
+       
 
         private List<string> FormatAppointments(BindingList<AppointmentModel> appointments)
         {
@@ -177,6 +112,8 @@ namespace c969
                  
                 formattedAppointments.Add(formattedAppointment);
                 listBox.Refresh();
+                listBox2.Refresh();
+
                
                
             }
@@ -358,7 +295,8 @@ namespace c969
             CitytextBox.Hide();
             cityBox.Show();
             UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-            userDb.DeleteCustomer(currentUserId);
+            int customerId = Convert.ToInt32(customerIdText.Text);
+            userDb.DeleteCustomer(customerId);
 
 
         }
@@ -447,7 +385,7 @@ namespace c969
             try
             {
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-                
+                int currentUserId = Convert.ToInt32(customerIdText.Text);
                 userDb.DeleteProfileInfo(currentUserId);
                 MessageBox.Show("Profile information deleted successfully" + MessageBoxButtons.OK);
                 AddresstextBox2.ResetText();
@@ -613,7 +551,7 @@ namespace c969
                                 userDb.DeleteAppointment(appointmentId);
                                 MessageBox.Show("Appointment canceled successfully");
                                 this.Refresh();
-                                ReloadAppointments();
+                              
                         }
                             else { MessageBox.Show("cant parse Id"); }
 
@@ -632,49 +570,34 @@ namespace c969
         }
 
 
-        private void ReloadAppointments()
-        {
-            UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-            int customerId = Convert.ToInt32(customerIdText.Text);
-            userDb.GetAppoitments(customerId);
-            LoadAppointments();
-            this.Refresh();
-            int userId = Convert.ToInt32(UserIdlabel.Text);
-            
-            AppoitmentScheduler appoitmentScheduler = new AppoitmentScheduler(customerId, userId);
-            appoitmentScheduler.Show();
-            this.Hide();
-
-
-        }
-
-        private void addCustomer_Click(object sender, EventArgs e)
-        {
-            DialogResult result = MessageBox.Show("Are you sure you want to add a new customer information, it will replace the current customer?", "Confirmation", MessageBoxButtons.YesNo);
-            if (result == DialogResult.Yes)
-            {
-                addCustomerForm addCustomerForm = new addCustomerForm(currentUserId);
-                addCustomerForm.Show();
-
-              this.Refresh();
-                UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-                int addressId = userDb.GetAddressId(currentUserId);
-                userDb.DeleteCustomer(currentUserId);
-                
-            }
-            else { 
-
-                return;
-
-            }
-        }
+       
+       
 
         private void changeUserBtn_Click(object sender, EventArgs e)
         {
             int userId = Convert.ToInt32(UserIdlabel.Text);
             RegisterCustomer registerCustomer = new RegisterCustomer(userId);
             registerCustomer.Show();
-            this.Hide();
+            
+
+            this.Close();
+        }
+        private void RemoveDuplicatesFromComboBox()
+        {
+            listBox2.DataSource = UserDb.availableAppointments
+                .GroupBy(c => c.appointmentId)
+                .Select(g => g.First())
+                .ToList();
+            countryBox.DataSource = UserDb.multipleChoiceCountry
+                .GroupBy(c => c.country)
+                .Select(g => g.First())
+                .ToList();
+
+            cityBox.DataSource = UserDb.multipleChoiceCountry
+                .GroupBy(c => c.city)
+                .Select(g => g.First())
+                .ToList();
+
         }
     }
 

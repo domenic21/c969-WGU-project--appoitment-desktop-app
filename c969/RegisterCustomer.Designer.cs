@@ -117,6 +117,7 @@
             this.PhonetextBox5.Size = new System.Drawing.Size(243, 29);
             this.PhonetextBox5.TabIndex = 30;
             this.PhonetextBox5.Visible = false;
+            this.PhonetextBox5.TextChanged += new System.EventHandler(this.PhonetextBox5_TextChanged_1);
             // 
             // ZipcodetextBox4
             // 
@@ -126,6 +127,7 @@
             this.ZipcodetextBox4.Size = new System.Drawing.Size(243, 29);
             this.ZipcodetextBox4.TabIndex = 29;
             this.ZipcodetextBox4.Visible = false;
+            this.ZipcodetextBox4.TextChanged += new System.EventHandler(this.ZipcodetextBox4_TextChanged_1);
             // 
             // CountrytextBox
             // 

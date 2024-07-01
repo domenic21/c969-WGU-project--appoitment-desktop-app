@@ -24,6 +24,7 @@ namespace c969
 
         public static BindingList<CityModel> multipleChoiceCountry = new BindingList<CityModel>();
         public static BindingList<AppointmentModel> appointmentModels = new BindingList<AppointmentModel>();
+        public static BindingList<AppointmentModel> appointmentsTaken = new BindingList<AppointmentModel>();
         public static BindingList<AppointmentModel> reports = new BindingList<AppointmentModel>();
         public static BindingList<AppointmentModel> availableAppointments = new BindingList<AppointmentModel>();
         public static BindingList<UserModel> customerAppointments = new BindingList<UserModel>();
@@ -897,49 +898,15 @@ namespace c969
         }
 
 
-        //Appointment section 
-        /*public void InsertAppointment(AppointmentModel appointment)
-        {
-            try
-            {
-                Connect();
-                // int appointmentId = ;
-                string query = @"UPDATE `client_schedule`.`appointment` SET `userId` = @userId ,`customerId` = @CustomerId ,`title` = @Title,
-                         `description` = @Description
-                        WHERE (`appointmentId` = @AppointmentId);";
-
-                using (MySqlCommand command = new MySqlCommand(query, _connection))
-                {
-                    // Add the parameters to avoid SQL injection
-                    command.Parameters.AddWithValue("@AppointmentId", appointment.appointmentId);
-                    command.Parameters.AddWithValue("@userId", appointment.userId);
-                    command.Parameters.AddWithValue("@customerId", appointment);
-                    command.Parameters.AddWithValue("@Title", appointment.title);
-                    command.Parameters.AddWithValue("@Description", appointment.description);
-
-
-
-                    // Execute the query
-                    int rowsAffected = command.ExecuteNonQuery();
-                }
-
-                Disconnect();
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show(ex.Message, "no connection appoitment failed to insert");
-            }
-
-
-
-        }*/
+        
         //select all appoitments from the db for each user
-        public void GetAppoitments(int customerId)
+        public List<string> GetAppoitments(int customerId)
         {
+            List<string> appointments = new List<string>();
             try
             {
                 Connect();
-                string query = @"SELECT appointmentId, title, description, start FROM `client_schedule`.`appointment` WHERE customerId = @CustomerId";
+                string query = @"SELECT appointmentId, title, description, start FROM `client_schedule`.`appointment` WHERE customerId = @CustomerId;";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -959,7 +926,7 @@ namespace c969
 
 
                             AppointmentModel appointmentModel = new AppointmentModel(customerId, appointmentId, title, description, start);
-                            appointmentModels.Add(appointmentModel);
+                            appointmentsTaken.Add(appointmentModel);
                         }
                     }
                 }
@@ -968,8 +935,9 @@ namespace c969
             }
             catch (MySqlException ex)
             {
-                MessageBox.Show(ex.Message, "no connection");
+                MessageBox.Show(ex.Message, "no connection 972");
             }
+            return appointments;
 
         }
 
