@@ -618,7 +618,7 @@ namespace c969
             try
             {
                 Connect();
-                string query = "SELECT userId FROM `client_schedule`.`user` WHERE userName = @UserName";
+                string query = @"SELECT userId FROM `client_schedule`.`user` WHERE userName = @UserName;";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -641,6 +641,37 @@ namespace c969
             }
 
             return currentID;
+        }
+
+        public int GetCustomerId(string customerName)
+        {
+           int customerId= 0;
+            try
+            {
+                Connect();
+                string query = @"SELECT customerId FROM `client_schedule`.`customer` WHERE customerName = @customerName ;";
+
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    // Add the parameter to avoid SQL injection
+                    command.Parameters.AddWithValue("@customerName", customerName);
+
+                    // Execute the query and retrieve the current ID
+                    object result = command.ExecuteScalar(); // ExecuteScaslar is used to retrieve a single value
+                    if (result != null)
+                    {
+                        customerId = Convert.ToInt32(result);
+                    }
+                }
+
+                Disconnect();
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message, "no connection");
+            }
+
+            return customerId;
         }
 
         public void DeleteUser(int userId, int customerId)
@@ -900,9 +931,9 @@ namespace c969
 
         
         //select all appoitments from the db for each user
-        public List<string> GetAppoitments(int customerId)
+        public void GetAppoitments(int customerId)
         {
-            List<string> appointments = new List<string>();
+           
             try
             {
                 Connect();
@@ -926,7 +957,7 @@ namespace c969
 
 
                             AppointmentModel appointmentModel = new AppointmentModel(customerId, appointmentId, title, description, start);
-                            appointmentsTaken.Add(appointmentModel);
+                           appointmentsTaken.Add(appointmentModel);
                         }
                     }
                 }
@@ -937,7 +968,7 @@ namespace c969
             {
                 MessageBox.Show(ex.Message, "no connection 972");
             }
-            return appointments;
+          
 
         }
 

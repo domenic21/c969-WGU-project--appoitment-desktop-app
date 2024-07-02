@@ -17,18 +17,18 @@ namespace c969
     {
  
 
-        public MainForm( int customerId, int userId )
+      public MainForm(int customerId, int userId)
         {
             InitializeComponent();
-            
+
             UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
 
             customerIdText.Text = customerId.ToString();// Set the text box to the username
-            UserIdlabel.Text =  userId.ToString() ;
-         
+            UserIdlabel.Text = userId.ToString();
+
             //InitializeFormData(currentUserId, username);// Initialize the form data
             DeactivateTextBoxes();// Deactivate the text boxes
-            
+
             userDb.RetrieveCountryCity();// Populate the ComboBox with multiple-choice options
             countryBox.DataSource = UserDb.multipleChoiceCountry;
             cityBox.DataSource = UserDb.multipleChoiceCountry;
@@ -36,16 +36,25 @@ namespace c969
             countryBox.DisplayMember = "Country";// Display the country name
             countryBox.DropDownStyle = ComboBoxStyle.DropDownList;
             cityBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            int currentCustomerId = Convert.ToInt32(customerIdText.Text);
-            InitializeFormData(currentCustomerId);
-          
-   
+           
+            InitializeFormData(customerId);
+       
+
             this.StartPosition = FormStartPosition.CenterScreen;
 
             RemoveDuplicatesFromComboBox();
-         
 
+            // ReloadForm(); // Call the method to reload the form and clear the list boxes
+            // Attach the Form_Load and Form_FormClosed event handlers
+            this.FormClosed += MainForm_FormClosed;
+        }
 
+        private void ReloadForm()
+        {
+            listBox.DataSource = null;
+            listBox.Items.Clear();
+            listBox2.DataSource = null;
+            listBox2.Items.Clear();
         }
 
         //reloads the appointments
@@ -66,38 +75,19 @@ namespace c969
         }
 
      
-        
+            //remove duplicates 
+
+          /*   listBox.DataSource = listBox.Items.Cast<string>()
+             .Distinct()
+             .ToList();
+            listBox2.DataSource = listBox.Items.Cast<string>()
+               .Distinct()
+              .ToList();*/
+ 
 
 
-        //list of appointments
-        private void LoadAppointments()
-        {
 
-            
-            RemoveInvalidAppointments(UserDb.appointmentsTaken);
-            // Format the appointments for display
-            List<string> formattedAppointments = FormatAppointments(UserDb.appointmentsTaken);
-            List<string> formattedAppointments2 = FormatAppointments(UserDb.availableAppointments);
-            // Clear the ListBox before setting DataSource
-            listBox.DataSource = null;
-            listBox.Items.Clear();
-            listBox2.DataSource = null;
-            listBox2.Items.Clear();
-
-            // Set the new DataSource
-            listBox.DataSource = formattedAppointments;
-           
-            listBox2.DataSource = formattedAppointments2;
-
-           
-        }
-       
-        
-
-
-       
-
-        private List<string> FormatAppointments(BindingList<AppointmentModel> appointments)
+         List <string> FormatAppointments(BindingList<AppointmentModel> appointments) // Format the appointments for display
         {
             List<string> formattedAppointments = new List<string>();
             foreach (var appointment in appointments)
@@ -107,20 +97,28 @@ namespace c969
                 string formattedAppointment = $"Appointments available: " +
 
                 TimeZoneInfo.ConvertTime(appointment.start, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), userTimeZone)
-                +" " + appointmentId.ToString();
-                
-                 
+                + " " + appointmentId.ToString();
+
+
                 formattedAppointments.Add(formattedAppointment);
                 listBox.Refresh();
                 listBox2.Refresh();
-
-               
-               
             }
+
+            // Remove duplicates from the formatted appointments list
+            formattedAppointments = formattedAppointments.Distinct().ToList();
+
             return formattedAppointments;
+           
         }
+         
 
-
+        // this will ensure that the listbox is cleared when the form is closed so it wont show the previous appointments
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // Clear the appointmentsTaken list
+            UserDb.appointmentsTaken.Clear();
+        }
 
         //separation of concerns
         private void InitializeFormData(int customerId)
@@ -130,7 +128,23 @@ namespace c969
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
 
                 UserInfo userInfo = userDb.UserInformation(customerId);
+                userDb.GetAllAppointments();
+         
 
+             
+                
+
+                // Call the GetAppoitments method and receive the list of appointments
+                  userDb.GetAppoitments(customerId);
+
+               
+        
+                RemoveInvalidAppointments(UserDb.appointmentsTaken);
+         
+                List<string> formattedAppointments2 = FormatAppointments(UserDb.availableAppointments);
+                List<string> formattedAppointments = FormatAppointments(UserDb.appointmentsTaken);
+                listBox.DataSource = formattedAppointments;
+                listBox2.DataSource = formattedAppointments2;
 
                 // Check if userInfo is null before accessing its properties
                 if (userInfo != null)
@@ -578,16 +592,15 @@ namespace c969
             int userId = Convert.ToInt32(UserIdlabel.Text);
             RegisterCustomer registerCustomer = new RegisterCustomer(userId);
             registerCustomer.Show();
-            
+            listBox.DataSource = null;
+            listBox.Items.Clear();
 
-            this.Close();
+
+             Close();
         }
         private void RemoveDuplicatesFromComboBox()
         {
-            listBox2.DataSource = UserDb.availableAppointments
-                .GroupBy(c => c.appointmentId)
-                .Select(g => g.First())
-                .ToList();
+           
             countryBox.DataSource = UserDb.multipleChoiceCountry
                 .GroupBy(c => c.country)
                 .Select(g => g.First())
@@ -597,8 +610,10 @@ namespace c969
                 .GroupBy(c => c.city)
                 .Select(g => g.First())
                 .ToList();
-
+          
         }
+     
+       
     }
 
 
