@@ -12,7 +12,7 @@ namespace c969
     {
         
 
-        public ModifyForm(int appointmentId, string time, int userId)
+        public ModifyForm(int appointmentId, string time, int userId, int customerId)
         {
             InitializeComponent();
             UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
@@ -21,6 +21,8 @@ namespace c969
             apptOrderLabel.Text = appointmentId.ToString();
             Timelabel.Visible = false;
             userIdLabel.Text = userId.ToString();
+            customerLabel.Text = customerId.ToString();
+
                  // Get the user's time zone
             DateTime StartTime = DateTime.Parse(time);
             Timelabel.Text = StartTime.ToString("HH:mm:ss");
@@ -42,10 +44,12 @@ namespace c969
 
         private void cancelBtn_Click(object sender, EventArgs e)
         {
-            int userId = int.Parse(userIdLabel.Text);
+           
             UserDb UserDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!"); 
-            string userName = UserDb.GetUserName(userId);
-            MainForm mainForm = new MainForm(userName, userId);
+        
+            int customerId = int.Parse(customerLabel.Text);
+            int userId = int.Parse(userIdLabel.Text);
+          MainForm mainForm = new MainForm(customerId, userId);
             mainForm.Show();
            
             this.Hide();
@@ -68,8 +72,8 @@ namespace c969
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
                 userDb.DeleteAppointment(appointmentId);
                 MessageBox.Show("Appointment Deleted");
-                MainForm mainForm = new MainForm(userDb.GetUserName(appointmentId), appointmentId);
-                mainForm.Show();
+               /* MainForm mainForm = new MainForm(userDb.GetUserName(appointmentId), appointmentId);
+                mainForm.Show();*/
                 this.Close();
             }
             catch (Exception ex)
@@ -171,6 +175,7 @@ namespace c969
                 string description = richTextBox1.Text;
                 string title = textBox1.Text;
                 int appointmentId = int.Parse(apptOrderLabel.Text);
+                int customerId = int.Parse(customerLabel.Text);
 
                 // Ensure Timelabel.Text is in "HH:mm:ss" format
                 string timeText = Timelabel.Text;
@@ -186,7 +191,7 @@ namespace c969
                 int userId = int.Parse(userIdLabel.Text);
 
                 // Update the appointment details
-                userDb.UpdateAppointment(appointmentId, description, title, userId);
+                userDb.UpdateAppointment(appointmentId, description, title, userId, customerId);
                 userDb.UpdateTimeAppt(appointmentId, timeText);
                 DateTime localTime = TimeZoneInfo.ConvertTime(DateTime.Parse(timeText), TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), TimeZoneInfo.Local);
 
@@ -196,7 +201,7 @@ namespace c969
                    
                     string username = userDb.GetUserName(userId);
                     // Open the MainForm
-                    MainForm mainForm = new MainForm(username, userId);
+                  MainForm mainForm = new MainForm(customerId, userId);
                     mainForm.Show();
                     this.Close();
                 }

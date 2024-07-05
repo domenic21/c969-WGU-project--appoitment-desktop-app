@@ -91,9 +91,9 @@ namespace c969
                     int countryId = userDb.SelectCountryId(cityBox.Text);
                     string cityName = cityBox.SelectedItem.ToString();
                     int addressId = GenerateAddressId();
+                    int customerId = GenerateID(); //check if this is the right place to generate the customer id
 
-
-                    UserInfo userInformation = new UserInfo(userId, customerName, userId, addressId, address, zipcode, phone, cityId);
+                    UserInfo userInformation = new UserInfo(customerId, customerName,  addressId, address, zipcode, phone, cityId);
             
                     userDb.InsertProfileInfo(userInformation);
                     userDb.AddCustomer(userInformation, userId, customerName, addressId);
@@ -102,8 +102,8 @@ namespace c969
                     userDb.InsertCountryIntoDatabase(countryId, cityId);
 
                     MessageBox.Show("Customer Registered");
-                    MainForm mainForm = new MainForm(userName.Text, userId);
-                    mainForm.Show();
+                   /* MainForm mainForm = new MainForm(userName.Text, userId);
+                    mainForm.Show();*/
                     // Close any existing MainForm instances
                     foreach (Form form in Application.OpenForms)
                     {
