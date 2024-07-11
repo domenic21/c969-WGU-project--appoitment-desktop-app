@@ -1347,14 +1347,14 @@ namespace c969
         }
 
         // insert appointment new request 
-        public void InsertAppointment(AppointmentModel appointment)
+        public void InsertAppointment(int customerId,int  Id, string title, string description, DateTime start)
         {
             try
             {
            
                 Connect();
-                string query = @"INSERT INTO `client_schedule`.`appointment` (`appointmentId`,`customerId`, `userId`,`title`,`description`, `start`) 
-                                VALUES ( @appointmentId,@customerId, @userId, @title, @description,   @start);";
+                string query = @"INSERT INTO `client_schedule`.`appointment` (`customerId`, `userId`,`title`,`description`, `start`) 
+                                VALUES ( @customerId, @userId, @title, @description,   @start);";
 
  
 
@@ -1363,12 +1363,12 @@ namespace c969
                 {
                     // Add the parameters to avoid SQL injection
                     
-                    command.Parameters.AddWithValue("@userId", appointment.userId);
-                    command.Parameters.AddWithValue("@customerId", appointment.customerId);
-                    command.Parameters.AddWithValue("@start", appointment.start);
-                    command.Parameters.AddWithValue("@title", appointment.title);
-                    command.Parameters.AddWithValue("@description", appointment.description);
-                    command.Parameters.AddWithValue("@appointmentId", appointment.appointmentId);
+                    command.Parameters.AddWithValue("@userId", Id);  
+                    command.Parameters.AddWithValue("@customerId", customerId);
+                    command.Parameters.AddWithValue("@start", start);
+                    command.Parameters.AddWithValue("@title", title);
+                    command.Parameters.AddWithValue("@description", description);
+         
         
                    
 

@@ -116,13 +116,18 @@ namespace c969
                 {
                     MessageBox.Show("Please select and appointment and complete the required information 116");
                 }
+                // dont allow the selection of weekends 
+             
+                else if (monthCalendar1.SelectionStart.DayOfWeek == DayOfWeek.Saturday || monthCalendar1.SelectionStart.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    MessageBox.Show("Appointments cannot be scheduled on weekends. Please select a weekday.");
+                }
                 else
                 {
 
                     string title = titletextBox.Text;
                     string description = descriptionText.Text;
-                    
-                  
+              
                     int customerId = Convert.ToInt32(customerLabel.Text);
                     int Id = Convert.ToInt32(labeluser.Text);
                     string time = Timelabel.Text;
@@ -138,15 +143,16 @@ namespace c969
                     string timeEst = DateTime.Parse(time).ToString("HH:mm:ss");
 
 
-                    AppointmentModel appointment = new AppointmentModel(customerId,Id, title, description, start);
+                  
 
-                   // userDb.UpdateTimeAppt(appointmentId, est);
+              
 
                    
-                    userDb.InsertAppointment(appointment);
-                
+                    userDb.InsertAppointment(customerId, Id, title, description, start);
+                    MessageBox.Show("Appointment added successfully");
+
                 }
-                MessageBox.Show("Appointment added successfully");
+               
             }
 
             catch
