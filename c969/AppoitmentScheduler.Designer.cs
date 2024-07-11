@@ -33,6 +33,7 @@
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.exitBtn = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.apptOrderLabel = new System.Windows.Forms.TextBox();
             this.localTimelbl = new System.Windows.Forms.Label();
@@ -59,6 +60,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.mainMenubtn = new System.Windows.Forms.Button();
             this.customerLabel = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -107,6 +115,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.apptOrderLabel);
             this.groupBox1.Controls.Add(this.localTimelbl);
@@ -128,6 +137,18 @@
             this.groupBox1.Size = new System.Drawing.Size(520, 656);
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(-643, 324);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(569, 100);
+            this.label8.TabIndex = 28;
+            this.label8.Text = "Want to request and specific time and date? \r\nPlease click on the button,\r\n then " +
+    "pick a date from the calendar a follow to complete the form, \r\nthen proceed to c" +
+    "lick on \" create appointment\".\r\n";
             // 
             // label3
             // 
@@ -390,11 +411,86 @@
             this.customerLabel.TabIndex = 25;
             this.customerLabel.Text = "customer";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(507, 314);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(17, 25);
+            this.label7.TabIndex = 26;
+            this.label7.Text = " ";
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.SystemColors.Info;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.IndianRed;
+            this.button1.Location = new System.Drawing.Point(501, 515);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(410, 48);
+            this.button1.TabIndex = 27;
+            this.button1.Text = "Request Appoitments";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(507, 289);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(240, 25);
+            this.label10.TabIndex = 28;
+            this.label10.Text = "To request a appointment:";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(507, 327);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(407, 25);
+            this.label11.TabIndex = 29;
+            this.label11.Text = "1. Click on Request appointment button below";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(507, 370);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(284, 25);
+            this.label12.TabIndex = 30;
+            this.label12.Text = "2.Pick a date from the calendar.";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(507, 416);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(187, 25);
+            this.label13.TabIndex = 31;
+            this.label13.Text = "3.Complete de form.";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(507, 460);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(296, 25);
+            this.label14.TabIndex = 32;
+            this.label14.Text = "4.Click on \"Create Appointment\".";
+            // 
             // AppoitmentScheduler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1489, 814);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.customerLabel);
             this.Controls.Add(this.mainMenubtn);
             this.Controls.Add(this.label1);
@@ -454,5 +550,13 @@
         private System.Windows.Forms.TextBox Timelabel;
         private System.Windows.Forms.Button timeMinusBtn;
         private System.Windows.Forms.Button timeAddBtn;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
     }
 }
