@@ -150,6 +150,7 @@ namespace c969
                    
                     userDb.InsertAppointment(customerId, Id, title, description, start);
                     MessageBox.Show("Appointment added successfully");
+                    this.Hide();
 
                 }
                
