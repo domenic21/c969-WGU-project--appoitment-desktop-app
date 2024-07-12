@@ -564,8 +564,14 @@ namespace c969
                             UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
                                 userDb.DeleteAppointment(appointmentId);
                                 MessageBox.Show("Appointment canceled successfully");
-                                this.Refresh();
-                              
+                                //reload listbox
+                                listBox.DataSource = null;
+                            listBox.Items.Clear();
+                            UserDb.appointmentsTaken.Clear();
+
+
+                            InitializeFormData(Convert.ToInt32(customerIdText.Text));
+
                         }
                             else { MessageBox.Show("cant parse Id"); }
 
@@ -578,6 +584,7 @@ namespace c969
                     }
 
                     return;
+                   
                 }
 
             }

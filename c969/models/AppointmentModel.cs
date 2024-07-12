@@ -24,7 +24,8 @@ namespace c969.models
         public DateTime appointmentDay { get; set; }
         public TimeSpan appointmentTime { get; set; }
         public int appointmentsCount { get; set; }
-
+        
+        public int customerId { get; set; }
 
         public AppointmentModel(string type, DateTime start)
         {
@@ -77,22 +78,17 @@ namespace c969.models
             this.start = start;
         }   
 
-        public AppointmentModel(int appointmentId, string title, string description, DateTime start)
+       /* public AppointmentModel(int userId, int  customerId,string  title,string  description, DateTime start)
         {
-            this.appointmentId = appointmentId;
+           
             this.title = title;
             this.description = description;
             this.start = start;
-        }
-
-        public AppointmentModel(DateTime start, int userId, int appointmentId)
-        {
-
-           
+            this.customerId = customerId;
             this.userId = userId;
-            this.appointmentId = appointmentId;
-            this.start = start;
-        }
+
+        }*/
+
 
 
     }

@@ -1191,7 +1191,7 @@ namespace c969
             try
             {
                 Connect();
-                string query = @"UPDATE `client_schedule`.`appointment` SET `customerId` = null, `userId` = null  WHERE (`appointmentId` = @appointmentId);";
+                string query = @"UPDATE `client_schedule`.`appointment` SET `customerId` = null  WHERE (`appointmentId` = @appointmentId);";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -1346,22 +1346,33 @@ namespace c969
             }
         }
 
-        // insert appointment if exist chaging time to 15 minutes interval
-        public void InsertAppointmentAlert(AppointmentModel appointment)
+        // insert appointment new request 
+        public void InsertAppointment(int customerId,int  Id, string title, string description, DateTime start)
         {
             try
             {
+           
                 Connect();
-                string query = @"INSERT INTO `client_schedule`.`appointment` (`customerId`, `userId`,  `start`) 
-                                VALUES ( @userId,  @start);";
+                string query = @"INSERT INTO `client_schedule`.`appointment` (`customerId`, `userId`,`title`,`description`, `start`) 
+                                VALUES ( @customerId, @userId, @title, @description,   @start);";
 
+ 
+
+        
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
                     // Add the parameters to avoid SQL injection
+                    
+                    command.Parameters.AddWithValue("@userId", Id);  
+                    command.Parameters.AddWithValue("@customerId", customerId);
+                    command.Parameters.AddWithValue("@start", start);
+                    command.Parameters.AddWithValue("@title", title);
+                    command.Parameters.AddWithValue("@description", description);
+         
+        
+                   
 
-                    command.Parameters.AddWithValue("@userId", appointment.userId);
-                    command.Parameters.AddWithValue("@customerId", appointment.userId);
-                    command.Parameters.AddWithValue("@start", appointment.start);
+
                 
 
                     // Execute the query
@@ -1625,6 +1636,8 @@ namespace c969
               //Console.WriteLine(ex.Message );
             }
         }
+
+
     }
 }
 

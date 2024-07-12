@@ -370,13 +370,20 @@ namespace c969
             }
         }
 
-        private void changeApptBtn_Click(object sender, EventArgs e)
+     
+
+        private void Timelabel_TextChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void Timelabel_TextChanged(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
+            int userId = int.Parse(labeluser.Text);
+            int customerId = int.Parse(customerLabel.Text);
+            RequestAppointment request = new RequestAppointment(userId, customerId);
+            request.Show();
+
 
         }
     }
