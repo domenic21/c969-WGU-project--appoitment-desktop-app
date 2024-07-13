@@ -96,7 +96,7 @@ namespace c969
                 // Convert the local time to EST time zone 
                 localStartTime = TimeZoneInfo.ConvertTime(localStartTime, TimeZoneInfo.Local, estTimeZone);
           
-
+                DateTime dateTime = DateTime.Now;
 
                 // Check if the username or password is empty
                 if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
@@ -110,13 +110,21 @@ namespace c969
                 {
                     // If the user login is successful, open the MainForm
                     this.Hide();
-                   // alert the user of upcoming appointments 
-                    //userDb.AlertAppointments(currentUserId, localStartTime);
-                    bool hasAppointment = userDb.AlertAppointment(currentUserId, localStartTime);
+                    // alert the user of upcoming appointments 
+                    bool hasAppointment = userDb.AlertAppointment(currentUserId, dateTime);
+                    bool hasUpcomingAppointment = userDb.AlertAppointments(currentUserId, localStartTime);
 
-                    if (hasAppointment)
+                    if (hasAppointment && !hasUpcomingAppointment)
                     {
                         MessageBox.Show("You have an appointment within 15 minutes", "Appointment Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (!hasAppointment && hasUpcomingAppointment)
+                    {
+                        MessageBox.Show("You have upcoming appointments", "Appointment Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (hasAppointment && hasUpcomingAppointment)
+                    {
+                        MessageBox.Show("You have an appointment within 15 minutes and upcoming appointments", "Appointment Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     //mainForm.Show();
                     RegisterCustomer registerCustomerForm = new RegisterCustomer( currentUserId);

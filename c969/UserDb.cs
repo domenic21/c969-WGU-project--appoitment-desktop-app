@@ -38,7 +38,7 @@ namespace c969
                 Connect();
 
                 string query = @"UPDATE appointment
-                  SET start = DATE_ADD(NOW(), INTERVAL 10 MINUTE)
+                  SET start = DATE_ADD(NOW(), INTERVAL 15 MINUTE)
                   WHERE appointmentId = 1;";
 
                 string query1 = @"INSERT IGNORE INTO `client_schedule`.`appointment` (
@@ -1332,7 +1332,7 @@ namespace c969
 
         //Alert if appoitment is within 15 minutes
 
-       /* public void AlertAppointments(int userId, DateTime localtime)
+        public bool AlertAppointments(int userId, DateTime localtime)
         {
             try
             {
@@ -1350,8 +1350,7 @@ namespace c969
                     {
                         if (reader.HasRows)
                         {
-                            
-                            MessageBox.Show("You have an appointment within 15 minutes", "Appointment Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            return true; // Indicate that there is an appointment within 15 minutes
                         }
                     }
                 }
@@ -1362,7 +1361,8 @@ namespace c969
             {
                 MessageBox.Show(ex.Message, "no connection");
             }
-        }*/
+            return false;
+        }
 
         public bool AlertAppointment(int userId, DateTime localtime)
         {
