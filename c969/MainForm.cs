@@ -47,17 +47,10 @@ namespace c969
             // ReloadForm(); // Call the method to reload the form and clear the list boxes
             // Attach the Form_Load and Form_FormClosed event handlers
             this.FormClosed += MainForm_FormClosed;
+
         }
 
-        private void ReloadForm()
-        {
-            listBox.DataSource = null;
-            listBox.Items.Clear();
-            listBox2.DataSource = null;
-            listBox2.Items.Clear();
-        }
-
-        //reloads the appointments
+        
    
 
 
@@ -75,14 +68,6 @@ namespace c969
         }
 
      
-            //remove duplicates 
-
-          /*   listBox.DataSource = listBox.Items.Cast<string>()
-             .Distinct()
-             .ToList();
-            listBox2.DataSource = listBox.Items.Cast<string>()
-               .Distinct()
-              .ToList();*/
  
 
 
