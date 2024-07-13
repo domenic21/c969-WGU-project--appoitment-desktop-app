@@ -111,7 +111,13 @@ namespace c969
                     // If the user login is successful, open the MainForm
                     this.Hide();
                    // alert the user of upcoming appointments 
-                    userDb.AlertAppointments(currentUserId, localStartTime);
+                    //userDb.AlertAppointments(currentUserId, localStartTime);
+                    bool hasAppointment = userDb.AlertAppointment(currentUserId, localStartTime);
+
+                    if (hasAppointment)
+                    {
+                        MessageBox.Show("You have an appointment within 15 minutes", "Appointment Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                     //mainForm.Show();
                     RegisterCustomer registerCustomerForm = new RegisterCustomer( currentUserId);
                     registerCustomerForm.Show();
