@@ -134,7 +134,24 @@ namespace c969
                         DROP INDEX `cityId` ;
  
                             ";
+                string query5 = @"ALTER TABLE `client_schedule`.`appointment` 
+                  CHANGE COLUMN `title` `title` VARCHAR(255)  NULL ,
+                      CHANGE COLUMN `description` `description` TEXT  NULL ,
+                 CHANGE COLUMN `location` `location` TEXT  NULL ,
+                    CHANGE COLUMN `contact` `contact` TEXT  NULL ,
+                  CHANGE COLUMN `type` `type` TEXT  NULL ,
+                   CHANGE COLUMN `url` `url` VARCHAR(255)  NULL ,
+                   CHANGE COLUMN `start` `start` DATETIME  NULL ,
+                     CHANGE COLUMN `end` `end` DATETIME  NULL ,
+                  CHANGE COLUMN `createDate` `createDate` DATETIME  NULL ,
+                    CHANGE COLUMN `createdBy` `createdBy` VARCHAR(40)  NULL ,
+                  CHANGE COLUMN `lastUpdate` `lastUpdate` TIMESTAMP  NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ,
+                    CHANGE COLUMN `lastUpdateBy` `lastUpdateBy` VARCHAR(40)  NULL ;";
                 using (MySqlCommand command = new MySqlCommand(query4, _connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+                using (MySqlCommand command = new MySqlCommand(query5, _connection))
                 {
                     command.ExecuteNonQuery();
                 }
