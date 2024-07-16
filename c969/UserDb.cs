@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 
 
@@ -954,7 +955,7 @@ namespace c969
             try
             {
                 Connect();
-                string query = @"SELECT appointmentId, title, description, start FROM `client_schedule`.`appointment` WHERE customerId = @CustomerId;";
+                string query = @"SELECT appointmentId, title, description, start, end FROM `client_schedule`.`appointment` WHERE customerId = @CustomerId;";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -969,11 +970,12 @@ namespace c969
                             string title = reader.GetString("title");
                             string description = reader.GetString("description");
                             DateTime start = reader.GetDateTime("start");
+                            DateTime end = reader.GetDateTime("end");
 
 
 
 
-                            AppointmentModel appointmentModel = new AppointmentModel(customerId, appointmentId, title, description, start);
+                            AppointmentModel appointmentModel = new AppointmentModel(customerId, appointmentId, title, description, start, end);
                            appointmentsTaken.Add(appointmentModel);
                         }
                     }
@@ -1090,12 +1092,14 @@ namespace c969
                         {
                             
                             DateTime start = reader.GetDateTime("start");
+                            DateTime end = reader.GetDateTime("end");
+                            int appointmentId = reader.GetInt32("appointmentId");
                             // Skip appointments with date 1/1/0001
                             if (start.Date == DateTime.MinValue.Date)
                             {
                                 continue;
                             }
-                            AppointmentModel appointmentModel = new AppointmentModel( start);
+                            AppointmentModel appointmentModel = new AppointmentModel( start, end , appointmentId);
                             availableAppointments.Add(appointmentModel);
                         }
                     }
@@ -1399,14 +1403,14 @@ namespace c969
 
 
         // insert appointment new request 
-        public void InsertAppointment(int customerId,int  Id, string title, string description, DateTime start)
+        public void InsertAppointment(int customerId,int  Id, string title, string description, DateTime start, DateTime end)
         {
             try
             {
            
                 Connect();
-                string query = @"INSERT INTO `client_schedule`.`appointment` (`customerId`, `userId`,`title`,`description`, `start`) 
-                                VALUES ( @customerId, @userId, @title, @description,   @start);";
+                string query = @"INSERT INTO `client_schedule`.`appointment` (`customerId`, `userId`,`title`,`description`, `start`, `end`) 
+                                VALUES ( @customerId, @userId, @title, @description,   @start, @end);";
 
  
 
@@ -1420,13 +1424,7 @@ namespace c969
                     command.Parameters.AddWithValue("@start", start);
                     command.Parameters.AddWithValue("@title", title);
                     command.Parameters.AddWithValue("@description", description);
-         
-        
-                   
-
-
-                
-
+                    command.Parameters.AddWithValue("@end", end);
                     // Execute the query
                     int rowsAffected = command.ExecuteNonQuery();
                 }
@@ -1507,9 +1505,10 @@ namespace c969
                             string description = reader.GetString("description");
                             DateTime start = reader.GetDateTime("start");
                             int userId = reader.GetInt32("userId");
+                            DateTime end = reader.GetDateTime("end");
 
 
-                            AppointmentModel appointmentModel = new AppointmentModel(userId, appointmentId, title, description, start);
+                            AppointmentModel appointmentModel = new AppointmentModel(userId, appointmentId, title, description, start, end);
                             reports.Add(appointmentModel);
                         }
                     }
@@ -1687,6 +1686,34 @@ namespace c969
             {
               //Console.WriteLine(ex.Message );
             }
+        }
+
+        // check for overlapping appointments 
+        public bool CheckForOverlappingAppointments(int customerId, DateTime start)
+        {
+            try
+            {
+                Connect();
+                string query = @"SELECT* FROM `client_schedule`.`appointment` 
+                WHERE customerId = @customerId AND start = @start;";
+
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    command.Parameters.AddWithValue("@customerId", customerId);
+                    command.Parameters.AddWithValue("@start", start);
+                   
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        return reader.HasRows;
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message, "No connection 1717");
+            }
+
+            return false;
         }
 
 

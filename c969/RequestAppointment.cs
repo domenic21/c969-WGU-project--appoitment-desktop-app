@@ -19,7 +19,12 @@ namespace c969
             userId = userId;
             // Set the default time to 9:00 AM
             DateTime time = DateTime.Today.AddHours(9);
+            DateTime endTime = DateTime.Today.AddHours(10);
             Timelabel.Text = time.ToString("HH:mm:ss");
+            endLabel.Text = endTime.ToString("HH:mm:ss");
+            Timelabel.Enabled = false;
+            endLabel.Enabled = false;
+
         }
 
         private void mainMenubtn_Click(object sender, EventArgs e)
@@ -109,6 +114,7 @@ namespace c969
                 {
                     MessageBox.Show("Please select and appointment and complete the required information 116");
                 }
+               
                 // dont allow the selection of weekends 
              
                 else if (monthCalendar1.SelectionStart.DayOfWeek == DayOfWeek.Saturday || monthCalendar1.SelectionStart.DayOfWeek == DayOfWeek.Sunday)
@@ -124,11 +130,13 @@ namespace c969
                     int customerId = Convert.ToInt32(customerLabel.Text);
                     int Id = Convert.ToInt32(labeluser.Text);
                     string time = Timelabel.Text;
+                    string endTime = endLabel.Text;
                     DateTime selectedDate = monthCalendar1.SelectionStart;
                     string formattedDate = selectedDate.ToString("yyyy-MM-dd");
               
                     // Parse the date and time string into a DateTime object
                     DateTime start = DateTime.ParseExact($"{formattedDate} {time}", "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+                    DateTime end = DateTime.ParseExact($"{formattedDate} {endTime}", "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
                     // Convert the date and time to Eastern Standard Time
                     DateTime estTime = TimeZoneInfo.ConvertTimeToUtc(start, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
                  
@@ -136,14 +144,23 @@ namespace c969
                     string timeEst = DateTime.Parse(time).ToString("HH:mm:ss");
 
 
+
+                     // check for overlapping appointments true or false and times are not the same
+                     bool overlap = userDb.CheckForOverlappingAppointments(customerId, start);
+                    if (overlap && start == end)
+                    {
+                        MessageBox.Show("An appointment already exists at this time or start and end time are the same. Please select a different time.");
+                    }
+                    else
+                    {
+                        userDb.InsertAppointment(customerId, Id, title, description, start, end);
+                        MessageBox.Show("Appointment added successfully");
+                        this.Hide();
+                    }
+
+
+
                   
-
-              
-
-                   
-                    userDb.InsertAppointment(customerId, Id, title, description, start);
-                    MessageBox.Show("Appointment added successfully");
-                    this.Hide();
 
                 }
                
@@ -157,6 +174,74 @@ namespace c969
             }
         }
 
-        
+        private void addE_Click(object sender, EventArgs e)
+        {
+            if (DateTime.TryParseExact(endLabel.Text, "HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime time))
+            {
+                time = time.AddMinutes(30);
+                endLabel.Text = time.ToString("HH:mm:ss");
+
+                // Define the business hours 
+                DateTime businessStart = DateTime.Today.AddHours(9);
+                DateTime businessEnd = DateTime.Today.AddHours(17);
+
+                // Check if the new time is within business hours
+                if (time.TimeOfDay < businessStart.TimeOfDay || time.TimeOfDay >= businessEnd.TimeOfDay)
+                {
+                    MessageBox.Show("Time must be between 09:00 and 17:00. Please try again.");
+                    DateTime resetTime = DateTime.Today.AddHours(9);
+                    endLabel.Text = resetTime.ToString("HH:mm:ss");
+
+                    localLabel.Text = $"Your local time : ";
+                }
+                else
+                {
+                    // Update the Timelabel with the new time
+
+                   endLabel.Text = time.ToString("HH:mm:ss");
+                    string timeText = time.ToString("HH:mm:ss");
+                    DateTime localTime = TimeZoneInfo.ConvertTime(DateTime.Parse(timeText), TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), TimeZoneInfo.Local);
+                    localLabel.Text = $"Your local time : {localTime.Hour:D2}:{localTime.Minute:D2}";
+                }
+            }
+            else
+            {
+                MessageBox.Show("Invalid time format");
+            }
+        }
+
+        private void minusE_Click(object sender, EventArgs e)
+        {
+            if (DateTime.TryParseExact(endLabel.Text, "HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime time))
+            {
+                time = time.AddMinutes(-30); // Subtract 30 minutes
+                endLabel.Text = time.ToString("HH:mm:ss");
+                // Define the business hours 
+                DateTime businessStart = DateTime.Today.AddHours(9);
+                DateTime businessEnd = DateTime.Today.AddHours(17);
+
+                // Check if the new time is within business hours
+                if (time.TimeOfDay < businessStart.TimeOfDay || time.TimeOfDay >= businessEnd.TimeOfDay)
+                {
+                    MessageBox.Show("Time must be between 09:00 and 17:00. Please try again.");
+                    DateTime resetTime = DateTime.Today.AddHours(10);
+                    endLabel.Text = resetTime.ToString("HH:mm:ss");
+
+                    localLabel.Text = $"Your local time : ";
+                }
+                else
+                {
+                    // Update the Timelabel with the new time
+                    endLabel.Text = time.ToString("HH:mm:ss");
+                    string timeText = time.ToString("HH:mm:ss");
+                    DateTime localTime = TimeZoneInfo.ConvertTime(DateTime.Parse(timeText), TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), TimeZoneInfo.Local);
+                    localLabel.Text = $"Your local time : {localTime.Hour:D2}:{localTime.Minute:D2}"; // Show just the hours and minutes
+                }
+            }
+            else
+            {
+                MessageBox.Show("Invalid time format");
+            }
+        }
     }
 }

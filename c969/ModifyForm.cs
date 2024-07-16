@@ -22,7 +22,7 @@ namespace c969
             Timelabel.Visible = false;
             userIdLabel.Text = userId.ToString();
             customerLabel.Text = customerId.ToString();
-
+            Timelabel.Enabled = false;
                  // Get the user's time zone
             DateTime StartTime = DateTime.Parse(time);
             Timelabel.Text = StartTime.ToString("HH:mm:ss");

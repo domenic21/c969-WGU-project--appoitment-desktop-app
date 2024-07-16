@@ -16,7 +16,7 @@ namespace c969.models
         
         public DateTime start { get; set; }
        
-       
+       public DateTime end { get; set; }
 
         public string type { get; set; }
         public string location { get; set; }
@@ -44,13 +44,14 @@ namespace c969.models
     
 
 
-        public AppointmentModel(int userId,int appointmentId, string title, string description, DateTime start)
+        public AppointmentModel(int userId,int appointmentId, string title, string description, DateTime start, DateTime end)
         {
             this.appointmentId = appointmentId;
             this.userId = userId;
             this.title = title;
             this.description = description;
             this.start = start;
+            this.end = end;
           
 
 
@@ -71,10 +72,11 @@ namespace c969.models
           
         }
 
-        public AppointmentModel(  DateTime start)
+        public AppointmentModel(  DateTime start, DateTime end, int appointmentId)
         {
         
-     
+            this.end = end;
+            this.appointmentId = appointmentId;
             this.start = start;
         }   
 

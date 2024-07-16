@@ -40,7 +40,7 @@ namespace c969
             {
                 if (appointment.type != null)
                 {
-                    string formattedAppointment = $"Appointment types: {appointment.type.Count()} ({appointment.start.ToString("MMMM")})";
+                    string formattedAppointment = $"Appointment types: {appointment.type.Count()} {appointment.type}  ({appointment.start.ToString("MMMM")})";
                     listBox1.Items.Add(formattedAppointment);
                     RemoveDuplicatesFromListBox();
                 }

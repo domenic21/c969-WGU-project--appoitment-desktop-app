@@ -25,7 +25,8 @@ namespace c969
             customerLabel.Text = customerId.ToString();
             UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
             string userName = userDb.GetUserName(currentUserId);
-            
+            Timelabel.Enabled = false;
+            endLabel.Enabled = false;
             monthCalendar1.MaxSelectionCount = 1;
             textBoxcount.ReadOnly = true;
             apptOrderLabel.ReadOnly = true;
@@ -115,7 +116,7 @@ namespace c969
         {
             int month = monthCalendar1.SelectionStart.Month;
             UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-
+             
             List<AppointmentModel> appointments = userDb.FilterAppointmentsByMonth(month);
             // unchecked after each request 
 
@@ -241,7 +242,7 @@ namespace c969
                     string est = estTime.ToString(" HH:mm:ss");
 
 
-                    AppointmentModel appointment = new AppointmentModel(userId, appointmentId, title, description, estTime);
+                   // AppointmentModel appointment = new AppointmentModel(userId, appointmentId, title, description, estTime);
                     userDb.UpdateTimeAppt(appointmentId, est);
                     
                     userDb.UpdateAppointment(appointmentId, description, title, userId, customerId);

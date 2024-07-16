@@ -15,9 +15,9 @@ namespace c969
 {
     public partial class MainForm : Form
     {
- 
 
-      public MainForm(int customerId, int userId)
+
+        public MainForm(int customerId, int userId)
         {
             InitializeComponent();
 
@@ -36,22 +36,25 @@ namespace c969
             countryBox.DisplayMember = "Country";// Display the country name
             countryBox.DropDownStyle = ComboBoxStyle.DropDownList;
             cityBox.DropDownStyle = ComboBoxStyle.DropDownList;
-           
+
             InitializeFormData(customerId);
-       
+
 
             this.StartPosition = FormStartPosition.CenterScreen;
+            this.Size = new System.Drawing.Size(920, 500);
 
             RemoveDuplicatesFromComboBox();
 
             // ReloadForm(); // Call the method to reload the form and clear the list boxes
             // Attach the Form_Load and Form_FormClosed event handlers
             this.FormClosed += MainForm_FormClosed;
+            Grid();
+          
 
         }
 
-        
-   
+
+
 
 
 
@@ -67,36 +70,36 @@ namespace c969
             }
         }
 
-     
- 
 
 
 
-         List <string> FormatAppointments(BindingList<AppointmentModel> appointments) // Format the appointments for display
+
+
+        List<string> FormatAppointments(BindingList<AppointmentModel> appointments) // Format the appointments for display
         {
             List<string> formattedAppointments = new List<string>();
             foreach (var appointment in appointments)
             {
                 TimeZoneInfo userTimeZone = TimeZoneInfo.Local; // Get the user's time zone
                 int appointmentId = appointment.appointmentId;
-                string formattedAppointment = $"Appointments available: " +
+                string formattedAppointment = $" Your appointments Appointments: " +
 
-                TimeZoneInfo.ConvertTime(appointment.start, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), userTimeZone)
-                + " " + appointmentId.ToString();
+                TimeZoneInfo.ConvertTime(appointment.start  , TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), userTimeZone)
+                + " " + TimeZoneInfo.ConvertTime(appointment.end, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), userTimeZone) + appointmentId.ToString();
 
 
                 formattedAppointments.Add(formattedAppointment);
                 listBox.Refresh();
-                listBox2.Refresh();
+               
             }
 
             // Remove duplicates from the formatted appointments list
             formattedAppointments = formattedAppointments.Distinct().ToList();
 
             return formattedAppointments;
-           
+
         }
-         
+
 
         // this will ensure that the listbox is cleared when the form is closed so it wont show the previous appointments
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -114,22 +117,22 @@ namespace c969
 
                 UserInfo userInfo = userDb.UserInformation(customerId);
                 userDb.GetAllAppointments();
-         
 
-             
-                
+
+
+
 
                 // Call the GetAppoitments method and receive the list of appointments
-                  userDb.GetAppoitments(customerId);
+                userDb.GetAppoitments(customerId);
 
-               
-        
+
+
                 RemoveInvalidAppointments(UserDb.appointmentsTaken);
-         
+
                 List<string> formattedAppointments2 = FormatAppointments(UserDb.availableAppointments);
                 List<string> formattedAppointments = FormatAppointments(UserDb.appointmentsTaken);
                 listBox.DataSource = formattedAppointments;
-                listBox2.DataSource = formattedAppointments2;
+     
 
                 // Check if userInfo is null before accessing its properties
                 if (userInfo != null)
@@ -146,14 +149,14 @@ namespace c969
                     customerIdText.Text = userInfo.customerId.ToString();
                     modifyBtn.Enabled = true; // Enable the modify button
                     saveProfileBtn.Enabled = true; // Enable the save button
-                    
+
                 }
                 else
                 {
                     // No user information found, handle it accordingly (e.g., display default values, leave text boxes empty
                     MessageBox.Show("Please dont forget to complete your registration"); // Display a message to the user
-                 
-                                                   // Disable the modify button   // Deactivate the save button
+
+                    // Disable the modify button   // Deactivate the save button
                     saveProfileBtn.Enabled = false;
                     modifyBtn.Enabled = false;
                     saveProfileBtn.Hide(); // Hide the save button
@@ -241,21 +244,21 @@ namespace c969
                     int cityId = userDb.SelectCityId(cityBox.Text);
                     int countryId = userDb.SelectCountryId(cityBox.Text);
                     string cityName = cityBox.SelectedItem.ToString();
-               
+
                     int addressId = userDb.GetAddressId(customerId);
 
                     // Get the selected city
                     int userId = int.Parse(labeluserId.Text);
-                   
+
                     if (customerId == 0) // Assuming 0 represents an invalid customerId
                     {
                         MessageBox.Show("Failed to retrieve customer ID. Please try again or contact support.");
                     }
 
-                    UserInfo userInformation = new UserInfo(customerId,customerName,addressId, address, postalCode, phone, cityId);
+                    UserInfo userInformation = new UserInfo(customerId, customerName, addressId, address, postalCode, phone, cityId);
                     // Update the user information
 
-                    userDb.UpdateUser(userInformation); 
+                    userDb.UpdateUser(userInformation);
                     userDb.InsertCityIntoDatabase(cityId, cityName, addressId);
                     userDb.InsertCountryIntoDatabase(countryId, cityId);
 
@@ -336,10 +339,10 @@ namespace c969
 
 
                     int customerId1 = GenerateID();
-                  
+
                     int addressId = GenerateID();
 
-                    UserInfo userInformation = new UserInfo(customerId1, userName,  addressId,address, postalCode, phone, cityId);
+                    UserInfo userInformation = new UserInfo(customerId1, userName, addressId, address, postalCode, phone, cityId);
 
                     // Insert user profile information
                     userDb.InsertProfileInfo(userInformation);
@@ -367,10 +370,10 @@ namespace c969
                 saveProfileBtn.Show();
                 modifyBtn.Show();
                 modifyBtn.Enabled = true;
-             
+
 
                 saveProfileBtn.Show();
-             
+
             }
             catch (MySqlException ex)
             {
@@ -465,9 +468,10 @@ namespace c969
         {
             int customerId = Convert.ToInt32(customerIdText.Text);
             int userId = Convert.ToInt32(UserIdlabel.Text);
-            AppoitmentScheduler appoitmentScheduler = new AppoitmentScheduler(customerId, userId);
-            appoitmentScheduler.Show();
-            this.Hide();
+            //eliminated appointment scheduler to test
+            RequestAppointment request = new RequestAppointment(userId, customerId);
+            request.Show();
+
         }
 
         private void NametextBox_TextChanged(object sender, EventArgs e)
@@ -501,8 +505,8 @@ namespace c969
 
                 // Get the time from the selected appointment
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-                DateTime appointmentTime = 
-                    userDb.GetAppointmentTime(appointmentId); 
+                DateTime appointmentTime =
+                    userDb.GetAppointmentTime(appointmentId);
 
                 // Extract the time portion
                 string appointmentTimeOnly = appointmentTime.ToString();
@@ -547,10 +551,10 @@ namespace c969
                         {
                             // Now you have the appointmentId
                             UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-                                userDb.DeleteAppointment(appointmentId);
-                                MessageBox.Show("Appointment canceled successfully");
-                                //reload listbox
-                                listBox.DataSource = null;
+                            userDb.DeleteAppointment(appointmentId);
+                            MessageBox.Show("Appointment canceled successfully");
+                            //reload listbox
+                            listBox.DataSource = null;
                             listBox.Items.Clear();
                             UserDb.appointmentsTaken.Clear();
 
@@ -558,10 +562,10 @@ namespace c969
                             InitializeFormData(Convert.ToInt32(customerIdText.Text));
 
                         }
-                            else { MessageBox.Show("cant parse Id"); }
+                        else { MessageBox.Show("cant parse Id"); }
 
 
-                        
+
                     }
                     else
                     {
@@ -569,15 +573,15 @@ namespace c969
                     }
 
                     return;
-                   
+
                 }
 
             }
         }
 
 
-       
-       
+
+
 
         private void changeUserBtn_Click(object sender, EventArgs e)
         {
@@ -588,11 +592,11 @@ namespace c969
             listBox.Items.Clear();
 
 
-             Close();
+            Close();
         }
         private void RemoveDuplicatesFromComboBox()
         {
-           
+
             countryBox.DataSource = UserDb.multipleChoiceCountry
                 .GroupBy(c => c.country)
                 .Select(g => g.First())
@@ -602,10 +606,72 @@ namespace c969
                 .GroupBy(c => c.city)
                 .Select(g => g.First())
                 .ToList();
-          
+
         }
-     
+
+        private void Month_CheckedChanged(object sender, EventArgs e)
+        {
+            /*  int month = DateTime.Now.Month;
+              UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
+
+              List<AppointmentModel> appointments = userDb.FilterAppointmentsByMonth(month);
+              // Check if the Month checkbox is checked
+              if (Month.Checked == true)
+              {
+                  List<string> formattedAppointments = FormatAppointments(UserDb.availableAppointments);
+                  listBox2.DataSource = formattedAppointments;
+              }
+              else
+              {
+                  listBox2.DataSource = null;
+                  listBox2.Items.Clear();
+                  InitializeFormData(Convert.ToInt32(customerIdText.Text));
+              }
+              // unchecked after each request 
+              // Replace the code block starting from line 157 with the following code*/
+
+
+
+        }
+
+        private void Grid()
+        {
+            // Initialize the DataGridView
+            dataGridView.AutoGenerateColumns = false;
        
+            dataGridView.DefaultCellStyle.Font = new System.Drawing.Font("Arial", 10);
+     
+            dataGridView.AutoGenerateColumns = false;
+            dataGridView.DataSource = UserDb.availableAppointments;
+
+            // Set the DataSource of the DataGridView to the list of appointments
+            
+
+            // Define the columns for the DataGridView
+            dataGridView.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                DataPropertyName = "appointmentId",
+                HeaderText = "Appointment ID"
+            });
+
+            dataGridView.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                DataPropertyName = "start",
+                HeaderText = "Start Time"
+            });
+
+            dataGridView.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                DataPropertyName = "end",
+                HeaderText = "End Time"
+            });
+
+        
+
+          
+
+        }
+
     }
 
 
