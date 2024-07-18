@@ -475,7 +475,7 @@ namespace c969
                             // Retrieve user information from the reader
                             string customerName = reader.GetString("customerName");
                             string address = reader.GetString("address");
-                            int postalCode = reader.GetInt32("postalCode");
+                            string postalCode = reader.GetString("postalCode");
                             string phone = reader.GetString("phone");
                             int cityId = reader.GetInt32("cityId");
                             string city = reader.GetString("city");
@@ -1403,14 +1403,14 @@ namespace c969
 
 
         // insert appointment new request 
-        public void InsertAppointment(int customerId,int  Id, string title, string description, DateTime start, DateTime end)
+        public void InsertAppointment(int customerId,int  Id, string title,string type, string description, DateTime start, DateTime end)
         {
             try
             {
            
                 Connect();
-                string query = @"INSERT INTO `client_schedule`.`appointment` (`customerId`, `userId`,`title`,`description`, `start`, `end`) 
-                                VALUES ( @customerId, @userId, @title, @description,   @start, @end);";
+                string query = @"INSERT INTO `client_schedule`.`appointment` (`customerId`, `userId`,`title`,`type`,`description`, `start`, `end`) 
+                                VALUES ( @customerId, @userId, @title,@type, @description, @start, @end);";
 
  
 
@@ -1425,6 +1425,7 @@ namespace c969
                     command.Parameters.AddWithValue("@title", title);
                     command.Parameters.AddWithValue("@description", description);
                     command.Parameters.AddWithValue("@end", end);
+                    command.Parameters.AddWithValue("@type", type);
                     // Execute the query
                     int rowsAffected = command.ExecuteNonQuery();
                 }
@@ -1486,9 +1487,11 @@ namespace c969
 
             try
             {
-                string query = @"SELECT title,  userId, start , description,appointmentId
-                              FROM appointment
-                            WHERE userId IS NOT NULL
+                string query = @"SELECT a.title, a.customerId, c.customerName, a.start, a.end, a.description, a.appointmentId
+                        FROM appointment a
+                    JOIN customer c ON a.customerId = c.customerId
+                       WHERE a.customerId IS NOT NULL
+
                               ;";
 
                 Connect();
@@ -1504,11 +1507,13 @@ namespace c969
                             string title = reader.GetString("title");
                             string description = reader.GetString("description");
                             DateTime start = reader.GetDateTime("start");
-                            int userId = reader.GetInt32("userId");
+                            int customerId = reader.GetInt32("customerId");
                             DateTime end = reader.GetDateTime("end");
+                            string customerName = reader.GetString("customerName");
+                           
 
 
-                            AppointmentModel appointmentModel = new AppointmentModel(userId, appointmentId, title, description, start, end);
+                            AppointmentModel appointmentModel = new AppointmentModel(customerId, customerName, appointmentId, title, description, start, end);
                             reports.Add(appointmentModel);
                         }
                     }
@@ -1689,17 +1694,17 @@ namespace c969
         }
 
         // check for overlapping appointments 
-        public bool CheckForOverlappingAppointments(int customerId, DateTime start)
+        public bool CheckForOverlappingAppointments( DateTime start)
         {
             try
             {
                 Connect();
                 string query = @"SELECT* FROM `client_schedule`.`appointment` 
-                WHERE customerId = @customerId AND start = @start;";
+                WHERE  start = @start;";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
-                    command.Parameters.AddWithValue("@customerId", customerId);
+         
                     command.Parameters.AddWithValue("@start", start);
                    
                     using (MySqlDataReader reader = command.ExecuteReader())

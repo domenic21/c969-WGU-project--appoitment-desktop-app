@@ -24,6 +24,9 @@ namespace c969
             endLabel.Text = endTime.ToString("HH:mm:ss");
             Timelabel.Enabled = false;
             endLabel.Enabled = false;
+            typeComboBox.Items.Add("Consultation");
+            typeComboBox.Items.Add("Follow-up");
+            typeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 
         }
 
@@ -110,7 +113,7 @@ namespace c969
                 // select insert appointment into the db
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
 
-                if (string.IsNullOrEmpty(titletextBox.Text) || string.IsNullOrEmpty(descriptionText.Text))
+                if (string.IsNullOrEmpty(titletextBox.Text) || string.IsNullOrEmpty(descriptionText.Text) || string.IsNullOrEmpty(typeComboBox.Text))
                 {
                     MessageBox.Show("Please select and appointment and complete the required information 116");
                 }
@@ -126,7 +129,7 @@ namespace c969
 
                     string title = titletextBox.Text;
                     string description = descriptionText.Text;
-              
+                    string type = typeComboBox.Text;
                     int customerId = Convert.ToInt32(customerLabel.Text);
                     int Id = Convert.ToInt32(labeluser.Text);
                     string time = Timelabel.Text;
@@ -146,14 +149,14 @@ namespace c969
 
 
                      // check for overlapping appointments true or false and times are not the same
-                     bool overlap = userDb.CheckForOverlappingAppointments(customerId, start);
-                    if (overlap && start == end)
+                     bool overlap = userDb.CheckForOverlappingAppointments( start);
+                    if (overlap = true && start == end)
                     {
                         MessageBox.Show("An appointment already exists at this time or start and end time are the same. Please select a different time.");
                     }
                     else
                     {
-                        userDb.InsertAppointment(customerId, Id, title, description, start, end);
+                        userDb.InsertAppointment(customerId, Id, title,type, description, start, end);
                         MessageBox.Show("Appointment added successfully");
                         this.Hide();
                     }

@@ -18,7 +18,7 @@ namespace c969
 
             // Add options to the ComboBox
             comboBox1.Items.Add("The number of appointment types by month");
-            comboBox1.Items.Add(" Schedule for each user");
+            comboBox1.Items.Add(" Schedule for each customer");
             comboBox1.Items.Add("Appointment schedule dates");
 
             // Select the first option by default
@@ -60,7 +60,7 @@ namespace c969
             foreach (var appointment in UserDb.reports)
             {
 
-                string formattedAppointment = $"{appointment.title} - {appointment.userId} ({appointment.start})";
+                string formattedAppointment = $"{appointment.customerId} {appointment.customerName} -{appointment.title} -({appointment.start})";
                 listBox1.Items.Add(formattedAppointment);
                 RemoveDuplicatesFromListBox();
             }

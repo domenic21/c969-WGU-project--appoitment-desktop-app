@@ -237,18 +237,17 @@ namespace c969
                     // Update the user information
                     string customerName = NametextBox.Text;
                     string address = AddresstextBox2.Text;
-                    int postalCode = int.Parse(ZipcodetextBox4.Text);
-                    string phone = (PhonetextBox5.Text).ToString();
+                    string postalCode = ZipcodetextBox4.Text;
+                    string phone = PhonetextBox5.Text.ToString();
                     string country = CountrytextBox.SelectedText; // Get the selected country
                     string city = CitytextBox.SelectedText; // Get the selected city from the TextBox
                     int cityId = userDb.SelectCityId(cityBox.Text);
                     int countryId = userDb.SelectCountryId(cityBox.Text);
                     string cityName = cityBox.SelectedItem.ToString();
 
-                    int addressId = userDb.GetAddressId(customerId);
+                    int addressId = Convert.ToInt32(userDb.GetAddressId(customerId));
 
-                    // Get the selected city
-                    int userId = int.Parse(labeluserId.Text);
+        
 
                     if (customerId == 0) // Assuming 0 represents an invalid customerId
                     {
@@ -264,8 +263,8 @@ namespace c969
 
 
 
-                    // Save the updated user information
-                    // userDb.UpdateProfileUser(userInfo);
+                
+                    //userDb.UpdateProfileUser(userInfo);
 
                     // Deactivate the text boxes
                     DeactivateTextBoxes();
@@ -278,7 +277,7 @@ namespace c969
             catch (Exception ex)
             {
 
-                MessageBox.Show("error : " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("error 281 : " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -325,7 +324,7 @@ namespace c969
                     // Update the user information
                     string userName = NametextBox.Text;
                     string address = AddresstextBox2.Text;
-                    int postalCode = int.Parse(ZipcodetextBox4.Text);
+                    string postalCode = ZipcodetextBox4.Text;
                     string phone = (PhonetextBox5.Text).ToString();
                     string country = CountrytextBox.SelectedText; // Get the selected country
                     string city = CitytextBox.SelectedText; // Get the selected city from the TextBox
@@ -390,12 +389,11 @@ namespace c969
                 int currentUserId = Convert.ToInt32(customerIdText.Text);
                 userDb.DeleteProfileInfo(currentUserId);
                 MessageBox.Show("Profile information deleted successfully" + MessageBoxButtons.OK);
-                AddresstextBox2.ResetText();
-                countryBox.ResetText();
-                cityBox.ResetText();
-                ZipcodetextBox4.ResetText();
-                PhonetextBox5.ResetText();
-                return;
+                RegisterCustomer registerCustomer = new RegisterCustomer(currentUserId);
+                registerCustomer.Show();
+                this.Close();
+    
+                
 
             }
             catch (MySqlException ex)

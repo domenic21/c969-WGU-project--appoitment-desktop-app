@@ -31,6 +31,7 @@ namespace c969
             userIdlabel.Text = userId.ToString();
             RemoveDuplicatesFromComboBox();
             
+            
         }
 
         private void registerBtn_Click(object sender, EventArgs e)
@@ -59,7 +60,10 @@ namespace c969
                 .GroupBy(c => c.customerName)
                 .Select(g => g.First())
                 .ToList();
+        
         }
+
+  
 
         public static int GenerateCustomerID()
         {
@@ -99,7 +103,7 @@ namespace c969
                     // Update the user information
                     string customerName = NametextBox.Text;
                     string address = AddresstextBox2.Text;
-                    int postalCode = int.Parse(ZipcodetextBox4.Text);
+                    string postalCode = ZipcodetextBox4.Text;
                     string phone = (PhonetextBox5.Text).ToString();
                     string country = CountrytextBox.SelectedText; // Get the selected country
                     string city = CitytextBox.SelectedText; // Get the selected city from the TextBox
@@ -156,10 +160,18 @@ namespace c969
                 customerId = userDb.SelectCustomerId(NametextBox.Text);
 
             }
-
-            MainForm mainForm = new MainForm(customerId, userId);
-            mainForm.Show();
-            this.Close();
+            //prevent form to open if customerId is 0 or null 
+            if (customerId == 0)
+            {
+                MessageBox.Show("Please select another customer, customer recently deleted or unavailable ");
+                return;
+            }
+            else
+            {
+                MainForm mainForm = new MainForm(customerId, userId);
+                mainForm.Show();
+                this.Close();
+            }
         }
     
 

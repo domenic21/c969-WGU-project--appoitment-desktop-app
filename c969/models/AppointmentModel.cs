@@ -27,6 +27,8 @@ namespace c969.models
         
         public int customerId { get; set; }
 
+        public string customerName { get; set; }
+
         public AppointmentModel(string type, DateTime start)
         {
             this.type = type;
@@ -57,6 +59,21 @@ namespace c969.models
 
         }
 
+        public AppointmentModel(int customerId, string customerName, int appointmentId, string title, string description, DateTime start, DateTime end)
+        {
+            this.appointmentId = appointmentId;
+      
+            this.title = title;
+            this.description = description;
+            this.start = start;
+            this.end = end;
+            this.customerId = customerId;
+            this.customerName = customerName;
+
+
+
+        }
+
         public AppointmentModel (DateTime start, int appointmentId)
         {
             this.start = start;
@@ -80,16 +97,7 @@ namespace c969.models
             this.start = start;
         }   
 
-       /* public AppointmentModel(int userId, int  customerId,string  title,string  description, DateTime start)
-        {
-           
-            this.title = title;
-            this.description = description;
-            this.start = start;
-            this.customerId = customerId;
-            this.userId = userId;
-
-        }*/
+ 
 
 
 
