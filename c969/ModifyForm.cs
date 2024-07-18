@@ -87,16 +87,7 @@ namespace c969
 
 
 
-        private void changeApptBtn_Click(object sender, EventArgs e)
-        {
-
-            Timelabel.Visible = true;
-            modifyApptBtn.Visible = true;
-            timeMinusBtn.Visible = true;
-            timeAddBtn.Visible = true;
-
-
-        }
+       
 
         private void timeAddBtn_Click(object sender, EventArgs e)
         {

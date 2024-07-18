@@ -1,5 +1,4 @@
-﻿using c969.models;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Windows.Forms;
 
@@ -7,7 +6,7 @@ namespace c969
 {
     public partial class RequestAppointment : Form
     {
-        private int userId; 
+        private int userId;
         public RequestAppointment(int userId, int customerId)
         {
             InitializeComponent();
@@ -117,9 +116,9 @@ namespace c969
                 {
                     MessageBox.Show("Please select and appointment and complete the required information 116");
                 }
-               
+
                 // dont allow the selection of weekends 
-             
+
                 else if (monthCalendar1.SelectionStart.DayOfWeek == DayOfWeek.Saturday || monthCalendar1.SelectionStart.DayOfWeek == DayOfWeek.Sunday)
                 {
                     MessageBox.Show("Appointments cannot be scheduled on weekends. Please select a weekday.");
@@ -136,37 +135,48 @@ namespace c969
                     string endTime = endLabel.Text;
                     DateTime selectedDate = monthCalendar1.SelectionStart;
                     string formattedDate = selectedDate.ToString("yyyy-MM-dd");
-              
+
                     // Parse the date and time string into a DateTime object
                     DateTime start = DateTime.ParseExact($"{formattedDate} {time}", "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
                     DateTime end = DateTime.ParseExact($"{formattedDate} {endTime}", "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
                     // Convert the date and time to Eastern Standard Time
                     DateTime estTime = TimeZoneInfo.ConvertTimeToUtc(start, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
-                 
+
                     string est = estTime.ToString(" HH:mm:ss");
                     string timeEst = DateTime.Parse(time).ToString("HH:mm:ss");
 
 
 
-                     // check for overlapping appointments true or false and times are not the same
-                     bool overlap = userDb.CheckForOverlappingAppointments( start);
-                    if (overlap = true && start == end)
+                    // check for overlapping appointments true or false and times are not the same
+                    bool overlap = userDb.CheckForOverlappingAppointments(start);
+                    if (overlap)
                     {
                         MessageBox.Show("An appointment already exists at this time or start and end time are the same. Please select a different time.");
                     }
+                    else if (start.TimeOfDay == end.TimeOfDay)
+                    {
+
+
+                        MessageBox.Show("Start and end time cannot be the same. Please select a different time.");
+                    }
+                    else if (start.TimeOfDay > end.TimeOfDay) // check if start time is greater than end time
+                    {
+
+                        MessageBox.Show("Start cant be greater than end time. Please select a different time.");
+                    }
                     else
                     {
-                        userDb.InsertAppointment(customerId, Id, title,type, description, start, end);
+                        userDb.InsertAppointment(customerId, Id, title, type, description, start, end);
                         MessageBox.Show("Appointment added successfully");
                         this.Hide();
                     }
 
 
 
-                  
+
 
                 }
-               
+
             }
 
             catch
@@ -201,7 +211,7 @@ namespace c969
                 {
                     // Update the Timelabel with the new time
 
-                   endLabel.Text = time.ToString("HH:mm:ss");
+                    endLabel.Text = time.ToString("HH:mm:ss");
                     string timeText = time.ToString("HH:mm:ss");
                     DateTime localTime = TimeZoneInfo.ConvertTime(DateTime.Parse(timeText), TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), TimeZoneInfo.Local);
                     localLabel.Text = $"Your local time : {localTime.Hour:D2}:{localTime.Minute:D2}";

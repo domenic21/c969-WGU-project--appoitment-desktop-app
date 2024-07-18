@@ -170,7 +170,7 @@
             this.changeApptBtn.TabIndex = 25;
             this.changeApptBtn.Text = "Change Appointment Time";
             this.changeApptBtn.UseVisualStyleBackColor = true;
-            this.changeApptBtn.Click += new System.EventHandler(this.changeApptBtn_Click);
+          
             // 
             // label3
             // 

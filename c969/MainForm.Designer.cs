@@ -66,7 +66,6 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.cancelapptbtn = new System.Windows.Forms.Button();
-            this.listBox = new System.Windows.Forms.ListBox();
             this.modifyApptBtn = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.labelAppt = new System.Windows.Forms.Label();
@@ -76,9 +75,13 @@
             this.deleteUserBtn = new System.Windows.Forms.Button();
             this.changeUserBtn = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
+            this.apptGrid = new System.Windows.Forms.DataGridView();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.apptGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -95,7 +98,7 @@
             // exitBtn
             // 
             this.exitBtn.Location = new System.Drawing.Point(1390, 800);
-            this.exitBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.exitBtn.Margin = new System.Windows.Forms.Padding(4);
             this.exitBtn.Name = "exitBtn";
             this.exitBtn.Size = new System.Drawing.Size(103, 40);
             this.exitBtn.TabIndex = 1;
@@ -203,9 +206,9 @@
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.cityBox);
             this.groupBox1.Location = new System.Drawing.Point(23, 34);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(407, 448);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
@@ -234,7 +237,7 @@
             // 
             this.countryBox.FormattingEnabled = true;
             this.countryBox.Location = new System.Drawing.Point(154, 141);
-            this.countryBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.countryBox.Margin = new System.Windows.Forms.Padding(4);
             this.countryBox.Name = "countryBox";
             this.countryBox.Size = new System.Drawing.Size(243, 32);
             this.countryBox.TabIndex = 16;
@@ -243,7 +246,7 @@
             // deleteAddressBtn
             // 
             this.deleteAddressBtn.Location = new System.Drawing.Point(296, 387);
-            this.deleteAddressBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.deleteAddressBtn.Margin = new System.Windows.Forms.Padding(4);
             this.deleteAddressBtn.Name = "deleteAddressBtn";
             this.deleteAddressBtn.Size = new System.Drawing.Size(103, 34);
             this.deleteAddressBtn.TabIndex = 18;
@@ -254,7 +257,7 @@
             // CitytextBox
             // 
             this.CitytextBox.Location = new System.Drawing.Point(154, 186);
-            this.CitytextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CitytextBox.Margin = new System.Windows.Forms.Padding(4);
             this.CitytextBox.Name = "CitytextBox";
             this.CitytextBox.Size = new System.Drawing.Size(243, 29);
             this.CitytextBox.TabIndex = 15;
@@ -272,7 +275,7 @@
             // PhonetextBox5
             // 
             this.PhonetextBox5.Location = new System.Drawing.Point(154, 273);
-            this.PhonetextBox5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.PhonetextBox5.Margin = new System.Windows.Forms.Padding(4);
             this.PhonetextBox5.Name = "PhonetextBox5";
             this.PhonetextBox5.Size = new System.Drawing.Size(243, 29);
             this.PhonetextBox5.TabIndex = 14;
@@ -281,7 +284,7 @@
             // ZipcodetextBox4
             // 
             this.ZipcodetextBox4.Location = new System.Drawing.Point(154, 228);
-            this.ZipcodetextBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ZipcodetextBox4.Margin = new System.Windows.Forms.Padding(4);
             this.ZipcodetextBox4.Name = "ZipcodetextBox4";
             this.ZipcodetextBox4.Size = new System.Drawing.Size(243, 29);
             this.ZipcodetextBox4.TabIndex = 13;
@@ -290,7 +293,7 @@
             // saveProfileBtn
             // 
             this.saveProfileBtn.Location = new System.Drawing.Point(296, 315);
-            this.saveProfileBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.saveProfileBtn.Margin = new System.Windows.Forms.Padding(4);
             this.saveProfileBtn.Name = "saveProfileBtn";
             this.saveProfileBtn.Size = new System.Drawing.Size(103, 34);
             this.saveProfileBtn.TabIndex = 12;
@@ -301,7 +304,7 @@
             // CountrytextBox
             // 
             this.CountrytextBox.Location = new System.Drawing.Point(154, 144);
-            this.CountrytextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CountrytextBox.Margin = new System.Windows.Forms.Padding(4);
             this.CountrytextBox.Name = "CountrytextBox";
             this.CountrytextBox.Size = new System.Drawing.Size(243, 29);
             this.CountrytextBox.TabIndex = 12;
@@ -309,7 +312,7 @@
             // modifyBtn
             // 
             this.modifyBtn.Location = new System.Drawing.Point(177, 315);
-            this.modifyBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.modifyBtn.Margin = new System.Windows.Forms.Padding(4);
             this.modifyBtn.Name = "modifyBtn";
             this.modifyBtn.Size = new System.Drawing.Size(103, 34);
             this.modifyBtn.TabIndex = 11;
@@ -320,7 +323,7 @@
             // AddresstextBox2
             // 
             this.AddresstextBox2.Location = new System.Drawing.Point(154, 102);
-            this.AddresstextBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.AddresstextBox2.Margin = new System.Windows.Forms.Padding(4);
             this.AddresstextBox2.Name = "AddresstextBox2";
             this.AddresstextBox2.Size = new System.Drawing.Size(243, 29);
             this.AddresstextBox2.TabIndex = 11;
@@ -329,7 +332,7 @@
             // NametextBox
             // 
             this.NametextBox.Location = new System.Drawing.Point(154, 64);
-            this.NametextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.NametextBox.Margin = new System.Windows.Forms.Padding(4);
             this.NametextBox.Name = "NametextBox";
             this.NametextBox.Size = new System.Drawing.Size(243, 29);
             this.NametextBox.TabIndex = 10;
@@ -339,7 +342,7 @@
             // 
             this.cityBox.FormattingEnabled = true;
             this.cityBox.Location = new System.Drawing.Point(154, 183);
-            this.cityBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cityBox.Margin = new System.Windows.Forms.Padding(4);
             this.cityBox.Name = "cityBox";
             this.cityBox.Size = new System.Drawing.Size(243, 32);
             this.cityBox.TabIndex = 17;
@@ -358,6 +361,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.apptGrid);
+            this.groupBox2.Controls.Add(this.dataGridView2);
             this.groupBox2.Controls.Add(this.label17);
             this.groupBox2.Controls.Add(this.checkBox1);
             this.groupBox2.Controls.Add(this.checkBox2);
@@ -370,14 +375,13 @@
             this.groupBox2.Controls.Add(this.label13);
             this.groupBox2.Controls.Add(this.label12);
             this.groupBox2.Controls.Add(this.cancelapptbtn);
-            this.groupBox2.Controls.Add(this.listBox);
             this.groupBox2.Controls.Add(this.modifyApptBtn);
             this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.labelAppt);
             this.groupBox2.Location = new System.Drawing.Point(532, 54);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox2.Size = new System.Drawing.Size(1044, 700);
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
@@ -397,7 +401,7 @@
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(830, 87);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(93, 29);
             this.checkBox1.TabIndex = 37;
@@ -408,7 +412,7 @@
             // 
             this.checkBox2.AutoSize = true;
             this.checkBox2.Location = new System.Drawing.Point(830, 128);
-            this.checkBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBox2.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(90, 29);
             this.checkBox2.TabIndex = 36;
@@ -417,8 +421,8 @@
             // 
             // dateTimePicker2
             // 
-            this.dateTimePicker2.Location = new System.Drawing.Point(667, 195);
-            this.dateTimePicker2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dateTimePicker2.Location = new System.Drawing.Point(731, 212);
+            this.dateTimePicker2.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(305, 29);
             this.dateTimePicker2.TabIndex = 35;
@@ -431,10 +435,11 @@
             this.dataGridView.AllowUserToResizeRows = false;
             this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Location = new System.Drawing.Point(14, 288);
-            this.dataGridView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataGridView.Location = new System.Drawing.Point(20, 329);
+            this.dataGridView.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView.MultiSelect = false;
             this.dataGridView.Name = "dataGridView";
+            this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.RowHeadersWidth = 51;
             this.dataGridView.RowTemplate.Height = 24;
             this.dataGridView.Size = new System.Drawing.Size(754, 166);
@@ -455,7 +460,7 @@
             // 
             this.Month.AutoSize = true;
             this.Month.Location = new System.Drawing.Point(830, 360);
-            this.Month.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Month.Margin = new System.Windows.Forms.Padding(4);
             this.Month.Name = "Month";
             this.Month.Size = new System.Drawing.Size(93, 29);
             this.Month.TabIndex = 32;
@@ -467,7 +472,7 @@
             // 
             this.weekCheckBox.AutoSize = true;
             this.weekCheckBox.Location = new System.Drawing.Point(830, 399);
-            this.weekCheckBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.weekCheckBox.Margin = new System.Windows.Forms.Padding(4);
             this.weekCheckBox.Name = "weekCheckBox";
             this.weekCheckBox.Size = new System.Drawing.Size(90, 29);
             this.weekCheckBox.TabIndex = 31;
@@ -476,8 +481,8 @@
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(667, 464);
-            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dateTimePicker1.Location = new System.Drawing.Point(731, 507);
+            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(305, 29);
             this.dateTimePicker1.TabIndex = 30;
@@ -498,7 +503,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(8, 254);
+            this.label12.Location = new System.Drawing.Point(9, 296);
             this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(419, 29);
@@ -508,8 +513,8 @@
             // cancelapptbtn
             // 
             this.cancelapptbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.142858F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cancelapptbtn.Location = new System.Drawing.Point(125, 190);
-            this.cancelapptbtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cancelapptbtn.Location = new System.Drawing.Point(131, 224);
+            this.cancelapptbtn.Margin = new System.Windows.Forms.Padding(4);
             this.cancelapptbtn.Name = "cancelapptbtn";
             this.cancelapptbtn.Size = new System.Drawing.Size(283, 58);
             this.cancelapptbtn.TabIndex = 26;
@@ -517,19 +522,10 @@
             this.cancelapptbtn.UseVisualStyleBackColor = true;
             this.cancelapptbtn.Click += new System.EventHandler(this.cancelapptbtn_Click);
             // 
-            // listBox
-            // 
-            this.listBox.FormattingEnabled = true;
-            this.listBox.ItemHeight = 24;
-            this.listBox.Location = new System.Drawing.Point(7, 62);
-            this.listBox.Name = "listBox";
-            this.listBox.Size = new System.Drawing.Size(714, 124);
-            this.listBox.TabIndex = 25;
-            // 
             // modifyApptBtn
             // 
-            this.modifyApptBtn.Location = new System.Drawing.Point(14, 192);
-            this.modifyApptBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.modifyApptBtn.Location = new System.Drawing.Point(20, 225);
+            this.modifyApptBtn.Margin = new System.Windows.Forms.Padding(4);
             this.modifyApptBtn.Name = "modifyApptBtn";
             this.modifyApptBtn.Size = new System.Drawing.Size(103, 57);
             this.modifyApptBtn.TabIndex = 24;
@@ -543,7 +539,7 @@
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.button1.Location = new System.Drawing.Point(143, 603);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(509, 88);
             this.button1.TabIndex = 21;
@@ -596,7 +592,7 @@
             // deleteUserBtn
             // 
             this.deleteUserBtn.Location = new System.Drawing.Point(318, 602);
-            this.deleteUserBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.deleteUserBtn.Margin = new System.Windows.Forms.Padding(4);
             this.deleteUserBtn.Name = "deleteUserBtn";
             this.deleteUserBtn.Size = new System.Drawing.Size(103, 44);
             this.deleteUserBtn.TabIndex = 21;
@@ -625,6 +621,36 @@
             this.label14.TabIndex = 25;
             this.label14.Text = " Business hours of 9:00 a.m. to 5:00 p.m., Monday–Friday, EST";
             // 
+            // apptGrid
+            // 
+            this.apptGrid.AllowUserToAddRows = false;
+            this.apptGrid.AllowUserToDeleteRows = false;
+            this.apptGrid.AllowUserToResizeColumns = false;
+            this.apptGrid.AllowUserToResizeRows = false;
+            this.apptGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.apptGrid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            this.apptGrid.ColumnHeadersHeight = 30;
+            this.apptGrid.Location = new System.Drawing.Point(14, 55);
+            this.apptGrid.MultiSelect = false;
+            this.apptGrid.Name = "apptGrid";
+            this.apptGrid.RowHeadersVisible = false;
+            this.apptGrid.RowHeadersWidth = 72;
+            this.apptGrid.RowTemplate.Height = 31;
+            this.apptGrid.Size = new System.Drawing.Size(773, 150);
+            this.apptGrid.TabIndex = 39;
+            // 
+            // dataGridView2
+            // 
+            this.dataGridView2.AllowUserToAddRows = false;
+            this.dataGridView2.AllowUserToDeleteRows = false;
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Location = new System.Drawing.Point(28, 55);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.ReadOnly = true;
+            this.dataGridView2.RowHeadersWidth = 72;
+            this.dataGridView2.Size = new System.Drawing.Size(8, 8);
+            this.dataGridView2.TabIndex = 40;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
@@ -642,7 +668,7 @@
             this.Controls.Add(this.exitBtn);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.Text = "MainForm";
             this.groupBox1.ResumeLayout(false);
@@ -650,6 +676,8 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.apptGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -688,7 +716,6 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button deleteUserBtn;
         private System.Windows.Forms.Button modifyApptBtn;
-        private System.Windows.Forms.ListBox listBox;
         private System.Windows.Forms.Button cancelapptbtn;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
@@ -705,5 +732,7 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.DateTimePicker dateTimePicker2;
+        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView apptGrid;
     }
 }

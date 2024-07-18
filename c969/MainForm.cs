@@ -1,7 +1,6 @@
 ﻿using c969.models;
 using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
@@ -49,7 +48,7 @@ namespace c969
             // Attach the Form_Load and Form_FormClosed event handlers
             this.FormClosed += MainForm_FormClosed;
             Grid();
-          
+            GridAppt();
 
         }
 
@@ -75,30 +74,7 @@ namespace c969
 
 
 
-        List<string> FormatAppointments(BindingList<AppointmentModel> appointments) // Format the appointments for display
-        {
-            List<string> formattedAppointments = new List<string>();
-            foreach (var appointment in appointments)
-            {
-                TimeZoneInfo userTimeZone = TimeZoneInfo.Local; // Get the user's time zone
-                int appointmentId = appointment.appointmentId;
-                string formattedAppointment = $" Your appointments Appointments: " +
 
-                TimeZoneInfo.ConvertTime(appointment.start  , TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), userTimeZone)
-                + " " + TimeZoneInfo.ConvertTime(appointment.end, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), userTimeZone) + appointmentId.ToString();
-
-
-                formattedAppointments.Add(formattedAppointment);
-                listBox.Refresh();
-               
-            }
-
-            // Remove duplicates from the formatted appointments list
-            formattedAppointments = formattedAppointments.Distinct().ToList();
-
-            return formattedAppointments;
-
-        }
 
 
         // this will ensure that the listbox is cleared when the form is closed so it wont show the previous appointments
@@ -129,10 +105,9 @@ namespace c969
 
                 RemoveInvalidAppointments(UserDb.appointmentsTaken);
 
-                List<string> formattedAppointments2 = FormatAppointments(UserDb.availableAppointments);
-                List<string> formattedAppointments = FormatAppointments(UserDb.appointmentsTaken);
-                listBox.DataSource = formattedAppointments;
-     
+
+
+
 
                 // Check if userInfo is null before accessing its properties
                 if (userInfo != null)
@@ -247,7 +222,7 @@ namespace c969
 
                     int addressId = Convert.ToInt32(userDb.GetAddressId(customerId));
 
-        
+
 
                     if (customerId == 0) // Assuming 0 represents an invalid customerId
                     {
@@ -263,7 +238,7 @@ namespace c969
 
 
 
-                
+
                     //userDb.UpdateProfileUser(userInfo);
 
                     // Deactivate the text boxes
@@ -392,8 +367,8 @@ namespace c969
                 RegisterCustomer registerCustomer = new RegisterCustomer(currentUserId);
                 registerCustomer.Show();
                 this.Close();
-    
-                
+
+
 
             }
             catch (MySqlException ex)
@@ -495,30 +470,29 @@ namespace c969
 
         private void modifyApptBtn_Click(object sender, EventArgs e)
         {
-            if (listBox.SelectedItem != null)
+            if (apptGrid.SelectedRows.Count > 0)
             {
-                string selectedAppt = listBox.SelectedItem.ToString();
-                // Get the selected appointment 
-                int appointmentId = int.Parse(selectedAppt.Split(' ')[selectedAppt.Split(' ').Length - 1]);
 
-                // Get the time from the selected appointment
-                UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-                DateTime appointmentTime =
-                    userDb.GetAppointmentTime(appointmentId);
 
-                // Extract the time portion
-                string appointmentTimeOnly = appointmentTime.ToString();
+                // Access the data in specific cells of the selected row
+                int appointmentId = Convert.ToInt32(apptGrid.CurrentRow.Cells[0].Value);
+                string appointmentTime = apptGrid.CurrentRow.Cells[1].Value.ToString();
+
+                // Use the retrieved data as needed
+                // Example: Pass the data to another form or perform some operations
+
+                // Example: Pass the data to another form
                 int userId = Convert.ToInt32(UserIdlabel.Text);
                 int customerId = Convert.ToInt32(customerIdText.Text);
-                ModifyForm modifyForm = new ModifyForm(appointmentId, appointmentTimeOnly, userId, customerId);
+                ModifyForm modifyForm = new ModifyForm(appointmentId, appointmentTime, userId, customerId);
                 modifyForm.Show();
 
+                // Close the current form if needed
                 this.Close();
-
-                return;
             }
             else
             {
+                // No row selected, handle it accordingly (e.g., display an error message or disable a button)
                 modifyApptBtn.Enabled = false;
             }
         }
@@ -526,7 +500,7 @@ namespace c969
         private void cancelapptbtn_Click(object sender, EventArgs e)
         {
 
-            if (listBox.SelectedItem != null)
+            if (apptGrid.SelectedRows != null)
             {
                 DialogResult result = MessageBox.Show("Are you sure you want to cancel this appointment?", "Confirmation", MessageBoxButtons.YesNo);
 
@@ -534,45 +508,38 @@ namespace c969
                 if (result == DialogResult.Yes)
                 {
                     // Get the selected appointment
-                    string selectedAppointment = listBox.SelectedItem?.ToString(); // Check if an item is selected
-                    if (selectedAppointment != null)
+
+                    int appointmentId = Convert.ToInt32(apptGrid.CurrentRow.Cells[0].Value);
+                    if (appointmentId != 0)
                     {
 
-                        // Find the index of the last space character
-                        int lastSpaceIndex = selectedAppointment.LastIndexOf(' ');
 
-                        // Extract the substring after the last space character
-                        string appointmentIdString = selectedAppointment.Substring(lastSpaceIndex + 1);
+                        // Now you have the appointmentId
+                        UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
+                        userDb.DeleteAppointment(appointmentId);
+                        MessageBox.Show("Appointment canceled successfully");
+                        //reload listbox
 
-                        // Try parsing the extracted string to an integer
-                        if (int.TryParse(appointmentIdString, out int appointmentId))
-                        {
-                            // Now you have the appointmentId
-                            UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-                            userDb.DeleteAppointment(appointmentId);
-                            MessageBox.Show("Appointment canceled successfully");
-                            //reload listbox
-                            listBox.DataSource = null;
-                            listBox.Items.Clear();
-                            UserDb.appointmentsTaken.Clear();
+                        UserDb.appointmentsTaken.Clear();
 
 
-                            InitializeFormData(Convert.ToInt32(customerIdText.Text));
-
-                        }
-                        else { MessageBox.Show("cant parse Id"); }
-
-
+                        InitializeFormData(Convert.ToInt32(customerIdText.Text));
 
                     }
-                    else
-                    {
-                        return;
-                    }
+                    else { MessageBox.Show("cant parse Id"); }
 
-                    return;
+
 
                 }
+                else
+                {
+                    return;
+                }
+
+                return;
+
+
+
 
             }
         }
@@ -586,8 +553,7 @@ namespace c969
             int userId = Convert.ToInt32(UserIdlabel.Text);
             RegisterCustomer registerCustomer = new RegisterCustomer(userId);
             registerCustomer.Show();
-            listBox.DataSource = null;
-            listBox.Items.Clear();
+
 
 
             Close();
@@ -636,14 +602,15 @@ namespace c969
         {
             // Initialize the DataGridView
             dataGridView.AutoGenerateColumns = false;
-       
-            dataGridView.DefaultCellStyle.Font = new System.Drawing.Font("Arial", 10);
-     
+
+            dataGridView.DefaultCellStyle.Font = new System.Drawing.Font("Arial", 8);
+
             dataGridView.AutoGenerateColumns = false;
             dataGridView.DataSource = UserDb.availableAppointments;
+            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             // Set the DataSource of the DataGridView to the list of appointments
-            
+
 
             // Define the columns for the DataGridView
             dataGridView.Columns.Add(new DataGridViewTextBoxColumn()
@@ -664,9 +631,58 @@ namespace c969
                 HeaderText = "End Time"
             });
 
-        
 
-          
+
+
+
+        }
+
+        private void GridAppt()
+        {
+            // Initialize the DataGridView
+            apptGrid.AutoGenerateColumns = false;
+
+            apptGrid.DefaultCellStyle.Font = new System.Drawing.Font("Arial", 8);
+
+            apptGrid.AutoGenerateColumns = false;
+            apptGrid.DataSource = UserDb.appointmentsTaken;
+
+
+            apptGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+
+            // Set the DataSource of the DataGridView to the list of appointments
+
+
+            // Define the columns for the DataGridView
+            apptGrid.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                DataPropertyName = "appointmentId",
+                HeaderText = "Appointment ID"
+            });
+
+
+            apptGrid.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+
+                DataPropertyName = "start",
+                HeaderText = "Start Time"
+
+            });
+
+            apptGrid.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                DataPropertyName = "end",
+                HeaderText = "End Time"
+            });
+
+            apptGrid.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                DataPropertyName = "type",
+                HeaderText = "Type"
+            });
+
+
 
         }
 
