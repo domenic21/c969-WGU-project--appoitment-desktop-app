@@ -108,7 +108,7 @@ namespace c969
 
 
                     break;
-                case " Schedule for each user":
+                case " Schedule for each customer":
 
 
                     RemoveDuplicatesFromListBox();

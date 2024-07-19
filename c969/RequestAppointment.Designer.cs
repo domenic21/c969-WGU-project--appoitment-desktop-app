@@ -32,6 +32,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.labeluser = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.typeComboBox = new System.Windows.Forms.ComboBox();
+            this.typeLabel = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.localLabel = new System.Windows.Forms.Label();
+            this.endLabel = new System.Windows.Forms.TextBox();
+            this.minusE = new System.Windows.Forms.Button();
+            this.addE = new System.Windows.Forms.Button();
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.label8 = new System.Windows.Forms.Label();
             this.localTimelbl = new System.Windows.Forms.Label();
@@ -46,14 +54,6 @@
             this.timeAddBtn = new System.Windows.Forms.Button();
             this.mainMenubtn = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.localLabel = new System.Windows.Forms.Label();
-            this.endLabel = new System.Windows.Forms.TextBox();
-            this.minusE = new System.Windows.Forms.Button();
-            this.addE = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.typeLabel = new System.Windows.Forms.Label();
-            this.typeComboBox = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -115,6 +115,83 @@
             this.groupBox1.TabIndex = 29;
             this.groupBox1.TabStop = false;
             // 
+            // typeComboBox
+            // 
+            this.typeComboBox.FormattingEnabled = true;
+            this.typeComboBox.Location = new System.Drawing.Point(106, 215);
+            this.typeComboBox.Name = "typeComboBox";
+            this.typeComboBox.Size = new System.Drawing.Size(244, 24);
+            this.typeComboBox.TabIndex = 45;
+            // 
+            // typeLabel
+            // 
+            this.typeLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.typeLabel.Location = new System.Drawing.Point(8, 215);
+            this.typeLabel.Name = "typeLabel";
+            this.typeLabel.Size = new System.Drawing.Size(67, 21);
+            this.typeLabel.TabIndex = 44;
+            this.typeLabel.Text = "Type";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(8, 359);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(92, 21);
+            this.label6.TabIndex = 43;
+            this.label6.Text = "End Time";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(8, 310);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(101, 21);
+            this.label5.TabIndex = 42;
+            this.label5.Text = "Start Time";
+            // 
+            // localLabel
+            // 
+            this.localLabel.AutoSize = true;
+            this.localLabel.Font = new System.Drawing.Font("Bahnschrift Condensed", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.localLabel.ForeColor = System.Drawing.Color.Black;
+            this.localLabel.Location = new System.Drawing.Point(208, 383);
+            this.localLabel.Name = "localLabel";
+            this.localLabel.Size = new System.Drawing.Size(94, 21);
+            this.localLabel.TabIndex = 41;
+            this.localLabel.Text = "Your local time:";
+            // 
+            // endLabel
+            // 
+            this.endLabel.Location = new System.Drawing.Point(8, 380);
+            this.endLabel.Name = "endLabel";
+            this.endLabel.Size = new System.Drawing.Size(85, 22);
+            this.endLabel.TabIndex = 40;
+            // 
+            // minusE
+            // 
+            this.minusE.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.minusE.Location = new System.Drawing.Point(157, 380);
+            this.minusE.Name = "minusE";
+            this.minusE.Size = new System.Drawing.Size(45, 23);
+            this.minusE.TabIndex = 38;
+            this.minusE.Text = "-";
+            this.minusE.UseVisualStyleBackColor = true;
+            this.minusE.Click += new System.EventHandler(this.minusE_Click);
+            // 
+            // addE
+            // 
+            this.addE.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.addE.Location = new System.Drawing.Point(106, 380);
+            this.addE.Name = "addE";
+            this.addE.Size = new System.Drawing.Size(45, 23);
+            this.addE.TabIndex = 39;
+            this.addE.Text = "+";
+            this.addE.UseVisualStyleBackColor = true;
+            this.addE.Click += new System.EventHandler(this.addE_Click);
+            // 
             // monthCalendar1
             // 
             this.monthCalendar1.Location = new System.Drawing.Point(438, 77);
@@ -142,6 +219,7 @@
             this.localTimelbl.Size = new System.Drawing.Size(94, 21);
             this.localTimelbl.TabIndex = 37;
             this.localTimelbl.Text = "Your local time:";
+            this.localTimelbl.Click += new System.EventHandler(this.localTimelbl_Click);
             // 
             // descriptionText
             // 
@@ -233,7 +311,7 @@
             // mainMenubtn
             // 
             this.mainMenubtn.Location = new System.Drawing.Point(664, 557);
-            this.mainMenubtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.mainMenubtn.Margin = new System.Windows.Forms.Padding(2);
             this.mainMenubtn.Name = "mainMenubtn";
             this.mainMenubtn.Size = new System.Drawing.Size(106, 32);
             this.mainMenubtn.TabIndex = 30;
@@ -251,83 +329,6 @@
             this.label4.TabIndex = 31;
             this.label4.Text = "CustomerId:";
             // 
-            // localLabel
-            // 
-            this.localLabel.AutoSize = true;
-            this.localLabel.Font = new System.Drawing.Font("Bahnschrift Condensed", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.localLabel.ForeColor = System.Drawing.Color.Black;
-            this.localLabel.Location = new System.Drawing.Point(208, 383);
-            this.localLabel.Name = "localLabel";
-            this.localLabel.Size = new System.Drawing.Size(94, 21);
-            this.localLabel.TabIndex = 41;
-            this.localLabel.Text = "Your local time:";
-            // 
-            // endLabel
-            // 
-            this.endLabel.Location = new System.Drawing.Point(8, 380);
-            this.endLabel.Name = "endLabel";
-            this.endLabel.Size = new System.Drawing.Size(85, 22);
-            this.endLabel.TabIndex = 40;
-            // 
-            // minusE
-            // 
-            this.minusE.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.minusE.Location = new System.Drawing.Point(157, 380);
-            this.minusE.Name = "minusE";
-            this.minusE.Size = new System.Drawing.Size(45, 23);
-            this.minusE.TabIndex = 38;
-            this.minusE.Text = "-";
-            this.minusE.UseVisualStyleBackColor = true;
-            this.minusE.Click += new System.EventHandler(this.minusE_Click);
-            // 
-            // addE
-            // 
-            this.addE.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addE.Location = new System.Drawing.Point(106, 380);
-            this.addE.Name = "addE";
-            this.addE.Size = new System.Drawing.Size(45, 23);
-            this.addE.TabIndex = 39;
-            this.addE.Text = "+";
-            this.addE.UseVisualStyleBackColor = true;
-            this.addE.Click += new System.EventHandler(this.addE_Click);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(8, 310);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(101, 21);
-            this.label5.TabIndex = 42;
-            this.label5.Text = "Start Time";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(8, 359);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(92, 21);
-            this.label6.TabIndex = 43;
-            this.label6.Text = "End Time";
-            // 
-            // typeLabel
-            // 
-            this.typeLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.typeLabel.Location = new System.Drawing.Point(8, 215);
-            this.typeLabel.Name = "typeLabel";
-            this.typeLabel.Size = new System.Drawing.Size(67, 21);
-            this.typeLabel.TabIndex = 44;
-            this.typeLabel.Text = "Type";
-            // 
-            // typeComboBox
-            // 
-            this.typeComboBox.FormattingEnabled = true;
-            this.typeComboBox.Location = new System.Drawing.Point(106, 215);
-            this.typeComboBox.Name = "typeComboBox";
-            this.typeComboBox.Size = new System.Drawing.Size(244, 24);
-            this.typeComboBox.TabIndex = 45;
-            // 
             // RequestAppointment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -339,7 +340,7 @@
             this.Controls.Add(this.customerLabel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.labeluser);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "RequestAppointment";
             this.Text = "RequestAppointment";
             this.groupBox1.ResumeLayout(false);

@@ -46,7 +46,7 @@ namespace c969.models
     
 
 
-        public AppointmentModel(int userId,int appointmentId, string title, string description, DateTime start, DateTime end)
+        public AppointmentModel(int userId,int appointmentId, string title,string type, string description, DateTime start, DateTime end)
         {
             this.appointmentId = appointmentId;
             this.userId = userId;
@@ -54,7 +54,18 @@ namespace c969.models
             this.description = description;
             this.start = start;
             this.end = end;
-          
+            this.type = type;
+
+
+        }
+
+        public AppointmentModel( int appointmentId,   DateTime start, DateTime end)
+        {
+            this.appointmentId = appointmentId;
+      
+            this.start = start;
+            this.end = end;
+
 
 
         }

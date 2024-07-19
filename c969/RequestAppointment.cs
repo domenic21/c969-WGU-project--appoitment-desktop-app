@@ -256,5 +256,10 @@ namespace c969
                 MessageBox.Show("Invalid time format");
             }
         }
+
+        private void localTimelbl_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

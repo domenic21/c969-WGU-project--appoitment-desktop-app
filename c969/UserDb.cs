@@ -955,7 +955,7 @@ namespace c969
             try
             {
                 Connect();
-                string query = @"SELECT appointmentId, title, description, start, end FROM `client_schedule`.`appointment` WHERE customerId = @CustomerId;";
+                string query = @"SELECT appointmentId, title,type, description, start, end FROM `client_schedule`.`appointment` WHERE customerId = @CustomerId;";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -971,11 +971,12 @@ namespace c969
                             string description = reader.GetString("description");
                             DateTime start = reader.GetDateTime("start");
                             DateTime end = reader.GetDateTime("end");
+                            string type = reader.GetString("type");
 
 
 
 
-                            AppointmentModel appointmentModel = new AppointmentModel(customerId, appointmentId, title, description, start, end);
+                            AppointmentModel appointmentModel = new AppointmentModel(customerId, appointmentId, title,type, description, start, end);
                            appointmentsTaken.Add(appointmentModel);
                         }
                     }
@@ -1094,12 +1095,13 @@ namespace c969
                             DateTime start = reader.GetDateTime("start");
                             DateTime end = reader.GetDateTime("end");
                             int appointmentId = reader.GetInt32("appointmentId");
+                           
                             // Skip appointments with date 1/1/0001
                             if (start.Date == DateTime.MinValue.Date)
                             {
                                 continue;
                             }
-                            AppointmentModel appointmentModel = new AppointmentModel( start, end , appointmentId);
+                            AppointmentModel appointmentModel = new AppointmentModel( appointmentId, start,  end);
                             availableAppointments.Add(appointmentModel);
                         }
                     }
@@ -1213,8 +1215,17 @@ namespace c969
             {
                 Connect();
                 string query = @"UPDATE `client_schedule`.`appointment` SET `customerId` = null  WHERE (`appointmentId` = @appointmentId);";
-
+                string query2 = @"DELETE FROM `client_schedule`.`appointment` WHERE (`appointmentId` = @appointmentId);";
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    // Add the parameter to avoid SQL injection
+                    command.Parameters.AddWithValue("@appointmentId", appointmentId);
+
+                    // Execute the query
+                    int rowsAffected = command.ExecuteNonQuery();
+                    // Check the rows affected and handle errors if necessary
+                }
+                using (MySqlCommand command = new MySqlCommand(query2, _connection))
                 {
                     // Add the parameter to avoid SQL injection
                     command.Parameters.AddWithValue("@appointmentId", appointmentId);
@@ -1226,18 +1237,18 @@ namespace c969
             }
             catch (MySqlException ex)
             {
-                MessageBox.Show(ex.Message, "no connection");
+                MessageBox.Show(ex.Message, "no connection 1238");
             }
         }
 
         //update appoitment
-        public void UpdateAppointment(int appointmentId, string description, string title, int userId, int customerId)
+        public void UpdateAppointment(int appointmentId, string description, string title, string type, int customerId, DateTime start, DateTime end)
         {
             try
             {
                 Connect();
-                string query = @"UPDATE `client_schedule`.`appointment` SET   `title` = @Title, `description` = @Description WHERE (`appointmentId` = @AppointmentId);";
-                string query2 = @"UPDATE `client_schedule`.`appointment` SET `customerId` = @customerId, `userId` = @userId  WHERE (`appointmentId` = @appointmentId);";
+                string query = @"UPDATE `client_schedule`.`appointment` SET   `title` = @Title, `description` = @Description, `start` = @start , `end` = @end WHERE (`appointmentId` = @AppointmentId);";
+                string query2 = @"UPDATE `client_schedule`.`appointment` SET `customerId` = @customerId, `type` = @type  WHERE (`appointmentId` = @appointmentId);";
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
                     // Add the parameters to avoid SQL injection
@@ -1246,6 +1257,9 @@ namespace c969
                     command.Parameters.AddWithValue("@Title", title);
                     command.Parameters.AddWithValue("@Description", description);
                     command.Parameters.AddWithValue("@AppointmentId", appointmentId);
+                    command.Parameters.AddWithValue("@start", start);
+                    command.Parameters.AddWithValue("@end", end);
+
 
                     // Execute the query
                     int rowsAffected = command.ExecuteNonQuery();
@@ -1254,7 +1268,7 @@ namespace c969
                 {
                     // Add the parameters to avoid SQL injection
                     command.Parameters.AddWithValue("@appointmentId", appointmentId);
-                    command.Parameters.AddWithValue("@userId" , userId);
+                    command.Parameters.AddWithValue("@type", type);
                     command.Parameters.AddWithValue("@customerId", customerId);
                     // Execute the query
                     int rowsAffected = command.ExecuteNonQuery();
