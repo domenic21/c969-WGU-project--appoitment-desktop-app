@@ -231,7 +231,7 @@
             // 
             this.endPicker.Location = new System.Drawing.Point(11, 352);
             this.endPicker.MaxDate = new System.DateTime(2024, 12, 31, 0, 0, 0, 0);
-            this.endPicker.MinDate = new System.DateTime(2024, 7, 20, 0, 0, 0, 0);
+            this.endPicker.MinDate = new System.DateTime(2024, 7, 1, 0, 0, 0, 0);
             this.endPicker.Name = "endPicker";
             this.endPicker.Size = new System.Drawing.Size(324, 22);
             this.endPicker.TabIndex = 56;
@@ -268,7 +268,7 @@
             // 
             this.startPicker.Location = new System.Drawing.Point(11, 304);
             this.startPicker.MaxDate = new System.DateTime(2024, 12, 31, 0, 0, 0, 0);
-            this.startPicker.MinDate = new System.DateTime(2024, 7, 20, 0, 0, 0, 0);
+            this.startPicker.MinDate = new System.DateTime(2024, 7, 1, 0, 0, 0, 0);
             this.startPicker.Name = "startPicker";
             this.startPicker.Size = new System.Drawing.Size(324, 22);
             this.startPicker.TabIndex = 57;

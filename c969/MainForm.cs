@@ -1,7 +1,9 @@
 ﻿using c969.models;
 using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 
 using System.Windows.Forms;
@@ -573,30 +575,6 @@ namespace c969
 
         }
 
-        private void Month_CheckedChanged(object sender, EventArgs e)
-        {
-            /*  int month = DateTime.Now.Month;
-              UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-
-              List<AppointmentModel> appointments = userDb.FilterAppointmentsByMonth(month);
-              // Check if the Month checkbox is checked
-              if (Month.Checked == true)
-              {
-                  List<string> formattedAppointments = FormatAppointments(UserDb.availableAppointments);
-                  listBox2.DataSource = formattedAppointments;
-              }
-              else
-              {
-                  listBox2.DataSource = null;
-                  listBox2.Items.Clear();
-                  InitializeFormData(Convert.ToInt32(customerIdText.Text));
-              }
-              // unchecked after each request 
-              // Replace the code block starting from line 157 with the following code*/
-
-
-
-        }
 
         private void Grid()
         {
@@ -686,6 +664,91 @@ namespace c969
 
         }
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            //filter by month grid 
+            if (checkBox1.Checked)
+            {
+              //  dataGridView.Rows.Clear();
+
+                
+                //UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
+                //int selectedmonth= dateTimePicker1.Value.Month;
+ 
+                //List<AppointmentModel> appointments = userDb.FilterAppointmentsByMonth(selectedmonth);
+               // dataGridView.DataSource = appointments;
+            }
+            else
+            {
+               // dataGridView.DataSource = null;
+               // dataGridView.Rows.Clear();
+                InitializeFormData(Convert.ToInt32(customerIdText.Text));
+            }
+        }
+
+        private void FilterAllMonth_CheckedChanged(object sender, EventArgs e)
+        {
+            //filter by month grid 
+            if (FilterAllMonth.Checked)
+            {
+                
+
+
+                UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
+                int selectedmonth = DateTime.Now.Month;
+
+                List<AppointmentModel> appointments = userDb.FilterAppointmentsByMonth(selectedmonth);
+                dataGridView.DataSource = appointments;
+            }
+            else if (FilterAllMonth.Checked == false)
+            {
+                dataGridView.DataSource = null;
+                dataGridView.Rows.Clear();
+                dataGridView.DataSource = UserDb.availableAppointments;
+            }
+        }
+
+        private void weekCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            //filter by month grid 
+            if (weekCheckBox.Checked)
+            {
+
+
+
+                UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
+                DateTime selectedstart = DateTime.Now.Date;
+                DateTime selectedEnd = DateTime.Now.Date.AddDays(7);
+
+                List<AppointmentModel> appointments = userDb.FilterAppointmentsByWeek(selectedstart, selectedEnd);
+                dataGridView.DataSource = appointments;
+            }
+            else if (weekCheckBox.Checked == false)
+            {
+                dataGridView.DataSource = null;
+                dataGridView.Rows.Clear();
+                dataGridView.DataSource = UserDb.availableAppointments;
+            }
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime selectedDay = dateTimePicker1.Value.Date;
+            if (selectedDay != DateTime.MinValue )
+            {
+
+                UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
+
+                List<AppointmentModel> appointments = userDb.FilterAppointmentsByDay(selectedDay);
+                dataGridView.DataSource = appointments;
+            }
+            else if (weekCheckBox.Checked == false)
+            {
+                dataGridView.DataSource = null;
+                dataGridView.Rows.Clear();
+                dataGridView.DataSource = UserDb.availableAppointments;
+            }
+        }
     }
 
 

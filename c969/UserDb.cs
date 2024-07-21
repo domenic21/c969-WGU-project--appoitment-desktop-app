@@ -992,7 +992,7 @@ namespace c969
 
         }
 
-        public List<AppointmentModel> SearchAppt(string selectedDate)
+        public List<AppointmentModel> SearchAppt(DateTime selectedDate)
         {
             // Create a list to store the retrieved data
             List<AppointmentModel> appointments = new List<AppointmentModel>();
@@ -1001,10 +1001,9 @@ namespace c969
             {
                 Connect();
 
-                string query = @"SELECT appointmentId, start FROM appointment
-                                 WHERE DATE(start) = @date 
-                                 AND customerId IS NULL 
-                                 AND userId IS NULL ";
+                string query = @"SELECT appointmentId , start , end ,type
+                        FROM client_schedule.appointment
+                         WHERE DATE( start)  = '2024-07-10' AND customerId IS NULL; ";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -1035,7 +1034,7 @@ namespace c969
             return appointments;
         }
 
-        public List<AppointmentModel> SearchApptAll()
+        public List<AppointmentModel> SearchApptCustomer(DateTime date, int  customer)
         {
             // Create a list to store the retrieved data
             List<AppointmentModel> appointments = new List<AppointmentModel>();
@@ -1044,21 +1043,26 @@ namespace c969
             {
                 Connect();
 
-                string query = @"SELECT *
-                            FROM `client_schedule`.`appointment`
-                  WHERE userId IS NULL AND customerId IS NULL;
+                string query = @"SELECT appointmentId, start , type FROM appointment
+                                 WHERE DATE(start) = @date 
+                                 AND customerId = @customerId ;
                              ";
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
+                    // Add parameter for the selected date
+                    command.Parameters.AddWithValue("@date", date);
+                    command.Parameters.AddWithValue("@customerId", customer);
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
                             int appointmentId = reader.GetInt32("appointmentId");
                             DateTime start = reader.GetDateTime("start");
+                            string type = reader.GetString("type");
+                            DateTime end = reader.GetDateTime("end");
 
-                            AppointmentModel appointmentModel = new AppointmentModel(start, appointmentId);
-                            availableAppointments.Add(appointmentModel);
+                          //  AppointmentModel appointmentModel = new AppointmentModel(start,end, appointmentId, type);
+                           // appointmentsTaken.Add(appointmentModel);
                         }
                     }
                 }
@@ -1126,8 +1130,8 @@ namespace c969
             {
                 Connect();
 
-                string query = @"SELECT appointmentId, start, end FROM appointment
-                     WHERE MONTH(start) = @month";
+                string query = @"SELECT appointmentId, start, end end FROM appointment
+                     WHERE MONTH(start) = @month AND customerId IS NULL AND userId IS NULL ";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
@@ -1140,10 +1144,11 @@ namespace c969
                         {
                             // Retrieve data from the reader
                             DateTime start = reader.GetDateTime("start");
+                            DateTime end = reader.GetDateTime("end");
                             int appointmentId = reader.GetInt32("appointmentId");
 
                             // Create an AppointmentModel object and add it to the list
-                            AppointmentModel appointment = new AppointmentModel(start, appointmentId);
+                            AppointmentModel appointment = new AppointmentModel(start,end, appointmentId);
                             appointments.Add(appointment);
                         }
                     }
@@ -1161,7 +1166,7 @@ namespace c969
         }
 
         //return filtering by week appoitments 7 days
-        public List<AppointmentModel> FilterAppointmentsByWeek(string selectedDate)
+        public List<AppointmentModel> FilterAppointmentsByWeek(DateTime selectedDate, DateTime selectedEnd)
         {
             // Create a list to store the retrieved data
             List<AppointmentModel> appointments = new List<AppointmentModel>();
@@ -1171,15 +1176,16 @@ namespace c969
             {
                 Connect();
 
-                string query = @"SELECT * FROM appointment
-                               WHERE start >= @selectedDate
-                           AND start < DATE_ADD(@selectedDate, INTERVAL 7 DAY)
-                                AND customerId is null;";
+                string query = @"SELECT appointmentId, start, end
+                      FROM client_schedule.appointment
+                      WHERE start >= @start
+                          AND end <=  @end;";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
                     // Add parameter for the selected week
-                    command.Parameters.AddWithValue("@selectedDate", selectedDate);
+                    command.Parameters.AddWithValue("@start", selectedDate);
+                    command.Parameters.AddWithValue("@end", selectedEnd);
 
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
@@ -1188,9 +1194,56 @@ namespace c969
                             // Retrieve data from the reader
                             DateTime start = reader.GetDateTime("start");
                             int appointmentId = reader.GetInt32("appointmentId");
-
+                            DateTime end = reader.GetDateTime("end");
                             // Create an AppointmentModel object and add it to the list
-                            AppointmentModel appointment = new AppointmentModel(start, appointmentId);
+                            AppointmentModel appointment = new AppointmentModel(start,end, appointmentId);
+                            appointments.Add(appointment);
+                        }
+                    }
+                }
+
+                Disconnect();
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message, "No connection");
+            }
+
+            // Return the list containing the retrieved data
+            return appointments;
+        }
+
+        public List<AppointmentModel> FilterAppointmentsByDay(DateTime selectedDate)
+        {
+            // Create a list to store the retrieved data
+            List<AppointmentModel> appointments = new List<AppointmentModel>();
+            appointments.Clear();
+
+            try
+            {
+                Connect();
+
+                string query = @"SELECT appointmentId, start, end
+                      FROM client_schedule.appointment
+                      WHERE start = @start
+                          ;";
+
+                using (MySqlCommand command = new MySqlCommand(query, _connection))
+                {
+                    // Add parameter for the selected week
+                    command.Parameters.AddWithValue("@start", selectedDate);
+                
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            // Retrieve data from the reader
+                            DateTime start = reader.GetDateTime("start");
+                            int appointmentId = reader.GetInt32("appointmentId");
+                            DateTime end = reader.GetDateTime("end");
+                            // Create an AppointmentModel object and add it to the list
+                            AppointmentModel appointment = new AppointmentModel(start, end, appointmentId);
                             appointments.Add(appointment);
                         }
                     }

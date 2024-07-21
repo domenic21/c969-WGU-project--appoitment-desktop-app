@@ -25,7 +25,10 @@ namespace c969
             typeComboBox.Items.Add("Consultation");
             typeComboBox.Items.Add("Follow-up");
             typeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-
+            typeComboBox.SelectedIndex = 0;
+            startPicker.Value = TimeZoneInfo.ConvertTime(DateTime.Today.AddHours(9), TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
+            endPicker.Value = TimeZoneInfo.ConvertTime(DateTime.Today.AddHours(17), TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
+          
         }
 
 
@@ -141,7 +144,7 @@ namespace c969
                     }
                     //check hours are between 9 am to 5 pm
                     else if (startPicker.Value.TimeOfDay < businessStart.TimeOfDay || 
-                      endPicker.Value.TimeOfDay >= businessEnd.TimeOfDay  )
+                      endPicker.Value.TimeOfDay > businessEnd.TimeOfDay  )
                     {
                         MessageBox.Show("Appointments can only be scheduled between 9:00 AM and 5:00 PM. Please select a different time.");
                     }
