@@ -20,7 +20,7 @@ namespace c969
             // Set the text box language based on the country code
             switch (CultureInfo.CurrentCulture.TwoLetterISOLanguageName)
             {
-                case "US": // English text
+                case "us": // English text
                     LoginLabel.Text = "Sign In";
                     UserLabel.Text = "User";
                     label3.Text = "Password";
@@ -28,7 +28,7 @@ namespace c969
                     RegisterBtn.Text = "Register";
                   
                     break;
-                case "ES":// Spanish text
+                case "es":// Spanish text
                     LoginLabel.Text = "Inicio de Sesion";
                     UserLabel.Text = "Usuario";
                     label3.Text = "Contraseña";
