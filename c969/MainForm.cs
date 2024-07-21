@@ -739,8 +739,20 @@ namespace c969
 
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
 
+                // Dispose the previous DataSource if it exists
+                if (dataGridView.DataSource != null)
+                {
+                    ((IDisposable)dataGridView.DataSource).Dispose();
+                }
+
+                // Assign the new DataSource
                 List<AppointmentModel> appointments = userDb.FilterAppointmentsByDay(selectedDay);
                 dataGridView.DataSource = appointments;
+            
+                // Add other event handlers here
+
+                // Dispose the DataGridView control
+                dataGridView.Dispose();
             }
             else if (weekCheckBox.Checked == false)
             {
