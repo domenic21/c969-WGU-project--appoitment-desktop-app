@@ -49,9 +49,9 @@ namespace c969
             // ReloadForm(); // Call the method to reload the form and clear the list boxes
             // Attach the Form_Load and Form_FormClosed event handlers
             this.FormClosed += MainForm_FormClosed;
-            Grid();
+           
             GridAppt();
-
+            
         }
 
 
@@ -94,15 +94,10 @@ namespace c969
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
 
                 UserInfo userInfo = userDb.UserInformation(customerId);
-                userDb.GetAllAppointments();
-
-
-
-
-
+     
                 // Call the GetAppoitments method and receive the list of appointments
                 userDb.GetAppoitments(customerId);
-
+            
 
 
                 RemoveInvalidAppointments(UserDb.appointmentsTaken);
@@ -576,45 +571,7 @@ namespace c969
         }
 
 
-        private void Grid()
-        {
-            // Initialize the DataGridView
-            dataGridView.AutoGenerateColumns = false;
-
-            dataGridView.DefaultCellStyle.Font = new System.Drawing.Font("Arial", 8);
-
-            dataGridView.AutoGenerateColumns = false;
-            dataGridView.DataSource = UserDb.availableAppointments;
-            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
-            // Set the DataSource of the DataGridView to the list of appointments
-
-
-            // Define the columns for the DataGridView
-            dataGridView.Columns.Add(new DataGridViewTextBoxColumn()
-            {
-                DataPropertyName = "appointmentId",
-                HeaderText = "Appointment ID"
-            });
-
-            dataGridView.Columns.Add(new DataGridViewTextBoxColumn()
-            {
-                DataPropertyName = "start",
-                HeaderText = "Start Time"
-            });
-
-            dataGridView.Columns.Add(new DataGridViewTextBoxColumn()
-            {
-                DataPropertyName = "end",
-                HeaderText = "End Time"
-            });
-
-
-
-
-
-        }
-
+        
         private void GridAppt()
         {
             // Initialize the DataGridView
@@ -664,47 +621,28 @@ namespace c969
 
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            //filter by month grid 
-            if (checkBox1.Checked)
-            {
-              //  dataGridView.Rows.Clear();
-
-                
-                //UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-                //int selectedmonth= dateTimePicker1.Value.Month;
- 
-                //List<AppointmentModel> appointments = userDb.FilterAppointmentsByMonth(selectedmonth);
-               // dataGridView.DataSource = appointments;
-            }
-            else
-            {
-               // dataGridView.DataSource = null;
-               // dataGridView.Rows.Clear();
-                InitializeFormData(Convert.ToInt32(customerIdText.Text));
-            }
-        }
+      
 
         private void FilterAllMonth_CheckedChanged(object sender, EventArgs e)
         {
             //filter by month grid 
             if (FilterAllMonth.Checked)
             {
-                
+                apptGrid.DataSource = null;
+                apptGrid.Rows.Clear();
 
 
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
                 int selectedmonth = DateTime.Now.Month;
-
-                List<AppointmentModel> appointments = userDb.FilterAppointmentsByMonth(selectedmonth);
-                dataGridView.DataSource = appointments;
+                int customerId = Convert.ToInt32(customerIdText.Text);
+                List<AppointmentModel> appointments = userDb.FilterAppointmentsByMonth(selectedmonth, customerId);
+                apptGrid.DataSource = appointments;
             }
             else if (FilterAllMonth.Checked == false)
             {
-                dataGridView.DataSource = null;
-                dataGridView.Rows.Clear();
-                dataGridView.DataSource = UserDb.availableAppointments;
+                apptGrid.DataSource = null;
+                apptGrid.Rows.Clear();
+                apptGrid.DataSource = UserDb.availableAppointments;
             }
         }
 
@@ -713,52 +651,45 @@ namespace c969
             //filter by month grid 
             if (weekCheckBox.Checked)
             {
-
-
-
+                apptGrid.DataSource = null;
+                apptGrid.Rows.Clear();
                 UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
                 DateTime selectedstart = DateTime.Now.Date;
                 DateTime selectedEnd = DateTime.Now.Date.AddDays(7);
+                int customerId = Convert.ToInt32(customerIdText.Text);
 
-                List<AppointmentModel> appointments = userDb.FilterAppointmentsByWeek(selectedstart, selectedEnd);
-                dataGridView.DataSource = appointments;
+                List<AppointmentModel> appointments = userDb.FilterAppointmentsByWeek(selectedstart, selectedEnd, customerId);
+                apptGrid.DataSource = appointments;
             }
             else if (weekCheckBox.Checked == false)
             {
-                dataGridView.DataSource = null;
-                dataGridView.Rows.Clear();
-                dataGridView.DataSource = UserDb.availableAppointments;
+                apptGrid.DataSource = null;
+                apptGrid.Rows.Clear();
+                apptGrid.DataSource = UserDb.availableAppointments;
             }
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            DateTime selectedDay = dateTimePicker1.Value.Date;
-            if (selectedDay != DateTime.MinValue )
+            DateTime selectedDate = dateTimePicker1.Value;
+            DateTime startDate = selectedDate.Date;
+            UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
+
+            if (startDate != DateTime.MinValue)
             {
-
-                UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-
-                // Dispose the previous DataSource if it exists
-                if (dataGridView.DataSource != null)
-                {
-                    ((IDisposable)dataGridView.DataSource).Dispose();
-                }
+               
+                int customerId = Convert.ToInt32(customerIdText.Text);
 
                 // Assign the new DataSource
-                List<AppointmentModel> appointments = userDb.FilterAppointmentsByDay(selectedDay);
-                dataGridView.DataSource = appointments;
-            
-                // Add other event handlers here
-
-                // Dispose the DataGridView control
-                dataGridView.Dispose();
+                List<AppointmentModel> appointments = userDb.FilterAppointmentsByDay(startDate, customerId);
+                apptGrid.DataSource = appointments;
+                //MessageBox.Show($"Appointments Count: {appointments.Count}");
             }
-            else if (weekCheckBox.Checked == false)
+            else if (apptGrid.Rows.Count == 0)
             {
-                dataGridView.DataSource = null;
-                dataGridView.Rows.Clear();
-                dataGridView.DataSource = UserDb.availableAppointments;
+                apptGrid.DataSource = null;
+                apptGrid.Rows.Clear();
+               
             }
         }
     }

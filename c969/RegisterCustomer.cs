@@ -30,6 +30,7 @@ namespace c969
             this.userId = userId;
             userIdlabel.Text = userId.ToString();
             RemoveDuplicatesFromComboBox();
+            RemoveDuplicatesComboBox();
             
             
         }
@@ -63,7 +64,23 @@ namespace c969
         
         }
 
-  
+        private void RemoveDuplicatesComboBox()
+        {
+
+            countryBox.DataSource = UserDb.multipleChoiceCountry
+                .GroupBy(c => c.country)
+                .Select(g => g.First())
+                .ToList();
+
+            cityBox.DataSource = UserDb.multipleChoiceCountry
+                .GroupBy(c => c.city)
+                .Select(g => g.First())
+                .ToList();
+
+        }
+
+
+
 
         public static int GenerateCustomerID()
         {
@@ -75,7 +92,7 @@ namespace c969
         public static int GenerateAddressId()
         {
             Random random = new Random();
-            int newID = random.Next(1, 100);
+            int newID = random.Next(100, 1000);
             return newID;
 
         }
@@ -207,6 +224,13 @@ namespace c969
                 MessageBox.Show("Please enter only 12 characters.");
                 PhonetextBox5.Text = PhonetextBox5.Text.Remove(PhonetextBox5.Text.Length - 1); // Remove the last character
             }
+        }
+
+        private void cancelBtn_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            loginForm loginForm = new loginForm();
+            loginForm.Show();
         }
     }
 }

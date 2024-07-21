@@ -12,10 +12,10 @@ namespace c969
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
-            
-          
+            localTimelabel.Text = "Your local time:" + DateTime.Now.ToString();
 
-          
+
+
 
             // Set the text box language based on the country code
             switch (CultureInfo.CurrentCulture.TwoLetterISOLanguageName)

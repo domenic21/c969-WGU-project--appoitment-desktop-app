@@ -5,7 +5,9 @@ using Org.BouncyCastle.Asn1.Cms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Security.Policy;
 using System.Windows.Forms;
+using static Google.Protobuf.Reflection.SourceCodeInfo.Types;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 
@@ -42,20 +44,6 @@ namespace c969
                   SET start = DATE_ADD(NOW(), INTERVAL 15 MINUTE)
                   WHERE appointmentId = 1;";
 
-                string query1 = @"INSERT IGNORE INTO `client_schedule`.`appointment` (
-                   `appointmentId`, `description`, 
-                  `start`, `end`, `createDate`, `createdBy`, `lastUpdate`, 
-                   `lastUpdateBy` ) VALUES 
-                   (3, 'Appointment Description', '2024-06-10 09:00:00', '2024-06-10 10:00:00', NOW(), 'System', NOW(), 'System'),
-                  (4, 'Appointment Description', '2024-05-13 12:00:00', '2024-05-13 13:00:00', NOW(), 'System', NOW(), 'System'), 
-                   (5, 'Appointment Description', '2024-05-20 09:00:00', '2024-05-20 10:00:00', NOW(), 'System', NOW(), 'System'),
-                 (6, 'Appointment Description', '2024-05-23 13:00:00', '2024-05-20 10:00:00', NOW(), 'System', NOW(), 'System'),
-                 (7, 'Appointment Description', '2024-05-25 09:00:00', '2024-05-20 10:00:00', NOW(), 'System', NOW(), 'System'),
-                    (8, 'Appointment Description', '2024-05-30 10:00:00', '2024-05-20 10:00:00', NOW(), 'System', NOW(), 'System'),
-                    (9, 'Appointment Description', '2024-05-27 15:00:00', '2024-05-20 10:00:00', NOW(), 'System', NOW(), 'System')
-                     
-                      ;
-                    ";
                 string query4 = @"ALTER TABLE `client_schedule`.`appointment`
                                      CHANGE COLUMN `customerId` `customerId` INT NULL,
                                      CHANGE COLUMN `userId` `userId` INT NULL;
@@ -71,10 +59,6 @@ namespace c969
                     command.ExecuteNonQuery();
                 }
                 using (MySqlCommand command = new MySqlCommand(query4, _connection))
-                {
-                    command.ExecuteNonQuery();
-                }
-                using (MySqlCommand command = new MySqlCommand(query1, _connection))
                 {
                     command.ExecuteNonQuery();
                 }
@@ -218,92 +202,7 @@ namespace c969
         
         } 
 
-         // CHECKKKKKKKKKKKKKK
-
-        public void RegisterCustomer(UserModel user, UserInfo Info)
-        {
-            try
-            {
-                Connect();
-                string query = "INSERT IGNORE INTO `client_schedule`.`user`(userId,userName, password, active, createDate, createdBy, lastUpdate, lastUpdateBy)" +
-                "VALUES (@UserId,@UserName, @Password, @Active, @CreateDate, @CreatedBy, @LastUpdate, @LastUpdateBy)";
-
-                string insertQueryCustomer = @"UPDATE `client_schedule`.`customer`
-                        SET `customerName` = @CustomerName,
-                       `addressId` = @addressId
-                          WHERE `customerId` = @CustomerId;";
-
-                string insertCustomer = @"INSERT INTO `client_schedule`.`customer` (customerId, customerName, addressId) VALUES (@CustomerId, @UserName, @addressId);";
-
-                using (MySqlCommand command = new MySqlCommand(insertCustomer, _connection))
-                {
-                    command.Parameters.AddWithValue("@CustomerId", user.customerId); // Assuming customerId is the same as UserId
-                    command.Parameters.AddWithValue("@addressId", Info.addressId); // Add addressId parameter
-                    command.Parameters.AddWithValue("@CustomerName", user.customerName);
-                    command.ExecuteNonQuery();
-
-
-
-                }
-                using (MySqlCommand command = new MySqlCommand(insertQueryCustomer, _connection))
-                {
-                    command.Parameters.AddWithValue("@customerId", Info.UserId); // Assuming customerId is the same as UserId
-                    command.Parameters.AddWithValue("@addressId", Info.addressId); // Add addressId parameter
-                    command.Parameters.AddWithValue("@UserName", Info.UserName);
-                    command.ExecuteNonQuery();
-
-
-
-                }
-
-                using (MySqlCommand command = new MySqlCommand(query, _connection))
-                {
-                    // Add the parameters to avoid SQL injection
-                    command.Parameters.AddWithValue("@UserName", user.userName);
-                    command.Parameters.AddWithValue("@CustomerName", user.customerName);
-                    command.Parameters.AddWithValue("@CustomerId", user.customerId);
-                    command.Parameters.AddWithValue("@UserId", user.userId);
-                    command.Parameters.AddWithValue("@Password", user.password);
-                    command.Parameters.AddWithValue("@Active", user.active);
-                    command.Parameters.AddWithValue("@CreateDate", user.createDate);
-                    command.Parameters.AddWithValue("@CreatedBy", user.createdBy);
-                    command.Parameters.AddWithValue("@LastUpdate", user.lastUpdate);
-                    command.Parameters.AddWithValue("@LastUpdateBy", user.lastUpdateBy);
-
-                    // Execute the query
-                    int rowsAffected = command.ExecuteNonQuery();
-
-
-                
-            
-                    string addressInsert = $"INSERT INTO `client_schedule`.`address`(addressId, address,  postalCode, phone) " +
-                   $"VALUES (@addressId, @address, @postalCode, @phone)";
-
-                    using (MySqlCommand insertCommand = new MySqlCommand(addressInsert, _connection))
-                    {
-
-                        command.Parameters.AddWithValue("@addressId", Info.addressId);
-                        command.Parameters.AddWithValue("@address", Info.address);
-                        command.Parameters.AddWithValue("@postalCode", Info.postalCode);
-                        command.Parameters.AddWithValue("@phone", Info.phone);
-                        //command.Parameters.AddWithValue("@country", Info.country);
-
-
-                        command.ExecuteNonQuery();
-                        // Check the rows affected and handle errors if necessary
-                    }
-
-                }
-
-
-                Disconnect();
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show(ex.Message, "no connection");
-            }
-
-        }
+      
         public void InsertProfileInfo(UserInfo Info)
         {
             try
@@ -661,37 +560,7 @@ namespace c969
             return currentID;
         }
 
-        public int GetCustomerId(string customerName)
-        {
-           int customerId= 0;
-            try
-            {
-                Connect();
-                string query = @"SELECT customerId FROM `client_schedule`.`customer` WHERE customerName = @customerName ;";
-
-                using (MySqlCommand command = new MySqlCommand(query, _connection))
-                {
-                    // Add the parameter to avoid SQL injection
-                    command.Parameters.AddWithValue("@customerName", customerName);
-
-                    // Execute the query and retrieve the current ID
-                    object result = command.ExecuteScalar(); // ExecuteScaslar is used to retrieve a single value
-                    if (result != null)
-                    {
-                        customerId = Convert.ToInt32(result);
-                    }
-                }
-
-                Disconnect();
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show(ex.Message, "no connection");
-            }
-
-            return customerId;
-        }
-
+      
         public void DeleteUser(int userId, int customerId)
         {
             try
@@ -992,136 +861,13 @@ namespace c969
 
         }
 
-        public List<AppointmentModel> SearchAppt(DateTime selectedDate)
-        {
-            // Create a list to store the retrieved data
-            List<AppointmentModel> appointments = new List<AppointmentModel>();
+       
 
-            try
-            {
-                Connect();
-
-                string query = @"SELECT appointmentId , start , end ,type
-                        FROM client_schedule.appointment
-                         WHERE DATE( start)  = '2024-07-10' AND customerId IS NULL; ";
-
-                using (MySqlCommand command = new MySqlCommand(query, _connection))
-                {
-                    // Add parameter for the selected date
-                    command.Parameters.AddWithValue("@date", selectedDate);
-
-                    using (MySqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            int appointmentId = reader.GetInt32("appointmentId");
-                            DateTime start = reader.GetDateTime("start");
-
-                            AppointmentModel appointmentModel = new AppointmentModel(start, appointmentId);
-                            appointments.Add(appointmentModel);
-                        }
-                    }
-                }
-
-                Disconnect();
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show(ex.Message, "No connection");
-            }
-
-            // Return the list containing the retrieved data
-            return appointments;
-        }
-
-        public List<AppointmentModel> SearchApptCustomer(DateTime date, int  customer)
-        {
-            // Create a list to store the retrieved data
-            List<AppointmentModel> appointments = new List<AppointmentModel>();
-
-            try
-            {
-                Connect();
-
-                string query = @"SELECT appointmentId, start , type FROM appointment
-                                 WHERE DATE(start) = @date 
-                                 AND customerId = @customerId ;
-                             ";
-                using (MySqlCommand command = new MySqlCommand(query, _connection))
-                {
-                    // Add parameter for the selected date
-                    command.Parameters.AddWithValue("@date", date);
-                    command.Parameters.AddWithValue("@customerId", customer);
-                    using (MySqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            int appointmentId = reader.GetInt32("appointmentId");
-                            DateTime start = reader.GetDateTime("start");
-                            string type = reader.GetString("type");
-                            DateTime end = reader.GetDateTime("end");
-
-                          //  AppointmentModel appointmentModel = new AppointmentModel(start,end, appointmentId, type);
-                           // appointmentsTaken.Add(appointmentModel);
-                        }
-                    }
-                }
-
-                Disconnect();
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show(ex.Message, "No connection");
-            }
-
-            // Return the list containing the retrieved data
-            return appointments;
-        }
-
-        //get all appointments
-        public void GetAllAppointments()
-        {
-            try
-            {
-                Connect();
-                string query = @"SELECT *
-                            FROM `client_schedule`.`appointment`
-                  WHERE userId IS NULL AND customerId IS NULL;
-                             ";
-
-                using (MySqlCommand command = new MySqlCommand(query, _connection))
-                {
-                    using (MySqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            
-                            DateTime start = reader.GetDateTime("start");
-                            DateTime end = reader.GetDateTime("end");
-                            int appointmentId = reader.GetInt32("appointmentId");
-                           
-                            // Skip appointments with date 1/1/0001
-                            if (start.Date == DateTime.MinValue.Date)
-                            {
-                                continue;
-                            }
-                            AppointmentModel appointmentModel = new AppointmentModel( appointmentId, start,  end);
-                            availableAppointments.Add(appointmentModel);
-                        }
-                    }
-                }
-                Disconnect();
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show(ex.Message, "no connection");
-            }
-        }
 
 
         //FILTERS FOR APPT
 
-        public List<AppointmentModel> FilterAppointmentsByMonth(int month)
+        public List<AppointmentModel> FilterAppointmentsByMonth(int month, int customerId)
         {
             // Create a list to store the retrieved data
             List<AppointmentModel> appointments = new List<AppointmentModel>();
@@ -1130,13 +876,14 @@ namespace c969
             {
                 Connect();
 
-                string query = @"SELECT appointmentId, start, end end FROM appointment
-                     WHERE MONTH(start) = @month AND customerId IS NULL AND userId IS NULL ";
+                string query = @"SELECT appointmentId, type, start, end end FROM appointment
+                     WHERE MONTH(start) = @month AND customerId = @customerId ";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
                     // Add parameter for the selected month
                     command.Parameters.AddWithValue("@month", month);
+                    command.Parameters.AddWithValue("@customerId", customerId);
 
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
@@ -1146,9 +893,10 @@ namespace c969
                             DateTime start = reader.GetDateTime("start");
                             DateTime end = reader.GetDateTime("end");
                             int appointmentId = reader.GetInt32("appointmentId");
+                            string type = reader.GetString("type");
 
                             // Create an AppointmentModel object and add it to the list
-                            AppointmentModel appointment = new AppointmentModel(start,end, appointmentId);
+                            AppointmentModel appointment = new AppointmentModel( appointmentId, type,  start,  end);
                             appointments.Add(appointment);
                         }
                     }
@@ -1166,7 +914,7 @@ namespace c969
         }
 
         //return filtering by week appoitments 7 days
-        public List<AppointmentModel> FilterAppointmentsByWeek(DateTime selectedDate, DateTime selectedEnd)
+        public List<AppointmentModel> FilterAppointmentsByWeek(DateTime selectedDate, DateTime selectedEnd, int customerId)
         {
             // Create a list to store the retrieved data
             List<AppointmentModel> appointments = new List<AppointmentModel>();
@@ -1176,16 +924,19 @@ namespace c969
             {
                 Connect();
 
-                string query = @"SELECT appointmentId, start, end
+                string query = @"SELECT appointmentId,type, start, end
                       FROM client_schedule.appointment
                       WHERE start >= @start
-                          AND end <=  @end;";
+                          AND end <=  @end
+                          AND customerId = @customerId
+                             ;";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
                     // Add parameter for the selected week
                     command.Parameters.AddWithValue("@start", selectedDate);
                     command.Parameters.AddWithValue("@end", selectedEnd);
+                    command.Parameters.AddWithValue("@customerId", customerId);
 
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
@@ -1195,8 +946,9 @@ namespace c969
                             DateTime start = reader.GetDateTime("start");
                             int appointmentId = reader.GetInt32("appointmentId");
                             DateTime end = reader.GetDateTime("end");
+                            string type = reader.GetString("type");
                             // Create an AppointmentModel object and add it to the list
-                            AppointmentModel appointment = new AppointmentModel(start,end, appointmentId);
+                            AppointmentModel appointment = new AppointmentModel(appointmentId, type, start, end);
                             appointments.Add(appointment);
                         }
                     }
@@ -1213,7 +965,7 @@ namespace c969
             return appointments;
         }
 
-        public List<AppointmentModel> FilterAppointmentsByDay(DateTime selectedDate)
+        public List<AppointmentModel> FilterAppointmentsByDay(DateTime selectedDate, int customerId)
         {
             // Create a list to store the retrieved data
             List<AppointmentModel> appointments = new List<AppointmentModel>();
@@ -1223,16 +975,16 @@ namespace c969
             {
                 Connect();
 
-                string query = @"SELECT appointmentId, start, end
+                string query = @"SELECT appointmentId,type, start, end
                       FROM client_schedule.appointment
-                      WHERE start = @start
+                      WHERE DATE(start)= @start AND customerId = @customerId
                           ;";
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
                     // Add parameter for the selected week
                     command.Parameters.AddWithValue("@start", selectedDate);
-                
+                    command.Parameters.AddWithValue("@customerId", customerId);
 
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
@@ -1242,8 +994,9 @@ namespace c969
                             DateTime start = reader.GetDateTime("start");
                             int appointmentId = reader.GetInt32("appointmentId");
                             DateTime end = reader.GetDateTime("end");
+                            string type = reader.GetString("type");
                             // Create an AppointmentModel object and add it to the list
-                            AppointmentModel appointment = new AppointmentModel(start, end, appointmentId);
+                            AppointmentModel appointment = new AppointmentModel( appointmentId,type, start, end );
                             appointments.Add(appointment);
                         }
                     }
@@ -1372,33 +1125,7 @@ namespace c969
             }
         }
 
-        public string GetUserName(int userId)
-        {
-            try
-            {
-                Connect();
-                string query = "SELECT userName FROM `client_schedule`.`user` WHERE userId = @UserId";
-                using (MySqlCommand command = new MySqlCommand(query, _connection))
-                {
-                    command.Parameters.AddWithValue("@UserId", userId);
-                    using (MySqlDataReader reader = command.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            string userName = reader.GetString("userName");
-                            UserModel user = new UserModel(userName);
-                            return userName;
-                        }
-                    }
-                }
-                Disconnect();
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show(ex.Message, "no connection");
-            }
-            return null; // Return null if no user is found
-        }
+       
 
 
         //Alert if appoitment is within 15 minutes
@@ -1476,12 +1203,15 @@ namespace c969
             {
            
                 Connect();
-                string query = @"INSERT INTO `client_schedule`.`appointment` (`customerId`, `userId`,`title`,`type`,`description`, `start`, `end`) 
-                                VALUES ( @customerId, @userId, @title,@type, @description, @start, @end);";
+                string query = @"INSERT INTO `client_schedule`.`appointment` 
+                   (`customerId`, `userId`, `title`, `type`, `description`, `location`, `contact`, `url`, `start`, `end`, `createDate`, `createdBy`, `lastUpdate`, `lastUpdateBy`) 
+                   VALUES 
+                     (@customerId, @userId, @title, @type, @description, 'unknown', 'unknown', 'unknown', @start, @end, NOW(), 'tester', NOW(), 'tester');
+                        ";
+                              
+                
 
- 
 
-        
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
                     // Add the parameters to avoid SQL injection
@@ -1629,72 +1359,9 @@ namespace c969
             }
         }
 
-        public void UpdateTimeAppt(int appointmentId, string time)
-        {
-            try
-            {
-  
-                string query = @"
-                    UPDATE appointment
-                    SET start = CONCAT(DATE(start), ' ', @time)
-                    WHERE appointmentId = @appointmentId;";
+       
 
-                Connect();
-
-                using (MySqlCommand command = new MySqlCommand(query, _connection))
-                {
-                    command.Parameters.AddWithValue("@appointmentId", appointmentId);
-                    command.Parameters.AddWithValue("@time", time);
-                    command.ExecuteNonQuery();
-                }
-
-                Disconnect();
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show("An error occurred while updating the appointment time.", "Error" + ex.Code + ex.Message);
-            }
-        }
-
-        public DateTime GetAppointmentTime(int appointmentId)
-        {
-
-            try
-            {
-                /*string query = @"SELECT DATE_FORMAT(start, '%H:%i') AS start
-                           FROM appointment
-                                WHERE appointmentId = @appointmentId; 
-                                 ";*/
-                string query = @"SELECT start
-                           FROM appointment
-                                WHERE appointmentId = @appointmentId; 
-                                 ";
-
-                Connect();
-                using (MySqlCommand command = new MySqlCommand(query, _connection))
-                {
-                    command.Parameters.AddWithValue("@appointmentId", appointmentId);
-
-
-                    using (MySqlDataReader reader = command.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            // Retrieve the formatted time as a string
-                            return reader.GetDateTime("start");
-                            
-                        }
-                    }
-                }
-            }
-
-            catch (MySqlException ex)
-            {
-                MessageBox.Show(ex.Message, "no connection");
-            }
-
-            return DateTime.MinValue;// Return the default value if no appointment time is found
-        }
+     
 
         public void DeleteCustomer(int customerId)
         {
@@ -1722,43 +1389,7 @@ namespace c969
             }
         }
 
-        public void AddCustomer(UserInfo info, int customerId , string customerName , int addressId)
-        {
-            try
-            {
-                Connect();
-                string query = @"INSERT INTO `client_schedule`.`customer` (customerId, customerName, addressId) VALUES (@customerId, @customerName, @addressId);";
-                string addressInsert = $"INSERT INTO `client_schedule`.`address`(addressId, address,  postalCode, phone) " +
-              $"VALUES (@addressId, @address, @postalCode, @phone)";
-
-                using (MySqlCommand insertCommand = new MySqlCommand(addressInsert, _connection))
-                {
-
-                    insertCommand.Parameters.AddWithValue("@addressId", info.addressId);
-                    insertCommand.Parameters.AddWithValue("@address", info.address);
-                    insertCommand.Parameters.AddWithValue("@postalCode", info.postalCode);
-                    insertCommand.Parameters.AddWithValue("@phone", info.phone);
-                    //command.Parameters.AddWithValue("@country", Info.country);
-
-
-                    insertCommand.ExecuteNonQuery();
-                    // Check the rows affected and handle errors if necessary
-                }
-                using (MySqlCommand command = new MySqlCommand(query, _connection))
-                {
-                    command.Parameters.AddWithValue("@customerId", customerId);
-                    command.Parameters.AddWithValue("@customerName", customerName);
-                    command.Parameters.AddWithValue("@addressId", addressId);
-                    command.ExecuteNonQuery();
-                }
-
-                Disconnect();
-            }
-            catch (MySqlException ex)
-            {
-              //Console.WriteLine(ex.Message );
-            }
-        }
+      
 
         // check for overlapping appointments 
         public bool CheckForOverlappingAppointments( DateTime start)

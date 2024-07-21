@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace c969
@@ -26,8 +27,10 @@ namespace c969
             typeComboBox.Items.Add("Consultation");
             typeComboBox.Items.Add("Follow-up");
             typeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            
 
         }
+        
 
         private void mainMenubtn_Click(object sender, EventArgs e)
         {

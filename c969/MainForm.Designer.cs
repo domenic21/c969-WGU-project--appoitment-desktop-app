@@ -56,17 +56,11 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.apptGrid = new System.Windows.Forms.DataGridView();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.label17 = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.dataGridView = new System.Windows.Forms.DataGridView();
             this.label16 = new System.Windows.Forms.Label();
             this.FilterAllMonth = new System.Windows.Forms.CheckBox();
             this.weekCheckBox = new System.Windows.Forms.CheckBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.label13 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
             this.cancelapptbtn = new System.Windows.Forms.Button();
             this.modifyApptBtn = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -81,14 +75,13 @@
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.apptGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial Narrow", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 506);
+            this.label1.Location = new System.Drawing.Point(12, 498);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(101, 27);
             this.label1.TabIndex = 0;
@@ -96,7 +89,7 @@
             // 
             // exitBtn
             // 
-            this.exitBtn.Location = new System.Drawing.Point(1011, 533);
+            this.exitBtn.Location = new System.Drawing.Point(1071, 495);
             this.exitBtn.Name = "exitBtn";
             this.exitBtn.Size = new System.Drawing.Size(75, 27);
             this.exitBtn.TabIndex = 1;
@@ -339,24 +332,18 @@
             // 
             this.groupBox2.Controls.Add(this.apptGrid);
             this.groupBox2.Controls.Add(this.dataGridView2);
-            this.groupBox2.Controls.Add(this.label17);
-            this.groupBox2.Controls.Add(this.checkBox1);
-            this.groupBox2.Controls.Add(this.checkBox2);
-            this.groupBox2.Controls.Add(this.dateTimePicker2);
-            this.groupBox2.Controls.Add(this.dataGridView);
             this.groupBox2.Controls.Add(this.label16);
             this.groupBox2.Controls.Add(this.FilterAllMonth);
             this.groupBox2.Controls.Add(this.weekCheckBox);
             this.groupBox2.Controls.Add(this.dateTimePicker1);
             this.groupBox2.Controls.Add(this.label13);
-            this.groupBox2.Controls.Add(this.label12);
             this.groupBox2.Controls.Add(this.cancelapptbtn);
             this.groupBox2.Controls.Add(this.modifyApptBtn);
             this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.labelAppt);
             this.groupBox2.Location = new System.Drawing.Point(387, 36);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(759, 467);
+            this.groupBox2.Size = new System.Drawing.Size(759, 433);
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
             // 
@@ -376,7 +363,7 @@
             this.apptGrid.RowHeadersVisible = false;
             this.apptGrid.RowHeadersWidth = 72;
             this.apptGrid.RowTemplate.Height = 31;
-            this.apptGrid.Size = new System.Drawing.Size(562, 100);
+            this.apptGrid.Size = new System.Drawing.Size(689, 152);
             this.apptGrid.TabIndex = 39;
             // 
             // dataGridView2
@@ -392,66 +379,11 @@
             this.dataGridView2.Size = new System.Drawing.Size(6, 5);
             this.dataGridView2.TabIndex = 40;
             // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(613, 18);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(56, 20);
-            this.label17.TabIndex = 38;
-            this.label17.Text = "Filters";
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(604, 58);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(65, 20);
-            this.checkBox1.TabIndex = 37;
-            this.checkBox1.Text = "Month";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(604, 85);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(65, 20);
-            this.checkBox2.TabIndex = 36;
-            this.checkBox2.Text = "Week";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            // 
-            // dateTimePicker2
-            // 
-            this.dateTimePicker2.Location = new System.Drawing.Point(532, 141);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(223, 22);
-            this.dateTimePicker2.TabIndex = 35;
-            // 
-            // dataGridView
-            // 
-            this.dataGridView.AllowUserToAddRows = false;
-            this.dataGridView.AllowUserToDeleteRows = false;
-            this.dataGridView.AllowUserToResizeColumns = false;
-            this.dataGridView.AllowUserToResizeRows = false;
-            this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Location = new System.Drawing.Point(15, 219);
-            this.dataGridView.MultiSelect = false;
-            this.dataGridView.Name = "dataGridView";
-            this.dataGridView.RowHeadersVisible = false;
-            this.dataGridView.RowHeadersWidth = 51;
-            this.dataGridView.RowTemplate.Height = 24;
-            this.dataGridView.Size = new System.Drawing.Size(548, 111);
-            this.dataGridView.TabIndex = 34;
-            // 
             // label16
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(613, 200);
+            this.label16.Location = new System.Drawing.Point(16, 196);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(56, 20);
             this.label16.TabIndex = 33;
@@ -460,7 +392,7 @@
             // FilterAllMonth
             // 
             this.FilterAllMonth.AutoSize = true;
-            this.FilterAllMonth.Location = new System.Drawing.Point(604, 240);
+            this.FilterAllMonth.Location = new System.Drawing.Point(20, 219);
             this.FilterAllMonth.Name = "FilterAllMonth";
             this.FilterAllMonth.Size = new System.Drawing.Size(65, 20);
             this.FilterAllMonth.TabIndex = 32;
@@ -471,7 +403,7 @@
             // weekCheckBox
             // 
             this.weekCheckBox.AutoSize = true;
-            this.weekCheckBox.Location = new System.Drawing.Point(604, 266);
+            this.weekCheckBox.Location = new System.Drawing.Point(20, 245);
             this.weekCheckBox.Name = "weekCheckBox";
             this.weekCheckBox.Size = new System.Drawing.Size(65, 20);
             this.weekCheckBox.TabIndex = 31;
@@ -481,9 +413,9 @@
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(532, 338);
+            this.dateTimePicker1.Location = new System.Drawing.Point(104, 215);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(223, 22);
+            this.dateTimePicker1.Size = new System.Drawing.Size(251, 22);
             this.dateTimePicker1.TabIndex = 30;
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
@@ -492,26 +424,16 @@
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.Color.Red;
-            this.label13.Location = new System.Drawing.Point(6, 379);
+            this.label13.Location = new System.Drawing.Point(6, 290);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(250, 20);
             this.label13.TabIndex = 29;
             this.label13.Text = "To schedule a new appointment:";
             // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(7, 197);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(296, 20);
-            this.label12.TabIndex = 27;
-            this.label12.Text = "Appointments available in the system :";
-            // 
             // cancelapptbtn
             // 
             this.cancelapptbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.142858F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cancelapptbtn.Location = new System.Drawing.Point(95, 149);
+            this.cancelapptbtn.Location = new System.Drawing.Point(493, 208);
             this.cancelapptbtn.Name = "cancelapptbtn";
             this.cancelapptbtn.Size = new System.Drawing.Size(206, 39);
             this.cancelapptbtn.TabIndex = 26;
@@ -521,7 +443,7 @@
             // 
             // modifyApptBtn
             // 
-            this.modifyApptBtn.Location = new System.Drawing.Point(15, 150);
+            this.modifyApptBtn.Location = new System.Drawing.Point(412, 209);
             this.modifyApptBtn.Name = "modifyApptBtn";
             this.modifyApptBtn.Size = new System.Drawing.Size(75, 38);
             this.modifyApptBtn.TabIndex = 24;
@@ -534,7 +456,7 @@
             this.button1.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button1.Location = new System.Drawing.Point(104, 402);
+            this.button1.Location = new System.Drawing.Point(117, 328);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(370, 59);
             this.button1.TabIndex = 21;
@@ -592,7 +514,7 @@
             // 
             // changeUserBtn
             // 
-            this.changeUserBtn.Location = new System.Drawing.Point(771, 533);
+            this.changeUserBtn.Location = new System.Drawing.Point(904, 495);
             this.changeUserBtn.Margin = new System.Windows.Forms.Padding(2);
             this.changeUserBtn.Name = "changeUserBtn";
             this.changeUserBtn.Size = new System.Drawing.Size(128, 25);
@@ -605,7 +527,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.ForeColor = System.Drawing.Color.IndianRed;
-            this.label14.Location = new System.Drawing.Point(119, 506);
+            this.label14.Location = new System.Drawing.Point(216, 506);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(370, 16);
             this.label14.TabIndex = 25;
@@ -615,7 +537,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1173, 569);
+            this.ClientSize = new System.Drawing.Size(1173, 539);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.changeUserBtn);
             this.Controls.Add(this.deleteUserBtn);
@@ -636,7 +558,6 @@
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.apptGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -676,7 +597,6 @@
         private System.Windows.Forms.Button deleteUserBtn;
         private System.Windows.Forms.Button modifyApptBtn;
         private System.Windows.Forms.Button cancelapptbtn;
-        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label customerIdText;
@@ -686,11 +606,6 @@
         private System.Windows.Forms.CheckBox FilterAllMonth;
         private System.Windows.Forms.CheckBox weekCheckBox;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.DataGridView dataGridView;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.DateTimePicker dateTimePicker2;
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.DataGridView apptGrid;
     }
