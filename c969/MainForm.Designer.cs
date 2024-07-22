@@ -529,9 +529,10 @@
             this.label14.ForeColor = System.Drawing.Color.IndianRed;
             this.label14.Location = new System.Drawing.Point(216, 506);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(370, 16);
+            this.label14.Size = new System.Drawing.Size(377, 16);
             this.label14.TabIndex = 25;
-            this.label14.Text = " Business hours of 9:00 a.m. to 5:00 p.m., Monday–Friday, EST";
+            this.label14.Text = " Business hours of 9:00 a.m. to 17:00 p.m., Monday–Friday, EST";
+            this.label14.Click += new System.EventHandler(this.label14_Click);
             // 
             // MainForm
             // 

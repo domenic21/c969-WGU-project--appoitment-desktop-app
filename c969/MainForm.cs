@@ -50,7 +50,7 @@ namespace c969
             // Attach the Form_Load and Form_FormClosed event handlers
             this.FormClosed += MainForm_FormClosed;
            
-            GridAppt();
+            
             
         }
 
@@ -97,12 +97,12 @@ namespace c969
      
                 // Call the GetAppoitments method and receive the list of appointments
                 userDb.GetAppoitments(customerId);
-            
 
+                GridAppt();
 
                 RemoveInvalidAppointments(UserDb.appointmentsTaken);
 
-
+                apptGrid.DataSource = UserDb.appointmentsTaken;
 
 
 
@@ -441,6 +441,7 @@ namespace c969
             //eliminated appointment scheduler to test
             RequestAppointment request = new RequestAppointment(userId, customerId);
             request.Show();
+            this.Close();
 
         }
 
@@ -505,26 +506,39 @@ namespace c969
                 if (result == DialogResult.Yes)
                 {
                     // Get the selected appointment
-
-                    int appointmentId = Convert.ToInt32(apptGrid.CurrentRow.Cells[0].Value);
-                    if (appointmentId != 0)
+                    if (apptGrid.SelectedRows.Count > 0)
                     {
+                        // Access the data in specific cells of the selected row
+                        int appointmentId = Convert.ToInt32(apptGrid.CurrentRow.Cells[0].Value);
+                        if (appointmentId != 0)
+                        {
 
 
-                        // Now you have the appointmentId
-                        UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-                        userDb.DeleteAppointment(appointmentId);
-                        MessageBox.Show("Appointment canceled successfully");
-                        //reload listbox
+                            // Now you have the appointmentId
+                            UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
+                            userDb.DeleteAppointment(appointmentId);
+                            MessageBox.Show("Appointment canceled successfully");
+                            //reload listbox
 
-                        UserDb.appointmentsTaken.Clear();
+                            apptGrid.DataSource = null;
+                            apptGrid.Rows.Clear();
+                            UserDb.appointmentsTaken.Clear();
+                            //reload the datagrid
+                            userDb.GetAppoitments(Convert.ToInt32(customerIdText.Text));
+
+                            apptGrid.DataSource = UserDb.appointmentsTaken;
 
 
-                        InitializeFormData(Convert.ToInt32(customerIdText.Text));
 
+
+
+                        }
+                        else { MessageBox.Show("cant parse Id"); }
                     }
-                    else { MessageBox.Show("cant parse Id"); }
-
+                    else
+                    {
+                        MessageBox.Show("Please select an appointment to cancel");
+                    }
 
 
                 }
@@ -580,11 +594,12 @@ namespace c969
             apptGrid.DefaultCellStyle.Font = new System.Drawing.Font("Arial", 8);
 
             apptGrid.AutoGenerateColumns = false;
-            apptGrid.DataSource = UserDb.appointmentsTaken;
+         
 
 
             apptGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
+            apptGrid.MultiSelect = false;
+            apptGrid.ReadOnly = true;
 
             // Set the DataSource of the DataGridView to the list of appointments
 
@@ -601,14 +616,22 @@ namespace c969
             {
 
                 DataPropertyName = "start",
-                HeaderText = "Start Time"
+                HeaderText = "Start Time",
+                  DefaultCellStyle = new DataGridViewCellStyle()
+                  {
+                      Format = "MM/dd/yyyy HH:mm tt" 
+                  }
 
             });
 
             apptGrid.Columns.Add(new DataGridViewTextBoxColumn()
             {
                 DataPropertyName = "end",
-                HeaderText = "End Time"
+                HeaderText = "End Time",
+                 DefaultCellStyle = new DataGridViewCellStyle()
+                 {
+                     Format = "MM/dd/yyyy HH:mm tt"
+                 }
             });
 
             apptGrid.Columns.Add(new DataGridViewTextBoxColumn()
@@ -691,6 +714,11 @@ namespace c969
                 apptGrid.Rows.Clear();
                
             }
+        }
+
+        private void label14_Click(object sender, EventArgs e)
+        {
+
         }
     }
 

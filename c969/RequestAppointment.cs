@@ -172,6 +172,9 @@ namespace c969
                         userDb.InsertAppointment(customerId, Id, title, type, description, start, end);
                         MessageBox.Show("Appointment added successfully");
                         this.Hide();
+                     
+                        MainForm mainForm = new MainForm(customerId, Id);
+                        mainForm.Show();
                     }
 
 

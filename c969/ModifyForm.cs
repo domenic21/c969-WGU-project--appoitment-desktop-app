@@ -18,9 +18,9 @@ namespace c969
             customerLabel.Text = customerId.ToString();
             userDb.GetAppoitmentsInfo(appointmentId);
             endPicker.Format = DateTimePickerFormat.Custom;
-            endPicker.CustomFormat = "MM/dd/yyyy hh:mm:ss tt";
+            endPicker.CustomFormat = "MM/dd/yyyy HH:mm tt";
             startPicker.Format = DateTimePickerFormat.Custom;
-            startPicker.CustomFormat = "MM/dd/yyyy hh:mm:ss tt";
+            startPicker.CustomFormat = "MM/dd/yyyy HH:mm tt";
 
             typeComboBox.Items.Add("Consultation");
             typeComboBox.Items.Add("Follow-up");
@@ -28,6 +28,8 @@ namespace c969
             typeComboBox.SelectedIndex = 0;
             startPicker.Value = TimeZoneInfo.ConvertTime(DateTime.Today.AddHours(9), TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
             endPicker.Value = TimeZoneInfo.ConvertTime(DateTime.Today.AddHours(17), TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
+
+        
           
         }
 
@@ -117,8 +119,8 @@ namespace c969
                     // userDb.UpdateTimeAppt(appointmentId, timeText);
                     DateTime localTimeEnd = TimeZoneInfo.ConvertTime(endPicker.Value, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), TimeZoneInfo.Local);
                     DateTime localTimestart = TimeZoneInfo.ConvertTime(startPicker.Value, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"), TimeZoneInfo.Local);
-                    string endTime = localTimeEnd.ToString("hh:mm:ss tt");
-                    string startTime = localTimestart.ToString("hh:mm:ss tt");
+                    string endTime = localTimeEnd.ToString("hh:mm tt");
+                    string startTime = localTimestart.ToString("HH:mm tt");
                     localLabel.Text = $"Your local time : {endTime}";
                     localTimelbl.Text = $"Your local time : {startTime}";
                     // check for overlapping appointments true or false and times are not the same
