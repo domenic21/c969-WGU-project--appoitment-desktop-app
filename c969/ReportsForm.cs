@@ -40,7 +40,7 @@ namespace c969
             {
                 if (appointment.type != null)
                 {
-                    string formattedAppointment = $"Appointment types: {appointment.type.Count()} {appointment.type}  ({appointment.start.ToString("MMMM")})";
+                    string formattedAppointment = $"Appointment types: {appointment.type.Count()} {appointment.type}  {appointment.start.ToString("MMMM")}";
                     listBox1.Items.Add(formattedAppointment);
                     RemoveDuplicatesFromListBox();
                 }
@@ -54,17 +54,18 @@ namespace c969
             listBox1.Items.Clear();
 
             // Retrieve data and populate ListBox based on Option 1
-            UserDb userDb =  new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
+            UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
             userDb.GetScheduleForEach();
 
             foreach (var appointment in UserDb.reports)
             {
-
-                string formattedAppointment = $"{appointment.customerId} {appointment.customerName} -{appointment.title} -({appointment.start})";
-                listBox1.Items.Add(formattedAppointment);
-                RemoveDuplicatesFromListBox();
+                if (appointment.customerId != 0) // Check if customerId is not 0
+                {
+                    string formattedAppointment = $"{appointment.customerId} {appointment.customerName} -{appointment.title} -({appointment.start})";
+                    listBox1.Items.Add(formattedAppointment);
+                    RemoveDuplicatesFromListBox();
+                }
             }
-
         }
         private void PopulateListBoxWithOption3()
         {

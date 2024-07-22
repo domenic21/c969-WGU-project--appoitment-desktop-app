@@ -1250,7 +1250,7 @@ namespace c969
             {
                 string query = @"SELECT type ,start 
                               FROM appointment
-                            WHERE userId IS NOT NULL
+                            WHERE  customerId IS NOT NULL 
                                ORDER BY MONTH(start);";
 
                 Connect();
@@ -1289,7 +1289,7 @@ namespace c969
                 string query = @"SELECT a.title, a.customerId, c.customerName, a.start, a.end, a.description, a.appointmentId
                         FROM appointment a
                     JOIN customer c ON a.customerId = c.customerId
-                       WHERE a.customerId IS NOT NULL
+                       WHERE a.customerId IS NOT NULL 
 
                               ;";
 
