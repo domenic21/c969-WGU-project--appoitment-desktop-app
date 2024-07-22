@@ -29,6 +29,7 @@ namespace c969
         public static BindingList<AppointmentModel> appointmentModels = new BindingList<AppointmentModel>();
         public static BindingList<AppointmentModel> appointmentsTaken = new BindingList<AppointmentModel>();
         public static BindingList<AppointmentModel> reports = new BindingList<AppointmentModel>();
+        public static BindingList<AppointmentModel> availableAppointments = new BindingList<AppointmentModel>();
         public static BindingList<UserModel> customerAppointments = new BindingList<UserModel>();
 
 
@@ -42,7 +43,7 @@ namespace c969
                 string query = @"UPDATE appointment
                                      SET start = DATE_ADD(NOW(), INTERVAL 15 MINUTE),
                                          end = DATE_ADD(NOW(), INTERVAL 30 MINUTE)
-                                     WHERE appointmentId = @appointmentId;";
+                                     WHERE appointmentId = 1";
 
                 string query4 = @"ALTER TABLE `client_schedule`.`appointment`
                                      CHANGE COLUMN `customerId` `customerId` INT NULL,
