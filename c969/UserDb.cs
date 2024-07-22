@@ -42,7 +42,8 @@ namespace c969
 
                 string query = @"UPDATE appointment
                                      SET start = DATE_ADD(NOW(), INTERVAL 15 MINUTE),
-                                         end = DATE_ADD(NOW(), INTERVAL 30 MINUTE)
+                                         end = DATE_ADD(NOW(), INTERVAL 30 MINUTE),
+                                         title = 'test', description = 'test', location = 'test', contact = 'test', type = 'test', url = 'test'
                                      WHERE appointmentId = 1";
 
                 string query4 = @"ALTER TABLE `client_schedule`.`appointment`
