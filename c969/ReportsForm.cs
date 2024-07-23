@@ -19,7 +19,7 @@ namespace c969
             // Add options to the ComboBox
             comboBox1.Items.Add("The number of appointment types by month");
             comboBox1.Items.Add(" Schedule for each customer");
-            comboBox1.Items.Add("Appointment schedule dates");
+            comboBox1.Items.Add("Customer Name and Id");
 
             // Select the first option by default
             comboBox1.SelectedIndex = 0;
@@ -61,7 +61,7 @@ namespace c969
             {
                 if (appointment.customerId != 0) // Check if customerId is not 0
                 {
-                    string formattedAppointment = $"{appointment.customerId} {appointment.customerName} -{appointment.title} -({appointment.start})";
+                    string formattedAppointment = $"{appointment.customerId} {appointment.customerName} -{appointment.title} -({appointment.start})-({appointment.end})";
                     listBox1.Items.Add(formattedAppointment);
                     RemoveDuplicatesFromListBox();
                 }
@@ -76,10 +76,10 @@ namespace c969
             UserDb userDb =  new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
             userDb.GetReport3();
 
-            foreach (var appointment in UserDb.reports)
+            foreach (var customer in UserDb.reportsCustomer)
             {
 
-                string formattedAppointment = $"Appointment schedule by day:({appointment.appointmentDay.DayOfWeek}{appointment.appointmentDay} {appointment.appointmentTime} {appointment.appointmentsCount})";
+                string formattedAppointment = $"Customer name and Id: {customer.customerName} - {customer.customerId}";
                 listBox1.Items.Add(formattedAppointment);
                 RemoveDuplicatesFromListBox();
             }
@@ -119,7 +119,7 @@ namespace c969
                     
 
                     break;
-                case "Appointment schedule dates":
+                case "Customer Name and Id":
 
 
                     RemoveDuplicatesFromListBox();

@@ -31,7 +31,7 @@ namespace c969
         public static BindingList<AppointmentModel> reports = new BindingList<AppointmentModel>();
         public static BindingList<AppointmentModel> availableAppointments = new BindingList<AppointmentModel>();
         public static BindingList<UserModel> customerAppointments = new BindingList<UserModel>();
-
+        public static BindingList<CustomerModel> reportsCustomer = new BindingList<CustomerModel>();
 
 
         public void InsertAllDummyData()
@@ -1329,12 +1329,7 @@ namespace c969
         {
             try
             {
-                string query = @"SELECT DATE(start) AS appointment_day, 
-                                   TIME(start) AS appointment_time, 
-                                   appointmentId, 
-                                   COUNT(*) AS appointments_count
-                                FROM appointment
-                                GROUP BY DATE(start), TIME(start), appointmentId;";
+                string query = @"SELECT customerId , customerName FROM client_schedule.customer;";
 
                 Connect();
 
@@ -1344,13 +1339,11 @@ namespace c969
                     {
                         while (reader.Read())
                         {
-                            DateTime appointmentDay = reader.GetDateTime("appointment_day");
-                            TimeSpan appointmentTime = reader.GetTimeSpan("appointment_time");
-                            int appointmentId = reader.GetInt32("appointmentId");
-                            int appointmentsCount = reader.GetInt32("appointments_count");
+                            int customerId = reader.GetInt32("customerId"); 
+                            string customerName = reader.GetString("customerName");
 
-                            AppointmentModel appointmentModel = new AppointmentModel(appointmentDay, appointmentTime, appointmentId, appointmentsCount);
-                            reports.Add(appointmentModel);
+                            CustomerModel customerModel = new CustomerModel(customerId, customerName);
+                            reportsCustomer.Add(customerModel);
                         }
                     }
                 }

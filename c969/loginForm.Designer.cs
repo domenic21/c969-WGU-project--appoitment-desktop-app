@@ -36,6 +36,7 @@
             this.PasswordtextBox = new System.Windows.Forms.TextBox();
             this.RegisterBtn = new System.Windows.Forms.Button();
             this.localTimelabel = new System.Windows.Forms.Label();
+            this.reportsBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // LoginLabel
@@ -108,11 +109,22 @@
             this.localTimelabel.Size = new System.Drawing.Size(0, 16);
             this.localTimelabel.TabIndex = 7;
             // 
+            // reportsBtn
+            // 
+            this.reportsBtn.Location = new System.Drawing.Point(332, 394);
+            this.reportsBtn.Name = "reportsBtn";
+            this.reportsBtn.Size = new System.Drawing.Size(81, 28);
+            this.reportsBtn.TabIndex = 8;
+            this.reportsBtn.Text = "Reports";
+            this.reportsBtn.UseVisualStyleBackColor = true;
+            this.reportsBtn.Click += new System.EventHandler(this.reportsBtn_Click);
+            // 
             // loginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(437, 395);
+            this.ClientSize = new System.Drawing.Size(437, 434);
+            this.Controls.Add(this.reportsBtn);
             this.Controls.Add(this.localTimelabel);
             this.Controls.Add(this.RegisterBtn);
             this.Controls.Add(this.PasswordtextBox);
@@ -138,6 +150,7 @@
         private System.Windows.Forms.TextBox PasswordtextBox;
         private System.Windows.Forms.Button RegisterBtn;
         private System.Windows.Forms.Label localTimelabel;
+        private System.Windows.Forms.Button reportsBtn;
     }
 }
 

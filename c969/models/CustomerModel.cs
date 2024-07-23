@@ -16,16 +16,13 @@ namespace c969.models
         public string createdBy { get; set; }
         public DateTime lastUpdate { get; set; }
         public string lastUpdateBy { get; set; }
-        public CustomerModel(int customerId, string customerName, int addressId, int active, DateTime createDate, string createdBy, DateTime lastUpdate, string lastUpdateBy)
+
+        public CustomerModel(int customerId, string customerName)
         {
             this.customerId = customerId;
             this.customerName = customerName;
-            this.addressId = addressId;
-            this.active = active;
-            this.createDate = createDate;
-            this.createdBy = createdBy;
-            this.lastUpdate = lastUpdate;
-            this.lastUpdateBy = lastUpdateBy;
+    
         }
+    
     }
 }
