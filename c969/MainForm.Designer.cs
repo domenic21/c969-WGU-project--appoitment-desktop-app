@@ -69,6 +69,7 @@
             this.labeluserId = new System.Windows.Forms.Label();
             this.changeUserBtn = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.apptGrid)).BeginInit();
@@ -328,6 +329,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.checkBox1);
             this.groupBox2.Controls.Add(this.apptGrid);
             this.groupBox2.Controls.Add(this.dataGridView2);
             this.groupBox2.Controls.Add(this.label16);
@@ -513,6 +515,17 @@
             this.label14.Text = " Business hours of 9:00 a.m. to 17:00 p.m., Monday–Friday, EST";
             this.label14.Click += new System.EventHandler(this.label14_Click);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(104, 243);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(44, 20);
+            this.checkBox1.TabIndex = 41;
+            this.checkBox1.Text = "All";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -584,5 +597,6 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.DataGridView apptGrid;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

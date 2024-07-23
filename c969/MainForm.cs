@@ -698,6 +698,19 @@ namespace c969
         {
 
         }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            apptGrid.DataSource = null;
+            apptGrid.Rows.Clear();
+            UserDb.appointmentsTaken.Clear();
+            UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
+            //reload the datagrid
+            userDb.GetAppoitments(Convert.ToInt32(customerIdText.Text));
+
+            apptGrid.DataSource = UserDb.appointmentsTaken;
+
+        }
     }
 
 
