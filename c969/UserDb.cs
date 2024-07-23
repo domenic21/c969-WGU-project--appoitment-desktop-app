@@ -1132,37 +1132,7 @@ namespace c969
 
         //Alert if appoitment is within 15 minutes
 
-        public bool AlertAppointments(int userId, DateTime localtime)
-        {
-            try
-            {
-                Connect();
-                string query = @"SELECT * FROM appointment 
-                   WHERE start BETWEEN @LocalTime AND DATE_ADD(@LocalTime, INTERVAL 15 MINUTE) 
-                   AND userId = @UserId";
-         
-
-                using (MySqlCommand command = new MySqlCommand(query, _connection))
-                {
-                    command.Parameters.AddWithValue("@UserId", userId);
-                    command.Parameters.AddWithValue("@LocalTime", localtime);
-                    using (MySqlDataReader reader = command.ExecuteReader())
-                    {
-                        if (reader.HasRows)
-                        {
-                            return true; // Indicate that there is an appointment within 15 minutes
-                        }
-                    }
-                }
-
-                Disconnect();
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show(ex.Message, "no connection");
-            }
-            return false;
-        }
+     
 
         public bool AlertAppointment(int userId, DateTime localtime)
         {
@@ -1171,7 +1141,7 @@ namespace c969
                 Connect();
                 string query = @"SELECT * FROM appointment 
                          WHERE start BETWEEN @LocalTime AND DATE_ADD(@LocalTime, INTERVAL 15 MINUTE) 
-                         AND userId = @UserId";
+                         AND userId = @UserId"; // Query to check for appointments within 15 minutes
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {

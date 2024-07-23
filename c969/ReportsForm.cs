@@ -143,6 +143,10 @@ namespace c969
             distinctItems.ForEach(item => listBox1.Items.Add(item));
         }
 
+        private void reportsBtn_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
+        }
     }
 
 }
