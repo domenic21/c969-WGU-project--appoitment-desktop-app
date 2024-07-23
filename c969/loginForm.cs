@@ -12,29 +12,29 @@ namespace c969
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
-            
-          
+            localTimelabel.Text = "Your local time:" + DateTime.Now.ToString();
 
-          
+
+
 
             // Set the text box language based on the country code
             switch (CultureInfo.CurrentCulture.TwoLetterISOLanguageName)
             {
-                case "US": // English text
+                case "us": // English text
                     LoginLabel.Text = "Sign In";
                     UserLabel.Text = "User";
                     label3.Text = "Password";
                     button1.Text = "Login";
                     RegisterBtn.Text = "Register";
-                  
+
                     break;
-                case "ES":// Spanish text
+                case "es":// Spanish text
                     LoginLabel.Text = "Inicio de Sesion";
                     UserLabel.Text = "Usuario";
                     label3.Text = "Contraseña";
                     button1.Text = "Iniciar sesión";
                     RegisterBtn.Text = "Registrar Nuevo Usuario";
-                  
+
                     break;
             }
             UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
@@ -53,7 +53,7 @@ namespace c969
             string logEntry = $"User: {username} - Timestamp: {timestamp}";
 
             string filePath = "..\\..\\Login_History.txt";
-            
+
 
             try
             {
@@ -65,10 +65,10 @@ namespace c969
             }
             catch (Exception ex)
             {
-               
+
                 MessageBox.Show($"Failed to log login: {ex.Message}");
-            
-              
+
+
             }
         }
 
@@ -95,7 +95,7 @@ namespace c969
                 DateTime localStartTime = DateTime.Now;
                 // Convert the local time to EST time zone 
                 localStartTime = TimeZoneInfo.ConvertTime(localStartTime, TimeZoneInfo.Local, estTimeZone);
-          
+
                 DateTime dateTime = DateTime.Now;
 
                 // Check if the username or password is empty
@@ -126,18 +126,13 @@ namespace c969
                     {
                         MessageBox.Show("You have an appointment within 15 minutes and upcoming appointments", "Appointment Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    //mainForm.Show();
-                    RegisterCustomer registerCustomerForm = new RegisterCustomer( currentUserId);
-                    registerCustomerForm.Show();
-                   
-                    LogLogin("username");
-                }
-                else if (userName == "admin" && password == "admin")
-                {
-                    this.Hide();
-                    ReportsForm reportsForm = new ReportsForm();
-                    reportsForm.Show();
+                    else
+                    {
 
+                        RegisterCustomer registerCustomerForm = new RegisterCustomer(currentUserId);
+                        registerCustomerForm.Show();
+                    }
+                    LogLogin("username");
                 }
                 else
                 {
@@ -155,13 +150,20 @@ namespace c969
             }
         }
 
-      
+
 
         // Form closing event
         private void loginForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             // End any process and exit the application
             Environment.Exit(0);
+        }
+
+        private void reportsBtn_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            ReportsForm reportsForm = new ReportsForm();
+            reportsForm.Show();
         }
     }
 }

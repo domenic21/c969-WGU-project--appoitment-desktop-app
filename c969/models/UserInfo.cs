@@ -14,7 +14,7 @@ namespace c969.models
         public string country { get; set; }
         public int countryId { get; set; }
 
-        public int postalCode { get; set; }
+        public string postalCode { get; set; }
         public string phone { get; set; }
 
         public int customerId { get; set; }
@@ -26,7 +26,7 @@ namespace c969.models
      
   
         
-        public UserInfo(int customerId, string customerName,int addressId, string address, int postalCode, string phone, int cityId)
+        public UserInfo(int customerId, string customerName,int addressId, string address, string postalCode, string phone, int cityId)
 
         {
             this.customerName = customerName;
@@ -40,7 +40,7 @@ namespace c969.models
 
         }
 
-        public UserInfo(int customerId, string customerName, int addressId, string address, int postalCode, string phone, int cityId , string country , string city)
+        public UserInfo(int customerId, string customerName, int addressId, string address, string postalCode, string phone, int cityId , string country , string city)
 
         {
             this.customerName = customerName;
