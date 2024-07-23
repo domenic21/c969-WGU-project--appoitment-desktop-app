@@ -411,29 +411,7 @@ namespace c969
 
         }
 
-        private void deleteUserBtn_Click(object sender, EventArgs e)
-        {
-
-            try
-            {
-                UserDb userDb = new UserDb(@"localhost", "3306", "client_schedule", "sqlUser", "Passw0rd!");
-                int customerId = Convert.ToInt32(customerIdText.Text);
-                int userId = Convert.ToInt32(labeluserId.Text);
-
-                userDb.DeleteUser(userId, customerId);
-                MessageBox.Show("Profile information deleted successfully" + MessageBoxButtons.OK);
-                loginForm loginForm = new loginForm();
-                loginForm.Show();
-                this.Close();
-                return;
-
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show("error in delete : " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
+        
         private void button1_Click(object sender, EventArgs e)
         {
             int customerId = Convert.ToInt32(customerIdText.Text);

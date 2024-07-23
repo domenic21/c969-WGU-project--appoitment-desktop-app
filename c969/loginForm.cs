@@ -112,36 +112,32 @@ namespace c969
                     this.Hide();
                     // alert the user of upcoming appointments 
                     bool hasAppointment = userDb.AlertAppointment(currentUserId, dateTime);
-                    bool hasUpcomingAppointment = userDb.AlertAppointments(currentUserId, localStartTime);
+                  
 
-                    if (hasAppointment && !hasUpcomingAppointment)
+                    if (hasAppointment )
                     {
                         MessageBox.Show("You have an appointment within 15 minutes", "Appointment Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    else if (!hasAppointment && hasUpcomingAppointment)
-                    {
-                        MessageBox.Show("You have upcoming appointments", "Appointment Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else if (hasAppointment && hasUpcomingAppointment)
-                    {
-                        MessageBox.Show("You have an appointment within 15 minutes and upcoming appointments", "Appointment Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
+                    
+                    
+                    
 
                         RegisterCustomer registerCustomerForm = new RegisterCustomer(currentUserId);
                         registerCustomerForm.Show();
-                    }
+                    
                     LogLogin("username");
                 }
                 else
                 {
-                    // If the user login fails, display a message
-                    MessageBox.Show("Login Failed, No user found");
+                  
+                    
                     if (CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "es")
                     {
                         MessageBox.Show("Nombre de usuario y contraseña no coinciden.");
                     }
+                    else { MessageBox.Show("Login Failed, No user found");}
+
+
                 }
             }
             catch (MySqlException ex)
@@ -165,5 +161,6 @@ namespace c969
             ReportsForm reportsForm = new ReportsForm();
             reportsForm.Show();
         }
+
     }
 }

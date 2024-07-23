@@ -67,8 +67,6 @@
             this.labelAppt = new System.Windows.Forms.Label();
             this.UserIdlabel = new System.Windows.Forms.Label();
             this.labeluserId = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.deleteUserBtn = new System.Windows.Forms.Button();
             this.changeUserBtn = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
@@ -493,25 +491,6 @@
             this.labeluserId.Size = new System.Drawing.Size(0, 16);
             this.labeluserId.TabIndex = 17;
             // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(24, 407);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(167, 16);
-            this.label11.TabIndex = 20;
-            this.label11.Text = "Delete user and customer?";
-            // 
-            // deleteUserBtn
-            // 
-            this.deleteUserBtn.Location = new System.Drawing.Point(231, 401);
-            this.deleteUserBtn.Name = "deleteUserBtn";
-            this.deleteUserBtn.Size = new System.Drawing.Size(75, 29);
-            this.deleteUserBtn.TabIndex = 21;
-            this.deleteUserBtn.Text = "Delete";
-            this.deleteUserBtn.UseVisualStyleBackColor = true;
-            this.deleteUserBtn.Click += new System.EventHandler(this.deleteUserBtn_Click);
-            // 
             // changeUserBtn
             // 
             this.changeUserBtn.Location = new System.Drawing.Point(904, 495);
@@ -541,8 +520,6 @@
             this.ClientSize = new System.Drawing.Size(1173, 539);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.changeUserBtn);
-            this.Controls.Add(this.deleteUserBtn);
-            this.Controls.Add(this.label11);
             this.Controls.Add(this.labeluserId);
             this.Controls.Add(this.UserIdlabel);
             this.Controls.Add(this.groupBox2);
@@ -594,8 +571,6 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label labelAppt;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Button deleteUserBtn;
         private System.Windows.Forms.Button modifyApptBtn;
         private System.Windows.Forms.Button cancelapptbtn;
         private System.Windows.Forms.Label label13;

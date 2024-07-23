@@ -563,61 +563,7 @@ namespace c969
         }
 
       
-        public void DeleteUser(int userId, int customerId)
-        {
-            try
-            {
-                Connect();
-                string query = @"DELETE FROM `client_schedule`.`user` WHERE (`userId` = @userId);";
-                string query2 = @"DELETE FROM `client_schedule`.`customer` WHERE (`customerId` = @CustomerId);";
-                string query3 = @"-- Step 1: Create a Temporary Table
-                      CREATE TEMPORARY TABLE temp_appointment_ids
-                       SELECT appointmentId 
-                      FROM client_schedule.appointment 
-                   WHERE userId = @userId;
-
-                   -- Step 2: Update the appointments
-                     UPDATE client_schedule.appointment
-                  SET customerId = NULL, userId = NULL, title = NULL, description = NULL
-                   WHERE appointmentId IN (SELECT appointmentId FROM temp_appointment_ids);
-
-                   -- Step 3: (Optional) Drop the temporary table
-                    DROP TEMPORARY TABLE IF EXISTS temp_appointment_ids;";
-
-                using (MySqlCommand command = new MySqlCommand(query3, _connection))
-                {
-                    // Add the parameter to avoid SQL injection
-                    command.Parameters.AddWithValue("@userId", userId);
-
-                    // Execute the query
-                    int rowsAffected = command.ExecuteNonQuery();
-                    // Check the rows affected and handle errors if necessary
-                }
-                using (MySqlCommand command = new MySqlCommand(query, _connection))
-                {
-                    // Add the parameter to avoid SQL injection
-                    command.Parameters.AddWithValue("@userId", userId);
-
-                    // Execute the query
-                    int rowsAffected = command.ExecuteNonQuery();
-                    // Check the rows affected and handle errors if necessary
-                }
-                using (MySqlCommand command = new MySqlCommand(query2, _connection))
-                {
-                    // Add the parameter to avoid SQL injection
-                    command.Parameters.AddWithValue("@CustomerId", customerId);
-
-                    // Execute the query
-                    int rowsAffected = command.ExecuteNonQuery();
-                    // Check the rows affected and handle errors if necessary
-                }
-
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show(ex.Message, "no connection 697");
-            }
-        }
+       
 
         public void DeleteProfileInfo( int userId)
         {
@@ -1132,37 +1078,7 @@ namespace c969
 
         //Alert if appoitment is within 15 minutes
 
-        public bool AlertAppointments(int userId, DateTime localtime)
-        {
-            try
-            {
-                Connect();
-                string query = @"SELECT * FROM appointment 
-                   WHERE start BETWEEN @LocalTime AND DATE_ADD(@LocalTime, INTERVAL 15 MINUTE) 
-                   AND userId = @UserId";
-         
-
-                using (MySqlCommand command = new MySqlCommand(query, _connection))
-                {
-                    command.Parameters.AddWithValue("@UserId", userId);
-                    command.Parameters.AddWithValue("@LocalTime", localtime);
-                    using (MySqlDataReader reader = command.ExecuteReader())
-                    {
-                        if (reader.HasRows)
-                        {
-                            return true; // Indicate that there is an appointment within 15 minutes
-                        }
-                    }
-                }
-
-                Disconnect();
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show(ex.Message, "no connection");
-            }
-            return false;
-        }
+     
 
         public bool AlertAppointment(int userId, DateTime localtime)
         {
@@ -1171,7 +1087,7 @@ namespace c969
                 Connect();
                 string query = @"SELECT * FROM appointment 
                          WHERE start BETWEEN @LocalTime AND DATE_ADD(@LocalTime, INTERVAL 15 MINUTE) 
-                         AND userId = @UserId";
+                         AND userId = @UserId"; // Query to check for appointments within 15 minutes
 
                 using (MySqlCommand command = new MySqlCommand(query, _connection))
                 {
