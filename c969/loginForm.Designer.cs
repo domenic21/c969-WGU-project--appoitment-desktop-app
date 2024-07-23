@@ -37,7 +37,6 @@
             this.RegisterBtn = new System.Windows.Forms.Button();
             this.localTimelabel = new System.Windows.Forms.Label();
             this.reportsBtn = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // LoginLabel
@@ -120,21 +119,11 @@
             this.reportsBtn.UseVisualStyleBackColor = true;
             this.reportsBtn.Click += new System.EventHandler(this.reportsBtn_Click);
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(245, 394);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(81, 28);
-            this.button2.TabIndex = 9;
-            this.button2.Text = "Exit";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
             // loginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(437, 434);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.reportsBtn);
             this.Controls.Add(this.localTimelabel);
             this.Controls.Add(this.RegisterBtn);
@@ -162,7 +151,6 @@
         private System.Windows.Forms.Button RegisterBtn;
         private System.Windows.Forms.Label localTimelabel;
         private System.Windows.Forms.Button reportsBtn;
-        private System.Windows.Forms.Button button2;
     }
 }
 

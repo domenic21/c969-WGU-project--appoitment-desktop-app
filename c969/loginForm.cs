@@ -130,15 +130,14 @@ namespace c969
                 else
                 {
                   
-                    if (CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "us")
-                    {
-                        // If the user login fails, display a message
-                        MessageBox.Show("Login Failed, No user found");
-                    }
+                    
                     if (CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "es")
                     {
                         MessageBox.Show("Nombre de usuario y contraseña no coinciden.");
                     }
+                    else { MessageBox.Show("Login Failed, No user found");}
+
+
                 }
             }
             catch (MySqlException ex)

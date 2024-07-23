@@ -563,61 +563,7 @@ namespace c969
         }
 
       
-        public void DeleteUser(int userId, int customerId)
-        {
-            try
-            {
-                Connect();
-                string query = @"DELETE FROM `client_schedule`.`user` WHERE (`userId` = @userId);";
-                string query2 = @"DELETE FROM `client_schedule`.`customer` WHERE (`customerId` = @CustomerId);";
-                string query3 = @"-- Step 1: Create a Temporary Table
-                      CREATE TEMPORARY TABLE temp_appointment_ids
-                       SELECT appointmentId 
-                      FROM client_schedule.appointment 
-                   WHERE userId = @userId;
-
-                   -- Step 2: Update the appointments
-                     UPDATE client_schedule.appointment
-                  SET customerId = NULL, userId = NULL, title = NULL, description = NULL
-                   WHERE appointmentId IN (SELECT appointmentId FROM temp_appointment_ids);
-
-                   -- Step 3: (Optional) Drop the temporary table
-                    DROP TEMPORARY TABLE IF EXISTS temp_appointment_ids;";
-
-                using (MySqlCommand command = new MySqlCommand(query3, _connection))
-                {
-                    // Add the parameter to avoid SQL injection
-                    command.Parameters.AddWithValue("@userId", userId);
-
-                    // Execute the query
-                    int rowsAffected = command.ExecuteNonQuery();
-                    // Check the rows affected and handle errors if necessary
-                }
-                using (MySqlCommand command = new MySqlCommand(query, _connection))
-                {
-                    // Add the parameter to avoid SQL injection
-                    command.Parameters.AddWithValue("@userId", userId);
-
-                    // Execute the query
-                    int rowsAffected = command.ExecuteNonQuery();
-                    // Check the rows affected and handle errors if necessary
-                }
-                using (MySqlCommand command = new MySqlCommand(query2, _connection))
-                {
-                    // Add the parameter to avoid SQL injection
-                    command.Parameters.AddWithValue("@CustomerId", customerId);
-
-                    // Execute the query
-                    int rowsAffected = command.ExecuteNonQuery();
-                    // Check the rows affected and handle errors if necessary
-                }
-
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show(ex.Message, "no connection 697");
-            }
-        }
+       
 
         public void DeleteProfileInfo( int userId)
         {
