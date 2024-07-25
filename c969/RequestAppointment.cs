@@ -35,6 +35,8 @@ namespace c969
         private void mainMenubtn_Click(object sender, EventArgs e)
         {
             this.Hide();
+            MainForm mainForm = new MainForm(Convert.ToInt32(customerLabel.Text), Convert.ToInt32(labeluser.Text));
+            mainForm.Show();
         }
 
         private void timeAddBtn_Click(object sender, EventArgs e)

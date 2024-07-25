@@ -111,12 +111,14 @@
             // 
             // reportsBtn
             // 
-            this.reportsBtn.Location = new System.Drawing.Point(332, 394);
+            this.reportsBtn.BackColor = System.Drawing.Color.Red;
+            this.reportsBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.reportsBtn.Location = new System.Drawing.Point(332, 12);
             this.reportsBtn.Name = "reportsBtn";
-            this.reportsBtn.Size = new System.Drawing.Size(81, 28);
+            this.reportsBtn.Size = new System.Drawing.Size(93, 28);
             this.reportsBtn.TabIndex = 8;
             this.reportsBtn.Text = "Reports";
-            this.reportsBtn.UseVisualStyleBackColor = true;
+            this.reportsBtn.UseVisualStyleBackColor = false;
             this.reportsBtn.Click += new System.EventHandler(this.reportsBtn_Click);
             // 
             // loginForm
